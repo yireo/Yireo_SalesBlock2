@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Yireo SalesBlock2 for Magento
+ *
+ * @package     Yireo_SalesBlock2
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2017 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <body>
+        <referenceContainer name="content">
+            <uiComponent name="salesblock_rule_grid"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -16,10 +16,18 @@
             <item name="deps" xsi:type="string">salesblock_rule_grid.salesblock_rule_grid_data_source</item>
         </item>
         <item name="spinner" xsi:type="string">salesblock_rule_columns</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Add New Rule</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/*/new</item>
+            </item>
+        </item>
     </argument>
     <dataSource name="salesblock_rule_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="class" xsi:type="string">Yireo\SalesBlock2\Ui\Component\DataProvider</argument>
             <argument name="name" xsi:type="string">salesblock_rule_grid_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
@@ -27,6 +35,9 @@
                 <item name="config" xsi:type="array">
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
                     <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">rule_id</item>
+                    </item>
                 </item>
             </argument>
         </argument>
@@ -49,18 +60,36 @@
                         </item>
                         <item name="caption" xsi:type="string" translate="true">All Store Views</item>
                         <item name="dataScope" xsi:type="string">store_id</item>
-                        <item name="label" xsi:type="string" translate="true">Purchased From</item>
+                        <item name="label" xsi:type="string" translate="true">Applied To</item>
                     </item>
                 </argument>
             </filterSelect>
         </filters>
         <massaction name="listing_massaction">
-            <action name="pdfinvoices_order">
+            <action name="rule_enable">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
-                        <item name="type" xsi:type="string">pdfinvoices_order</item>
-                        <item name="label" xsi:type="string" translate="true">PDF Invoices</item>
-                        <item name="url" xsi:type="url" path="sales/invoice/pdfinvoices"/>
+                        <item name="type" xsi:type="string">rule_enable</item>
+                        <item name="label" xsi:type="string" translate="true">Enable</item>
+                        <item name="url" xsi:type="url" path="salesblock/rule/enable"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="rule_disable">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">rule_disable</item>
+                        <item name="label" xsi:type="string" translate="true">Disable</item>
+                        <item name="url" xsi:type="url" path="salesblock/rule/disable"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="rule_delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">rule_delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="salesblock/rule/delete"/>
                     </item>
                 </argument>
             </action>
@@ -108,7 +137,7 @@
         </column>
         <column name="status">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\Sales\Ui\Component\Listing\Column\Invoice\State\Options</item>
+                <item name="options" xsi:type="object">Yireo\SalesBlock2\Ui\Component\Listing\Column\Rule\Status\Options</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
@@ -117,12 +146,12 @@
                 </item>
             </argument>
         </column>
-        <actionsColumn name="actions" class="Magento\Sales\Ui\Component\Listing\Column\ViewAction">
+        <actionsColumn name="actions" class="Yireo\SalesBlock2\Ui\Component\Listing\Column\ViewAction">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="indexField" xsi:type="string">rule_id</item>
-                    <item name="viewUrlPath" xsi:type="string">sales/invoice/view</item>
-                    <item name="urlEntityParamName" xsi:type="string">invoice_id</item>
+                    <item name="viewUrlPath" xsi:type="string">salesblock/rule/view</item>
+                    <item name="urlEntityParamName" xsi:type="string">id</item>
                 </item>
             </argument>
         </actionsColumn>

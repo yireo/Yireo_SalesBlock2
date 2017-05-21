@@ -13,8 +13,59 @@
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="salesblock_rule_grid_data_source" xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule\Collection</item>
+                <item name="salesblock_rule_grid_data_source" xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule\Grid\Collection</item>
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Yireo\SalesBlock2\Api\Data\RuleInterface" xsi:type="string">Yireo\SalesBlock2\Api\RuleRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Yireo\SalesBlock2\Model\ResourceModel\Rule\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">salesblock_rule</argument>
+            <argument name="eventPrefix" xsi:type="string">yireo_salesblock2_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">salesblock2_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule</argument>
+        </arguments>
+    </type>
+    <!--
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Yireo\SalesBlock2\Api\Data\RuleInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">salesblock_rule</item>
+                    <item name="identifierField" xsi:type="string">rule_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Yireo\SalesBlock2\Api\Data\RuleInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="storeReader" xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule\Relation\Store\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="storeCreator" xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule\Relation\Store\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="storeUpdater" xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule\Relation\Store\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Yireo\SalesBlock2\Api\Data\RuleInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+    -->
 </config>

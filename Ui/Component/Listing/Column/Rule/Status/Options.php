@@ -49,12 +49,15 @@ class Options implements OptionSourceInterface
             $this->options = [];
 
             /** @var \Magento\Framework\Phrase $state */
+            /*
+             * @todo: reactivate
             foreach ($this->ruleRepository->create()->getStates() as $id => $state) {
                 $this->options[] = [
                     'value' => $id,
                     'label' => $state->render()
                 ];
             }
+            */
         }
 
         return $this->options;

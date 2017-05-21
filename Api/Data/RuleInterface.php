@@ -19,4 +19,49 @@ use Magento\Framework\Api\ExtensibleDataInterface;
  */
 interface RuleInterface extends ExtensibleDataInterface
 {
+    /**
+     * @param string $label
+     * @return mixed
+     */
+    public function setLabel(string $label);
+
+    /**
+     * @return string
+     */
+    public function getLabel() : string;
+
+    /**
+     * @param string $emailValue
+     * @return mixed
+     */
+    public function setEmailValue(string $emailValue);
+
+    /**
+     * @return string
+     */
+    public function getEmailValue() : string;
+
+    /**
+     * @param string $ipValue
+     * @return mixed
+     */
+    public function setIpValue(string $ipValue);
+
+    /**
+     * @return string
+     */
+    public function getIpValue() : string;
+
+    /**
+     * @param int $status
+     * @return mixed
+     */
+    public function setStatus(int $status);
+
+    /**
+     * @return int
+     */
+    public function getStatus() : int;
+
+    // @todo: Add other properties
 }

@@ -20,8 +20,81 @@ use Magento\Framework\Model\AbstractModel;
  */
 class Rule extends AbstractModel implements RuleInterface
 {
+    /**
+     * Constructor
+     */
     protected function _construct()
     {
         $this->_init('Yireo\SalesBlock2\Model\ResourceModel\Rule');
     }
+
+    /**
+     * @param string $label
+     * @return mixed
+     */
+    public function setLabel(string $label)
+    {
+        return $this->setData('label', $label);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel() : string
+    {
+        return $this->getData('label');
+    }
+
+    /**
+     * @param string $emailValue
+     * @return mixed
+     */
+    public function setEmailValue(string $emailValue)
+    {
+        return $this->setData('email_value', $emailValue);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailValue() : string
+    {
+        return $this->getData('email_value');
+    }
+
+    /**
+     * @param string $ipValue
+     * @return mixed
+     */
+    public function setIpValue(string $ipValue)
+    {
+        return $this->setData('ip_value', $ipValue);
+    }
+
+    /**
+     * @return string
+     */
+    public function getIpValue() : string
+    {
+        return $this->getData('ip_value');
+    }
+
+    /**
+     * @param int $status
+     * @return $this
+     */
+    public function setStatus(int $status)
+    {
+        return $this->setData('status', $status);
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus() : int
+    {
+        return $this->getData('status');
+    }
+
+    // @todo: Add other properties
 }

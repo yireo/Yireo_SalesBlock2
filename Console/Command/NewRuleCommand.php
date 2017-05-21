@@ -15,11 +15,11 @@ use Symfony\Component\Console\Input\InputInterface as Input;
 use Symfony\Component\Console\Output\OutputInterface as Output;
 
 /**
- * Class RulesCommand
+ * Class NewRuleCommand
  *
  * @package Yireo\Example\Console\Command
  */
-class RulesCommand extends Command
+class NewRuleCommand extends Command
 {
     /**
      * @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface
@@ -31,13 +31,6 @@ class RulesCommand extends Command
      */
     private $searchCriteriaBuilder;
 
-    /**
-     * RulesCommand constructor.
-     *
-     * @param \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository
-     * @param \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param null $name
-     */
     public function __construct(
         \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository,
         \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -54,7 +47,7 @@ class RulesCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('yireo_salesblock2:rules')->setDescription('Show all rules configured in SalesBlock');
+        $this->setName('yireo_salesblock2:test')->setDescription('Test whether SalesBlock2 rules apply to given data');
     }
 
     /**
@@ -64,12 +57,8 @@ class RulesCommand extends Command
      */
     protected function execute(Input $input, Output $output)
     {
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        $rules = $this->ruleRepository->getList($searchCriteria);
-
-        foreach ($rules as $rule) {
-            print_r($rule->getCustomAttributes());
-            $output->writeln($rule->getId() . ': ' . $rule->getLabel());
-        }
+        $rule = $this->ruleRepository->create();
+        $rule->setLabel('test');
+        $this->ruleRepository->save($rule);
     }
 }

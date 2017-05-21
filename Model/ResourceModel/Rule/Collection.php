@@ -10,7 +10,6 @@
 
 namespace Yireo\SalesBlock2\Model\ResourceModel\Rule;
 
-use Yireo\SalesBlock2\Api\Data\RuleSearchResultInterface;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\Api\Search\AggregationInterface;
 
@@ -19,7 +18,7 @@ use Magento\Framework\Api\Search\AggregationInterface;
  *
  * @package Yireo\SalesBlock2\Model\ResourceModel\Rule
  */
-class Collection extends AbstractCollection implements RuleSearchResultInterface
+class Collection extends AbstractCollection
 {
     /**
      * @var string
@@ -65,61 +64,5 @@ class Collection extends AbstractCollection implements RuleSearchResultInterface
     {
         $this->searchCriteria = $searchCriteria;
         return $this;
-    }
-
-    /**
-     * Get total count.
-     *
-     * @return int
-     */
-    public function getTotalCount()
-    {
-        return $this->getSize();
-    }
-
-    /**
-     * Set total count.
-     *
-     * @param int $totalCount
-     * @return $this
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function setTotalCount($totalCount)
-    {
-        return $this;
-    }
-
-    /**
-     * Set items list.
-     *
-     * @param \Magento\Framework\Api\ExtensibleDataInterface[] $items
-     * @return $this
-     */
-    public function setItems(array $items = null)
-    {
-        if (!$items) {
-            return $this;
-        }
-        foreach ($items as $item) {
-            $this->addItem($item);
-        }
-        return $this;
-    }
-
-    /**
-     * @return AggregationInterface
-     */
-    public function getAggregations()
-    {
-        return $this->aggregations;
-    }
-
-    /**
-     * @param AggregationInterface $aggregations
-     * @return $this
-     */
-    public function setAggregations($aggregations)
-    {
-        $this->aggregations = $aggregations;
     }
 }

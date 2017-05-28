@@ -51,7 +51,7 @@ class View extends Action
      */
     public function execute()
     {
-        echo 'test';exit;
+        echo '@todo: Implement view';exit;
 
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();

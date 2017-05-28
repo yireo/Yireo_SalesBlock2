@@ -10,11 +10,12 @@
 
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
-use \Magento\Backend\App\Action;
-use \Magento\Backend\App\Action\Context;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\RequestInterface;
-use \Magento\Framework\Controller\Result\Redirect;
-use \Magento\Framework\Controller\Result\RedirectFactory;
+use Magento\Ui\Component\MassAction\Filter;
+use Magento\Framework\Controller\Result\Redirect;
+use Magento\Framework\Controller\Result\RedirectFactory;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 
@@ -71,8 +72,10 @@ abstract class Massaction extends Action
      */
     protected function getRuleIds()
     {
-        $ruleIds = [];
+        $params = $this->request->getParams();
+        print_r($params);exit;
 
+        $ruleIds = [];
         $ruleId = (int) $this->request->getParam('id');
         if (!empty($ruleId)) {
             $ruleIds[] = $ruleId;

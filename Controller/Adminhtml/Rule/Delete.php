@@ -25,6 +25,7 @@ class Delete extends Massaction
      */
     public function execute()
     {
+
         $ruleIds = $this->getRuleIds();
         foreach ($ruleIds as $ruleId) {
             $this->disableByRuleId($ruleId);

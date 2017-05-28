@@ -46,15 +46,15 @@ class ViewAction extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
-                if (isset($item['entity_id'])) {
+                if (isset($item['rule_id'])) {
                     $viewUrlPath = $this->getData('config/viewUrlPath') ?: '#';
-                    $urlEntityParamName = $this->getData('config/urlEntityParamName') ?: 'entity_id';
+                    $urlEntityParamName = $this->getData('config/urlEntityParamName') ?: 'rule_id';
                     $item[$this->getData('name')] = [
                         'view' => [
                             'href' => $this->urlBuilder->getUrl(
                                 $viewUrlPath,
                                 [
-                                    $urlEntityParamName => $item['entity_id']
+                                    $urlEntityParamName => $item['rule_id']
                                 ]
                             ),
                             'label' => __('View')

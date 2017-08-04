@@ -32,11 +32,6 @@ abstract class Massaction extends Action
     const ADMIN_RESOURCE = 'Yireo_SalesBlock2::rules';
 
     /**
-     * @var RequestInterface
-     */
-    protected $request;
-
-    /**
      * @var RuleRepositoryInterface
      */
     protected $ruleRepository;
@@ -50,18 +45,15 @@ abstract class Massaction extends Action
      * Index constructor.
      *
      * @param Context $context
-     * @param RequestInterface $request
      * @param RuleRepositoryInterface $ruleRepository
      * @param RedirectFactory $resultRedirectFactory
      */
     public function __construct(
         Context $context,
-        RequestInterface $request,
         RuleRepositoryInterface $ruleRepository,
         RedirectFactory $resultRedirectFactory
     )
     {
-        $this->request = $request;
         $this->ruleRepository = $ruleRepository;
         $this->resultRedirectFactory = $resultRedirectFactory;
         parent::__construct($context);
@@ -72,11 +64,10 @@ abstract class Massaction extends Action
      */
     protected function getRuleIds()
     {
-        $params = $this->request->getParams();
-        print_r($params);exit;
+        $params = $this->_request->getParams();
 
         $ruleIds = [];
-        $ruleId = (int) $this->request->getParam('id');
+        $ruleId = (int) $this->_request->getParam('id');
         if (!empty($ruleId)) {
             $ruleIds[] = $ruleId;
         }

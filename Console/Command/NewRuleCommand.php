@@ -10,9 +10,13 @@
 
 namespace Yireo\SalesBlock2\Console\Command;
 
+use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
+
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface as Input;
 use Symfony\Component\Console\Output\OutputInterface as Output;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class NewRuleCommand
@@ -22,23 +26,16 @@ use Symfony\Component\Console\Output\OutputInterface as Output;
 class NewRuleCommand extends Command
 {
     /**
-     * @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface
+     * @var RuleRepositoryInterface
      */
     private $ruleRepository;
 
-    /**
-     * @var \Magento\Framework\Api\Search\SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-
     public function __construct(
-        \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository,
-        \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
-        $name = null
+        RuleRepositoryInterface $ruleRepository,
+        string $name = null
     )
     {
         $this->ruleRepository = $ruleRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         return parent::__construct($name);
     }
 
@@ -47,7 +44,26 @@ class NewRuleCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('yireo_salesblock2:test')->setDescription('Test whether SalesBlock2 rules apply to given data');
+        $this->setName('yireo_salesblock2:rule:new');
+        $this->setDescription('Create a new SalesBlock2 rule');
+
+        $this->addOption(
+            'label',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Rule label');
+
+        $this->addOption(
+            'email_value',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'Email value');
+
+        $this->addOption(
+            'ip_value',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            'IP value');
     }
 
     /**
@@ -57,8 +73,33 @@ class NewRuleCommand extends Command
      */
     protected function execute(Input $input, Output $output)
     {
+        $label = trim($input->getOption('label'));
+        $ipValue = trim($input->getOption('ip_value'));
+        $emailValue = trim($input->getOption('email_value'));
+
+        if (empty($label)) {
+            throw new InvalidArgumentException('Option "label" is missing');
+        }
+
+        if (empty($ipValue) && empty($emailValue)) {
+            throw new InvalidArgumentException('Either option "ip_value" or "email_value" is required');
+        }
+
+        $this->createRule($label, $ipValue, $emailValue);
+        $output->writeln('<info>Rule has been created</info>');
+    }
+
+    /**
+     * @param string $label
+     * @param string $ipValue
+     * @param string $emailValue
+     */
+    protected function createRule(string $label, string $ipValue, string $emailValue)
+    {
         $rule = $this->ruleRepository->create();
-        $rule->setLabel('test');
+        $rule->setLabel($label);
+        $rule->setIpValue($ipValue);
+        $rule->setEmailValue($emailValue);
         $this->ruleRepository->save($rule);
     }
 }

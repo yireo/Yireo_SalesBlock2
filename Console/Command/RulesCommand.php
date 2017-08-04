@@ -66,9 +66,9 @@ class RulesCommand extends Command
     {
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $rules = $this->ruleRepository->getList($searchCriteria);
+        $output->writeln(get_class($this->getApplication()));
 
         foreach ($rules as $rule) {
-            print_r($rule->getCustomAttributes());
             $output->writeln($rule->getId() . ': ' . $rule->getLabel());
         }
     }

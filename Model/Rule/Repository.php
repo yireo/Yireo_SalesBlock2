@@ -10,6 +10,7 @@
 
 namespace Yireo\SalesBlock2\Model\Rule;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 use Yireo\SalesBlock2\Model\ResourceModel\Metadata;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
@@ -68,7 +69,7 @@ class Repository implements RuleRepositoryInterface
         if (!isset($this->registry[$id])) {
             /** @var RuleInterface $entity */
             $entity = $this->metadata->getNewInstance()->load($id);
-            if (!$entity->getEntityId()) {
+            if (!$entity->getId()) {
                 throw new NoSuchEntityException(__('Requested entity doesn\'t exist'));
             }
             $this->registry[$id] = $entity;
@@ -77,7 +78,7 @@ class Repository implements RuleRepositoryInterface
     }
 
     /**
-     * @return RuleInterface
+     * @return ExtensibleDataInterface
      */
     public function create()
     {
@@ -88,7 +89,7 @@ class Repository implements RuleRepositoryInterface
      * Find entities by criteria
      *
      * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
-     * @return RuleInterface[]
+     * @return RuleCollection
      */
     public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria)
     {
@@ -118,7 +119,7 @@ class Repository implements RuleRepositoryInterface
     public function delete(RuleInterface $entity)
     {
         $this->metadata->getMapper()->delete($entity);
-        unset($this->registry[$entity->getEntityId()]);
+        unset($this->registry[$entity->getId()]);
         return true;
     }
 
@@ -143,7 +144,7 @@ class Repository implements RuleRepositoryInterface
     public function save(RuleInterface $entity)
     {
         $this->metadata->getMapper()->save($entity);
-        $this->registry[$entity->getEntityId()] = $entity;
-        return $this->registry[$entity->getEntityId()];
+        $this->registry[$entity->getId()] = $entity;
+        return $this->registry[$entity->getId()];
     }
 }

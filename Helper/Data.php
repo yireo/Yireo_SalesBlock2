@@ -21,11 +21,6 @@ use Magento\Framework\App\Helper\AbstractHelper;
 class Data extends AbstractHelper
 {
     /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    private $request;
-
-    /**
      * @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface
      */
     private $ruleRepository;
@@ -41,14 +36,12 @@ class Data extends AbstractHelper
     private $cmsPageHelper;
 
     public function __construct(
-        \Magento\Framework\App\RequestInterface $request,
         \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository,
         \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Cms\Helper\Page $cmsPageHelper,
         Context $context
     )
     {
-        $this->request = $request;
         $this->ruleRepository = $ruleRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->cmsPageHelper = $cmsPageHelper;
@@ -102,7 +95,8 @@ class Data extends AbstractHelper
         $cmsPageUrl = $this->cmsPageHelper->getPageUrl($cmsPageId);
 
         if ($custom_page == 1 || empty($cmsPageUrl)) {
-            return Mage::getUrl('salesblock');
+            throw new \Exception('bug');
+            //return Mage::getUrl('salesblock');
         } else {
             return $cmsPageUrl;
         }
@@ -116,7 +110,7 @@ class Data extends AbstractHelper
      */
     public function isAjax()
     {
-        $request = $this->request;
+        $request = $this->_request;
 
         if ($request->isXmlHttpRequest()) {
             return true;

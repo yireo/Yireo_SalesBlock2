@@ -20,6 +20,11 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface RuleInterface extends ExtensibleDataInterface
 {
     /**
+     * @return int
+     */
+    public function getId();
+
+    /**
      * @param string $label
      * @return mixed
      */

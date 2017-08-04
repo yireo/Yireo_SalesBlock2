@@ -1,26 +1,32 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Yireo\SalesBlock2\Api\RuleRepositoryInterface" type="Yireo\SalesBlock2\Model\Rule\Repository"/>
     <preference for="Yireo\SalesBlock2\Api\Data\RuleInterface" type="Yireo\SalesBlock2\Model\Rule"/>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="salesblock2_rules" xsi:type="object">Yireo\SalesBlock2\Console\Command\RulesCommand</item>
-                <item name="salesblock2_test" xsi:type="object">Yireo\SalesBlock2\Console\Command\TestCommand</item>
+                <item name="salesblock2_rule_new" xsi:type="object">Yireo\SalesBlock2\Console\Command\NewRuleCommand</item>
+                <item name="salesblock2_rule_delete" xsi:type="object">Yireo\SalesBlock2\Console\Command\DeleteRuleCommand</item>
             </argument>
         </arguments>
     </type>
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="salesblock_rule_grid_data_source" xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule\Grid\Collection</item>
+                <item name="salesblock_rule_grid_data_source"
+                      xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule\Grid\Collection
+                </item>
             </argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">
         <arguments>
             <argument name="entities" xsi:type="array">
-                <item name="Yireo\SalesBlock2\Api\Data\RuleInterface" xsi:type="string">Yireo\SalesBlock2\Api\RuleRepositoryInterface</item>
+                <item name="Yireo\SalesBlock2\Api\Data\RuleInterface"
+                      xsi:type="string">Yireo\SalesBlock2\Api\RuleRepositoryInterface
+                </item>
             </argument>
         </arguments>
     </type>

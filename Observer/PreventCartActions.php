@@ -7,6 +7,8 @@
  * @copyright   Copyright 2017 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
  */
+
+declare(strict_types=1);
 namespace Yireo\SalesBlock2\Observer;
 
 use Magento\Framework\Event\Observer;
@@ -19,19 +21,39 @@ use Magento\Framework\Event\ObserverInterface;
  */
 class PreventCartActions implements ObserverInterface
 {
+	/**
+	 * @var \Yireo\SalesBlock2\Helper\Data
+	 */
+	private $moduleHelper;
+
+	/**
+	 * @var \Magento\Framework\App\RequestInterface
+	 */
+	private $request;
+
+	/**
+	 * @var \Magento\Framework\App\ResponseInterface
+	 */
+	private $response;
+
     public function __construct(
+    	\Yireo\SalesBlock2\Helper\Data $moduleHelper,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Quote\Api\Data\CartInterface $cart,
-        \Magento\Framework\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request,
+		\Magento\Framework\App\ResponseInterface $response
     )
     {
+    	$this->moduleHelper = $moduleHelper;
         $this->checkoutSession = $checkoutSession;
         $this->cart = $cart;
         $this->request = $request;
+        $this->response = $response;
     }
 
     /**
      * @param Observer $observer
+	 * @return $this
      */
     public function execute(Observer $observer)
     {
@@ -52,7 +74,7 @@ class PreventCartActions implements ObserverInterface
 
         $this->resetCustomerEmailInQuote();
 
-        $url = $this->helper->getUrl();
+        $url = $this->moduleHelper->getUrl();
         if (!empty($url)) {
             $this->redirect($url);
         }
@@ -76,7 +98,7 @@ class PreventCartActions implements ObserverInterface
      */
     protected function modifyAjaxCall()
     {
-        if ($this->helper->isAjax() === false) {
+        if ($this->moduleHelper->isAjax() === false) {
             return false;
         }
 
@@ -89,24 +111,15 @@ class PreventCartActions implements ObserverInterface
         $response = $this->response;
         $actionName = $request->getActionName();
 
-        $this->setControllerActionNoDispatch($actionName);
+		$this->request->setDispatched(false);
 
         $result = array();
         $result['success'] = false;
-        $result['messages'][] = $this->helper->__('Email is incorrect.');
+        $result['messages'][] = $this->moduleHelper->__('Email is incorrect.');
         $jsonData = Mage::helper('core')->jsonEncode($result);
         $response->setBody($jsonData);
 
         return true;
-    }
-
-    /**
-     * @param string $actionName
-     */
-    protected function setControllerActionNoDispatch($actionName)
-    {
-        $frontControllerAction = Mage::app()->getFrontController()->getAction();
-        $frontControllerAction->setFlag($actionName, Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
     }
 
     /**
@@ -116,7 +129,7 @@ class PreventCartActions implements ObserverInterface
     {
         // Get the variables
         $module = $this->request->getModuleName();
-        $controller = $this->request->getControllerName();
+        $controller = $this->request->getActionPath();
         $action = $this->request->getActionName();
 
         $includeControllers = array('onepage', 'multishipping');

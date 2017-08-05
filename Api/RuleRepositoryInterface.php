@@ -8,6 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types=1);
 namespace Yireo\SalesBlock2\Api;
 
 /**
@@ -21,7 +22,7 @@ interface RuleRepositoryInterface
      * Lists the invoice items that match specified search criteria.
      *
      * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
-     * @return \Yireo\SalesBlock2\Api\Data\RuleInterface
+     * @return \Yireo\SalesBlock2\Api\Data\RuleInterface[]
      */
     public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria);
 

@@ -8,6 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types=1);
 namespace Yireo\SalesBlock2\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;

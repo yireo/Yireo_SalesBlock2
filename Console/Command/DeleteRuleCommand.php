@@ -8,6 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types = 1);
 namespace Yireo\SalesBlock2\Console\Command;
 
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
@@ -25,58 +26,67 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class DeleteRuleCommand extends Command
 {
-    /**
-     * @var RuleRepositoryInterface
-     */
-    private $ruleRepository;
+	/**
+	 * @var RuleRepositoryInterface
+	 */
+	private $ruleRepository;
 
-    public function __construct(
-        RuleRepositoryInterface $ruleRepository,
-        string $name = ''
-    )
-    {
-        $this->ruleRepository = $ruleRepository;
-        return parent::__construct($name);
-    }
+	/**
+	 * DeleteRuleCommand constructor.
+	 *
+	 * @param RuleRepositoryInterface $ruleRepository
+	 * @param string                  $name
+	 */
+	public function __construct(
+		RuleRepositoryInterface $ruleRepository,
+		$name = null
+	)
+	{
+		$this->ruleRepository = $ruleRepository;
 
-    /**
-     * Configure this command
-     */
-    protected function configure()
-    {
-        $this->setName('yireo_salesblock2:rule:delete');
-        $this->setDescription('Delete an existing SalesBlock2 rule');
+		return parent::__construct($name);
+	}
 
-        $this->addOption(
-            'id',
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Rule ID');
-    }
+	/**
+	 * Configure this command
+	 */
+	protected function configure()
+	{
+		$this->setName('yireo_salesblock2:rule:delete');
+		$this->setDescription('Delete an existing SalesBlock2 rule');
 
-    /**
-     * @param Input $input
-     * @param Output $output
-     * @return void
-     */
-    protected function execute(Input $input, Output $output)
-    {
-        $ruleId = (int) $input->getOption('id');
+		$this->addOption(
+			'id',
+			null,
+			InputOption::VALUE_REQUIRED,
+			'Rule ID');
+	}
 
-        if (empty($ruleId)) {
-            throw new InvalidArgumentException('Option "id" is missing');
-        }
+	/**
+	 * @param Input  $input
+	 * @param Output $output
+	 *
+	 * @return void
+	 */
+	protected function execute(Input $input, Output $output)
+	{
+		$ruleId = (int)$input->getOption('id');
 
-        $this->deleteRule($ruleId);
-        $output->writeln('<info>Rule has been deleted</info>');
-    }
+		if (empty($ruleId))
+		{
+			throw new InvalidArgumentException('Option "id" is missing');
+		}
 
-    /**
-     * @param int $ruleId
-     */
-    protected function deleteRule(int $ruleId)
-    {
-        $rule = $this->ruleRepository->get($ruleId);
-        $this->ruleRepository->delete($rule);
-    }
+		$this->deleteRule($ruleId);
+		$output->writeln('<info>Rule has been deleted</info>');
+	}
+
+	/**
+	 * @param int $ruleId
+	 */
+	protected function deleteRule(int $ruleId)
+	{
+		$rule = $this->ruleRepository->get($ruleId);
+		$this->ruleRepository->delete($rule);
+	}
 }

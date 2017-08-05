@@ -8,6 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types = 1);
 namespace Yireo\SalesBlock2\Console\Command;
 
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
@@ -25,81 +26,91 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class NewRuleCommand extends Command
 {
-    /**
-     * @var RuleRepositoryInterface
-     */
-    private $ruleRepository;
+	/**
+	 * @var RuleRepositoryInterface
+	 */
+	private $ruleRepository;
 
-    public function __construct(
-        RuleRepositoryInterface $ruleRepository,
-        string $name = null
-    )
-    {
-        $this->ruleRepository = $ruleRepository;
-        return parent::__construct($name);
-    }
+	/**
+	 * NewRuleCommand constructor.
+	 *
+	 * @param RuleRepositoryInterface $ruleRepository
+	 * @param string                  $name
+	 */
+	public function __construct(
+		RuleRepositoryInterface $ruleRepository,
+		$name = null
+	)
+	{
+		$this->ruleRepository = $ruleRepository;
 
-    /**
-     * Configure this command
-     */
-    protected function configure()
-    {
-        $this->setName('yireo_salesblock2:rule:new');
-        $this->setDescription('Create a new SalesBlock2 rule');
+		return parent::__construct($name);
+	}
 
-        $this->addOption(
-            'label',
-            null,
-            InputOption::VALUE_REQUIRED,
-            'Rule label');
+	/**
+	 * Configure this command
+	 */
+	protected function configure()
+	{
+		$this->setName('yireo_salesblock2:rule:new');
+		$this->setDescription('Create a new SalesBlock2 rule');
 
-        $this->addOption(
-            'email_value',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Email value');
+		$this->addOption(
+			'label',
+			null,
+			InputOption::VALUE_REQUIRED,
+			'Rule label');
 
-        $this->addOption(
-            'ip_value',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'IP value');
-    }
+		$this->addOption(
+			'email_value',
+			null,
+			InputOption::VALUE_OPTIONAL,
+			'Email value');
 
-    /**
-     * @param Input $input
-     * @param Output $output
-     * @return void
-     */
-    protected function execute(Input $input, Output $output)
-    {
-        $label = trim($input->getOption('label'));
-        $ipValue = trim($input->getOption('ip_value'));
-        $emailValue = trim($input->getOption('email_value'));
+		$this->addOption(
+			'ip_value',
+			null,
+			InputOption::VALUE_OPTIONAL,
+			'IP value');
+	}
 
-        if (empty($label)) {
-            throw new InvalidArgumentException('Option "label" is missing');
-        }
+	/**
+	 * @param Input  $input
+	 * @param Output $output
+	 *
+	 * @return void
+	 */
+	protected function execute(Input $input, Output $output)
+	{
+		$label = trim($input->getOption('label'));
+		$ipValue = trim($input->getOption('ip_value'));
+		$emailValue = trim($input->getOption('email_value'));
 
-        if (empty($ipValue) && empty($emailValue)) {
-            throw new InvalidArgumentException('Either option "ip_value" or "email_value" is required');
-        }
+		if (empty($label))
+		{
+			throw new InvalidArgumentException('Option "label" is missing');
+		}
 
-        $this->createRule($label, $ipValue, $emailValue);
-        $output->writeln('<info>Rule has been created</info>');
-    }
+		if (empty($ipValue) && empty($emailValue))
+		{
+			throw new InvalidArgumentException('Either option "ip_value" or "email_value" is required');
+		}
 
-    /**
-     * @param string $label
-     * @param string $ipValue
-     * @param string $emailValue
-     */
-    protected function createRule(string $label, string $ipValue, string $emailValue)
-    {
-        $rule = $this->ruleRepository->create();
-        $rule->setLabel($label);
-        $rule->setIpValue($ipValue);
-        $rule->setEmailValue($emailValue);
-        $this->ruleRepository->save($rule);
-    }
+		$this->createRule($label, $ipValue, $emailValue);
+		$output->writeln('<info>Rule has been created</info>');
+	}
+
+	/**
+	 * @param string $label
+	 * @param string $ipValue
+	 * @param string $emailValue
+	 */
+	protected function createRule(string $label, string $ipValue, string $emailValue)
+	{
+		$rule = $this->ruleRepository->create();
+		$rule->setLabel($label);
+		$rule->setIpValue($ipValue);
+		$rule->setEmailValue($emailValue);
+		$this->ruleRepository->save($rule);
+	}
 }

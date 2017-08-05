@@ -8,6 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types=1);
 namespace Yireo\SalesBlock2\Console\Command;
 
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
@@ -33,10 +34,17 @@ class TestCommand extends Command
      */
     private $searchCriteriaBuilder;
 
+	/**
+	 * TestCommand constructor.
+	 *
+	 * @param RuleRepositoryInterface $ruleRepository
+	 * @param SearchCriteriaBuilder   $searchCriteriaBuilder
+	 * @param string                  $name
+	 */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        string $name = null
+        $name = null
     )
     {
         $this->ruleRepository = $ruleRepository;

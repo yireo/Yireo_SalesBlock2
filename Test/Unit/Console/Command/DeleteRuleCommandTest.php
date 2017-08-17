@@ -13,14 +13,14 @@ declare(strict_types = 1);
 namespace Yireo\SalesBlock2\Test\Unit\Console\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Yireo\SalesBlock2\Console\Command\NewRuleCommand;
+use Yireo\SalesBlock2\Console\Command\DeleteRuleCommand;
 
 /**
- * Class NewRuleCommandTest
+ * Class DeleteRuleCommandTest
  *
  * @package Yireo\SalesBlock2\Test\Unit\Console\Command
  */
-class NewRuleCommandTest extends \PHPUnit_Framework_TestCase
+class DeleteRuleCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Import traits
@@ -28,7 +28,7 @@ class NewRuleCommandTest extends \PHPUnit_Framework_TestCase
     use \Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
 
     /**
-     * @var NewRuleCommand
+     * @var DeleteRuleCommand
      */
     private $command;
 
@@ -47,11 +47,11 @@ class NewRuleCommandTest extends \PHPUnit_Framework_TestCase
     {
         $commandTester = new CommandTester($this->command);
 
-        $options = ['--label' => 'test', '--email-value' => '@example.com', '--ip-value' => ''];
+        $options = ['--id' => '1'];
         $commandTester->execute($options);
 
         $this->assertContains(
-            'Rule has been created',
+            'Rule has been deleted',
             $commandTester->getDisplay()
         );
     }
@@ -69,13 +69,13 @@ class NewRuleCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return NewRuleCommand
+     * @return DeleteRuleCommand
      */
     private function getTargetCommand()
     {
         /** @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository */
         $ruleRepository = $this->getRuleRepositoryMock();
 
-        return new NewRuleCommand($ruleRepository);
+        return new DeleteRuleCommand($ruleRepository);
     }
 }

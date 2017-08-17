@@ -13,7 +13,6 @@ namespace Yireo\SalesBlock2\Helper;
 
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Framework\App\RequestInterface as Request;
 use Magento\Cms\Helper\Page as CmsPageHelper;
 
 /**
@@ -49,7 +48,7 @@ class Data extends AbstractHelper
 	 *
 	 * @return bool
 	 */
-	public function enabled()
+	public function enabled() : bool
 	{
 		return (bool)$this->scopeConfig->getValue('salesblock/settings/enabled');
 	}
@@ -60,7 +59,7 @@ class Data extends AbstractHelper
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function getUrl()
+	public function getUrl() : string
 	{
 		$useCustomPage = (bool) $this->scopeConfig->getValue('salesblock/settings/use_custom_page');
 
@@ -81,7 +80,7 @@ class Data extends AbstractHelper
 	 *
 	 * @return bool
 	 */
-	public function isAjax()
+	public function isAjax() : bool
 	{
 		/** @var \Magento\Framework\App\RequestInterface $request */
 		$request = $this->_request;
@@ -92,4 +91,26 @@ class Data extends AbstractHelper
 
 		return false;
 	}
+
+    /**
+     * Convert a string into an array
+     *
+     * @param string $string
+     *
+     * @return array
+     */
+    public function stringToArray(string $string) : array
+    {
+        $data = preg_split( "/(\n|,|;|\|)/", $string);
+        $newData = array();
+
+        foreach ($data as $value) {
+            $value = trim($value);
+            if (!empty($value)) {
+                $newData[] = $value;
+            }
+        }
+
+        return $newData;
+    }
 }

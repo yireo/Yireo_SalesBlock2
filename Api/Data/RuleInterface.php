@@ -9,6 +9,7 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;

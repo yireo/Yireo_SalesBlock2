@@ -22,58 +22,61 @@ use Symfony\Component\Console\Output\OutputInterface as Output;
  */
 class RulesCommand extends Command
 {
-	/**
-	 * @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface
-	 */
-	private $ruleRepository;
+    /**
+     * @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface
+     */
+    private $ruleRepository;
 
-	/**
-	 * @var \Magento\Framework\Api\Search\SearchCriteriaBuilder
-	 */
-	private $searchCriteriaBuilder;
+    /**
+     * @var \Magento\Framework\Api\Search\SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
 
-	/**
-	 * RulesCommand constructor.
-	 *
-	 * @param \Yireo\SalesBlock2\Api\RuleRepositoryInterface      $ruleRepository
-	 * @param \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder
-	 * @param string                                              $name
-	 */
-	public function __construct(
-		\Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository,
-		\Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
-		$name = null
-	)
-	{
-		$this->ruleRepository = $ruleRepository;
-		$this->searchCriteriaBuilder = $searchCriteriaBuilder;
+    /**
+     * RulesCommand constructor.
+     *
+     * @param \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository
+     * @param \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param string $name
+     */
+    public function __construct(
+        \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository,
+        \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
+        $name = null
+    ) {
+        $this->ruleRepository = $ruleRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
 
-		return parent::__construct($name);
-	}
+        return parent::__construct($name);
+    }
 
-	/**
-	 * Configure this command
-	 */
-	protected function configure()
-	{
-		$this->setName('yireo_salesblock2:rules')->setDescription('Show all rules configured in SalesBlock');
-	}
+    /**
+     * Configure this command
+     */
+    protected function configure()
+    {
+        $this->setName('yireo_salesblock2:rules')->setDescription('Show all rules configured in SalesBlock');
+    }
 
-	/**
-	 * @param Input  $input
-	 * @param Output $output
-	 *
-	 * @return void
-	 */
-	protected function execute(Input $input, Output $output)
-	{
-		$searchCriteria = $this->searchCriteriaBuilder->create();
-		$rules = $this->ruleRepository->getList($searchCriteria);
-		$output->writeln(get_class($this->getApplication()));
+    /**
+     * @param Input $input
+     * @param Output $output
+     *
+     * @return void
+     */
+    protected function execute(Input $input, Output $output)
+    {
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $rules = $this->ruleRepository->getList($searchCriteria);
+        $output->writeln(get_class($this->getApplication()));
 
-		foreach ($rules as $rule)
-		{
-			$output->writeln($rule->getId() . ': ' . $rule->getLabel());
-		}
-	}
+        if (empty($rules)) {
+            $output->writeln('No rules found');
+            return;
+        }
+
+        foreach ($rules as $rule) {
+            $output->writeln($rule->getId() . ': ' . $rule->getLabel());
+        }
+    }
 }

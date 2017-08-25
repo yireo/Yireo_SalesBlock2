@@ -8,6 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types=1);
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
 use Magento\Backend\App\Action;

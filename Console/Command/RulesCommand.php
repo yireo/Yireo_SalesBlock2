@@ -8,6 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types = 1);
 namespace Yireo\SalesBlock2\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -36,16 +37,16 @@ class RulesCommand extends Command
      *
      * @param \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository
      * @param \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param null $name
+     * @param string $name
      */
     public function __construct(
         \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository,
         \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
         $name = null
-    )
-    {
+    ) {
         $this->ruleRepository = $ruleRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+
         return parent::__construct($name);
     }
 
@@ -60,6 +61,7 @@ class RulesCommand extends Command
     /**
      * @param Input $input
      * @param Output $output
+     *
      * @return void
      */
     protected function execute(Input $input, Output $output)
@@ -67,6 +69,11 @@ class RulesCommand extends Command
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $rules = $this->ruleRepository->getList($searchCriteria);
         $output->writeln(get_class($this->getApplication()));
+
+        if (empty($rules)) {
+            $output->writeln('No rules found');
+            return;
+        }
 
         foreach ($rules as $rule) {
             $output->writeln($rule->getId() . ': ' . $rule->getLabel());

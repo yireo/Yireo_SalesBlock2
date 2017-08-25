@@ -13,14 +13,14 @@ declare(strict_types = 1);
 namespace Yireo\SalesBlock2\Test\Unit\Console\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Yireo\SalesBlock2\Console\Command\NewRuleCommand;
+use Yireo\SalesBlock2\Console\Command\RulesCommand;
 
 /**
- * Class NewRuleCommandTest
+ * Class RulesCommandTest
  *
  * @package Yireo\SalesBlock2\Test\Unit\Console\Command
  */
-class NewRuleCommandTest extends \PHPUnit_Framework_TestCase
+class RulesCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Import traits
@@ -28,7 +28,7 @@ class NewRuleCommandTest extends \PHPUnit_Framework_TestCase
     use \Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
 
     /**
-     * @var NewRuleCommand
+     * @var RulesCommand
      */
     private $command;
 
@@ -46,36 +46,35 @@ class NewRuleCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $commandTester = new CommandTester($this->command);
-
-        $options = ['--label' => 'test', '--email-value' => '@example.com', '--ip-value' => ''];
-        $commandTester->execute($options);
+        $commandTester->execute([]);
 
         $this->assertContains(
-            'Rule has been created',
+            'No rules found',
             $commandTester->getDisplay()
         );
     }
 
     /**
-     * @expectedException
-     */
-    public function testExecuteWithInvalidArguments()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $commandTester = new CommandTester($this->command);
-        $options = [];
-        $commandTester->execute($options);
-    }
-
-    /**
-     * @return NewRuleCommand
+     * @return RulesCommand
      */
     private function getTargetCommand()
     {
-        /** @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository */
         $ruleRepository = $this->getRuleRepositoryMock();
+        $searchCriteriaBuilder = $this->getSearchCriteriaBuilderMock();
 
-        return new NewRuleCommand($ruleRepository);
+        return new RulesCommand($ruleRepository, $searchCriteriaBuilder);
+    }
+
+    /**
+     * @return \Magento\Framework\Api\Search\SearchCriteriaBuilder
+     */
+    protected function getSearchCriteriaBuilderMock()
+    {
+        /** @var \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder */
+        $searchCriteriaBuilder = $this->getMockBuilder(\Magento\Framework\Api\Search\SearchCriteriaBuilder::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        return $searchCriteriaBuilder;
     }
 }

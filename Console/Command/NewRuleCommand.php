@@ -8,11 +8,12 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types = 1);
+
 namespace Yireo\SalesBlock2\Console\Command;
 
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface as Input;
 use Symfony\Component\Console\Output\OutputInterface as Output;
@@ -30,12 +31,18 @@ class NewRuleCommand extends Command
      */
     private $ruleRepository;
 
+    /**
+     * NewRuleCommand constructor.
+     *
+     * @param RuleRepositoryInterface $ruleRepository
+     * @param string $name
+     */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,
-        string $name = null
-    )
-    {
+        $name = null
+    ) {
         $this->ruleRepository = $ruleRepository;
+
         return parent::__construct($name);
     }
 
@@ -54,13 +61,13 @@ class NewRuleCommand extends Command
             'Rule label');
 
         $this->addOption(
-            'email_value',
+            'email-value',
             null,
             InputOption::VALUE_OPTIONAL,
             'Email value');
 
         $this->addOption(
-            'ip_value',
+            'ip-value',
             null,
             InputOption::VALUE_OPTIONAL,
             'IP value');
@@ -69,20 +76,25 @@ class NewRuleCommand extends Command
     /**
      * @param Input $input
      * @param Output $output
+     *
      * @return void
      */
     protected function execute(Input $input, Output $output)
     {
-        $label = trim($input->getOption('label'));
-        $ipValue = trim($input->getOption('ip_value'));
-        $emailValue = trim($input->getOption('email_value'));
+        try {
+            $label = trim($input->getOption('label'));
+            $ipValue = trim($input->getOption('ip-value'));
+            $emailValue = trim($input->getOption('email-value'));
+        } catch(\Error $e) {
+            throw new \InvalidArgumentException('Unable to initialize options');
+        }
 
         if (empty($label)) {
-            throw new InvalidArgumentException('Option "label" is missing');
+            throw new \InvalidArgumentException('Option "label" is missing');
         }
 
         if (empty($ipValue) && empty($emailValue)) {
-            throw new InvalidArgumentException('Either option "ip_value" or "email_value" is required');
+            throw new \InvalidArgumentException('Either option "ip-value" or "email-value" is required');
         }
 
         $this->createRule($label, $ipValue, $emailValue);
@@ -100,6 +112,7 @@ class NewRuleCommand extends Command
         $rule->setLabel($label);
         $rule->setIpValue($ipValue);
         $rule->setEmailValue($emailValue);
+
         $this->ruleRepository->save($rule);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace Yireo\SalesBlock2\Ui\Component;
 
 use Magento\Framework\Api\FilterBuilder;

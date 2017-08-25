@@ -8,11 +8,12 @@
  * @license     Open Source License (OSL v3)
  */
 
+declare(strict_types = 1);
+
 namespace Yireo\SalesBlock2\Console\Command;
 
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface as Input;
 use Symfony\Component\Console\Output\OutputInterface as Output;
@@ -30,12 +31,18 @@ class DeleteRuleCommand extends Command
      */
     private $ruleRepository;
 
+    /**
+     * DeleteRuleCommand constructor.
+     *
+     * @param RuleRepositoryInterface $ruleRepository
+     * @param string $name
+     */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,
-        string $name = ''
-    )
-    {
+        $name = null
+    ) {
         $this->ruleRepository = $ruleRepository;
+
         return parent::__construct($name);
     }
 
@@ -57,14 +64,19 @@ class DeleteRuleCommand extends Command
     /**
      * @param Input $input
      * @param Output $output
+     *
      * @return void
      */
     protected function execute(Input $input, Output $output)
     {
-        $ruleId = (int) $input->getOption('id');
+        try {
+            $ruleId = (int)$input->getOption('id');
+        } catch (\Error $e) {
+            throw new \InvalidArgumentException('Unable to initialize options');
+        }
 
         if (empty($ruleId)) {
-            throw new InvalidArgumentException('Option "id" is missing');
+            throw new \InvalidArgumentException('Option "id" is missing');
         }
 
         $this->deleteRule($ruleId);

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 namespace Yireo\SalesBlock2\Model\ResourceModel\Rule\Grid;
 
 use Yireo\SalesBlock2\Api\Data\RuleSearchResultInterface;

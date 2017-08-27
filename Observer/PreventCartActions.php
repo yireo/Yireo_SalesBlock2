@@ -129,7 +129,8 @@ class PreventCartActions implements ObserverInterface
     {
         // Get the variables
         $module = $this->request->getModuleName();
-        $controller = $this->request->getActionPath();
+        //$controller = $this->request->getActionPath(); // @todo: Not working
+        $controller = '';
         $action = $this->request->getActionName();
 
         $includeControllers = array('onepage', 'multishipping');

@@ -274,6 +274,6 @@ class Rule
     public function afterMatch(\Yireo\SalesBlock2\Api\Data\RuleInterface $rule, string $ip, string $email)
     {
         $eventArguments = ['rule' => $rule, 'ip' => $ip, 'email' => $email];
-        $this->eventManager->dispatch('salesblock2_rule_match_after', $eventArguments);
+        $this->eventManager->dispatch('salesblock_rule_match_after', $eventArguments);
     }
 }

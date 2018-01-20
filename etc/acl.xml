@@ -14,7 +14,7 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Sales::sales">
-                    <resource id="Yireo_SalesBlock2::sales_advanced">
+                    <resource id="Yireo_SalesBlock2::sales_advanced" title="Sales Block" translate="title">
                         <resource id="Yireo_SalesBlock2::rules" title="Sales Block Rules" translate="title" sortOrder="10" />
                     </resource>
                 </resource>

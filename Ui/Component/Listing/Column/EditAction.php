@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Ui\Component\Listing\Column;
 
 use Magento\Framework\UrlInterface;
@@ -9,9 +10,9 @@ use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
- * Class ViewAction
+ * Class EditAction
  */
-class ViewAction extends Column
+class EditAction extends Column
 {
     /**
      * @var UrlInterface
@@ -42,6 +43,7 @@ class ViewAction extends Column
      * Prepare Data Source
      *
      * @param array $dataSource
+     *
      * @return array
      */
     public function prepareDataSource(array $dataSource)
@@ -49,12 +51,12 @@ class ViewAction extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 if (isset($item['rule_id'])) {
-                    $viewUrlPath = $this->getData('config/viewUrlPath') ?: '#';
+                    $editUrlPath = $this->getData('config/editUrlPath') ?: '#';
                     $urlEntityParamName = $this->getData('config/urlEntityParamName') ?: 'rule_id';
                     $item[$this->getData('name')] = [
                         'view' => [
                             'href' => $this->urlBuilder->getUrl(
-                                $viewUrlPath,
+                                $editUrlPath,
                                 [
                                     $urlEntityParamName => $item['rule_id']
                                 ]

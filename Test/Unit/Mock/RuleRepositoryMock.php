@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Yireo\SalesBlock2\Test\Unit\Mock;
 
+use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 
 /**
@@ -22,7 +23,7 @@ use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 trait RuleRepositoryMock
 {
     /**
-     * @return \RuleRepositoryInterface
+     * @return RuleRepositoryInterface
      */
     protected function getRuleRepositoryMock()
     {
@@ -49,12 +50,12 @@ trait RuleRepositoryMock
     }
 
     /**
-     * @return \Yireo\SalesBlock2\Api\Data\RuleInterface
+     * @return RuleInterface
      */
     protected function getRuleMock()
     {
-        /** @var \Yireo\SalesBlock2\Api\Data\RuleInterface $rule */
-        $rule = $this->getMockBuilder(\Yireo\SalesBlock2\Api\Data\RuleInterface::class)
+        /** @var RuleInterface $rule */
+        $rule = $this->getMockBuilder(RuleInterface::class)
             ->getMockForAbstractClass();
 
         return $rule;

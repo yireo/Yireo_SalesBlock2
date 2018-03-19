@@ -12,20 +12,24 @@ declare(strict_types = 1);
 
 namespace Yireo\SalesBlock2\Test\Unit\Console\Command;
 
+use InvalidArgumentException;
+use PHPUnit_Framework_TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
+use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 use Yireo\SalesBlock2\Console\Command\DeleteRuleCommand;
+use Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
 
 /**
  * Class DeleteRuleCommandTest
  *
  * @package Yireo\SalesBlock2\Test\Unit\Console\Command
  */
-class DeleteRuleCommandTest extends \PHPUnit_Framework_TestCase
+class DeleteRuleCommandTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Import traits
      */
-    use \Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
+    use RuleRepositoryMock;
 
     /**
      * @var DeleteRuleCommand
@@ -61,7 +65,7 @@ class DeleteRuleCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWithInvalidArguments()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $commandTester = new CommandTester($this->command);
         $options = [];
@@ -73,7 +77,7 @@ class DeleteRuleCommandTest extends \PHPUnit_Framework_TestCase
      */
     private function getTargetCommand()
     {
-        /** @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository */
+        /** @var RuleRepositoryInterface $ruleRepository */
         $ruleRepository = $this->getRuleRepositoryMock();
 
         return new DeleteRuleCommand($ruleRepository);

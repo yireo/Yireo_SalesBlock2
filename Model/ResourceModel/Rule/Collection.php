@@ -9,8 +9,10 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Model\ResourceModel\Rule;
 
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\Api\Search\AggregationInterface;
 
@@ -27,7 +29,7 @@ class Collection extends AbstractCollection
     protected $_idFieldName = 'rule_id';
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaInterface
+     * @var SearchCriteriaInterface
      */
     protected $searchCriteria;
 
@@ -47,7 +49,7 @@ class Collection extends AbstractCollection
     /**
      * Get search criteria.
      *
-     * @return \Magento\Framework\Api\SearchCriteriaInterface|null
+     * @return SearchCriteriaInterface|null
      */
     public function getSearchCriteria()
     {
@@ -57,11 +59,11 @@ class Collection extends AbstractCollection
     /**
      * Set search criteria.
      *
-     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @param SearchCriteriaInterface $searchCriteria
      * @return $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function setSearchCriteria(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria = null)
+    public function setSearchCriteria(SearchCriteriaInterface $searchCriteria = null)
     {
         $this->searchCriteria = $searchCriteria;
         return $this;

@@ -152,11 +152,11 @@
                 </item>
             </argument>
         </column>
-        <actionsColumn name="actions" class="Yireo\SalesBlock2\Ui\Component\Listing\Column\ViewAction">
+        <actionsColumn name="actions" class="Yireo\SalesBlock2\Ui\Component\Listing\Column\EditAction">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="indexField" xsi:type="string">rule_id</item>
-                    <item name="viewUrlPath" xsi:type="string">salesblock/rule/view</item>
+                    <item name="editUrlPath" xsi:type="string">salesblock/rule/form</item>
                     <item name="urlEntityParamName" xsi:type="string">id</item>
                 </item>
             </argument>

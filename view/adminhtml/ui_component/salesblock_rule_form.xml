@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Yireo SalesBlock2 for Magento
+ *
+ * @package     Yireo_SalesBlock2
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">salesblock2_rule_form.salesblock_rule_grid_data_source</item>
+            <item name="deps" xsi:type="string">salesblock2_rule_form.salesblock_rule_grid_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Rule Form</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">salesblock2_rule_form</item>
+        </item>
+
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit\BackButton</item>
+            <!--
+            <item name="delete" xsi:type="string">Pfay\Contacts\Block\Adminhtml\Contact\Edit\DeleteButton</item>
+            <item name="reset" xsi:type="string">Pfay\Contacts\Block\Adminhtml\Contact\Edit\ResetButton</item>
+            <item name="save" xsi:type="string">Pfay\Contacts\Block\Adminhtml\Contact\Edit\SaveButton</item>
+            -->
+        </item>
+    </argument>
+
+    <dataSource name="salesblock_rule_grid_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Yireo\SalesBlock2\Ui\Component\DataProvider</argument>
+            <argument name="name" xsi:type="string">salesblock_rule_grid_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+
+    <fieldset name="rule">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+                <item name="label" xsi:type="string" translate="true">Rule Details</item>
+            </item>
+        </argument>
+
+        <field name="rule_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rule</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="label">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Label</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rule</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="email_value">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Email value</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rule</item>
+                </item>
+            </argument>
+        </field>
+
+    </fieldset>
+</form>

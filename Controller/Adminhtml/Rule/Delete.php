@@ -9,10 +9,13 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
-use \Magento\Framework\Controller\Result\Redirect;
-use \Yireo\SalesBlock2\Api\Data\RuleInterface;
+use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\Controller\Result\Redirect;
+use Magento\Framework\Controller\ResultInterface;
+use Yireo\SalesBlock2\Api\Data\RuleInterface;
 
 /**
  * Class Delete
@@ -22,17 +25,16 @@ use \Yireo\SalesBlock2\Api\Data\RuleInterface;
 class Delete extends Massaction
 {
     /**
-     * @return Redirect
+     * @return ResultInterface
      */
-    public function execute()
+    public function execute() : ResultInterface
     {
-
         $ruleIds = $this->getRuleIds();
         foreach ($ruleIds as $ruleId) {
             $this->disableByRuleId($ruleId);
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+        /** @var Page $resultPage */
         $redirect = $this->resultRedirectFactory->create();
         $redirect->setPath('*/*/index');
 
@@ -40,10 +42,11 @@ class Delete extends Massaction
     }
 
     /**
-     * @param $ruleId
+     * @param int $ruleId
+     *
      * @return bool
      */
-    private function disableByRuleId($ruleId)
+    private function disableByRuleId(int $ruleId) : bool
     {
         /** @var RuleInterface $rule */
         $rule = $this->ruleRepository->get($ruleId);

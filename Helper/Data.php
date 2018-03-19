@@ -14,6 +14,7 @@ namespace Yireo\SalesBlock2\Helper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Helper\Page as CmsPageHelper;
+use Yireo\SalesBlock2\Exception\CmsPageException;
 
 /**
  * Class Data
@@ -57,7 +58,7 @@ class Data extends AbstractHelper
 	 * Determine the right URL for the custom deny page
 	 *
 	 * @return string
-	 * @throws \Exception
+	 * @throws CmsPageException
 	 */
 	public function getUrl() : string
 	{
@@ -68,7 +69,7 @@ class Data extends AbstractHelper
 
 		if ($useCustomPage && empty($cmsPageUrl))
 		{
-			throw new \Exception('Unknown CMS URL');
+			throw new CmsPageException('Unknown CMS URL');
 		}
 
 		return $cmsPageUrl;

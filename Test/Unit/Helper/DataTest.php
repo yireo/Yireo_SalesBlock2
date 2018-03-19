@@ -11,7 +11,11 @@
 declare(strict_types = 1);
 namespace Yireo\SalesBlock2\Test\Unit\Helper;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\App\Request\Http;
 use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit_Framework_TestCase;
 use \Yireo\SalesBlock2\Helper\Data as Target;
 
 /**
@@ -19,7 +23,7 @@ use \Yireo\SalesBlock2\Helper\Data as Target;
  *
  * @package Yireo\SalesBlock2\Test\Unit\Helper
  */
-class DataTest extends \PHPUnit_Framework_TestCase
+class DataTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var array
@@ -118,7 +122,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @return \Magento\Framework\App\Helper\Context
+	 * @return Context
 	 */
 	protected function getContextMock()
 	{
@@ -147,7 +151,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @return \Magento\Framework\App\Config\ScopeConfigInterface
+	 * @return ScopeConfigInterface
 	 */
 	protected function getScopeConfigMock()
 	{
@@ -161,7 +165,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @return \Magento\Framework\App\Request\Http
+	 * @return Http
 	 */
 	protected function getRequestMock()
 	{

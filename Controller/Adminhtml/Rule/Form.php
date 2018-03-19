@@ -9,18 +9,21 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
-use \Magento\Backend\App\Action;
-use \Magento\Backend\App\Action\Context;
-use \Magento\Framework\View\Result\PageFactory;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\View\Result\PageFactory;
 
 /**
- * Class View
+ * Class Form
  *
  * @package Yireo\SalesBlock2\Controller\Adminhtml\Rules
  */
-class View extends Action
+class Form extends Action
 {
     /**
      * ACL resource
@@ -41,24 +44,23 @@ class View extends Action
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory
-    )
-    {
+    ) {
         $this->resultPageFactory = $resultPageFactory;
+
         parent::__construct($context);
     }
 
     /**
-     * @return \Magento\Backend\Model\View\Result\Page
+     * @return ResultInterface
      */
-    public function execute()
+    public function execute() : ResultInterface
     {
-        echo '@todo: Implement view';exit;
-
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+        /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Yireo_SalesBlock2::rules');
         $resultPage->addBreadcrumb(__('SalesBlock Rules'), __('SalesBlock Rules'));
-        $resultPage->getConfig()->getTitle()->prepend(__('SalesBlock Rules'));
+        $resultPage->addBreadcrumb(__('SalesBlock Edit Form'), __('SalesBlock Edit Form'));
+        $resultPage->getConfig()->getTitle()->prepend(__('SalesBlock Edit Form'));
 
         return $resultPage;
     }

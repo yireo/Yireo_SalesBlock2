@@ -9,6 +9,7 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Api;
 
 /**
@@ -22,6 +23,7 @@ interface RuleRepositoryInterface
      * Lists the invoice items that match specified search criteria.
      *
      * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
+     *
      * @return \Yireo\SalesBlock2\Api\Data\RuleInterface[]
      */
     public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria);
@@ -30,6 +32,7 @@ interface RuleRepositoryInterface
      * Loads a specified invoice item.
      *
      * @param int $id
+     *
      * @return \Yireo\SalesBlock2\Api\Data\RuleInterface
      */
     public function get($id);
@@ -45,6 +48,7 @@ interface RuleRepositoryInterface
      * Deletes a rule
      *
      * @param \Yireo\SalesBlock2\Api\Data\RuleInterface $entity
+     *
      * @return bool
      */
     public function delete(\Yireo\SalesBlock2\Api\Data\RuleInterface $entity);
@@ -53,6 +57,7 @@ interface RuleRepositoryInterface
      * Saves a rule
      *
      * @param \Yireo\SalesBlock2\Api\Data\RuleInterface $entity
+     *
      * @return \Yireo\SalesBlock2\Api\Data\RuleInterface
      */
     public function save(\Yireo\SalesBlock2\Api\Data\RuleInterface $entity);

@@ -9,11 +9,14 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
-use \Magento\Backend\App\Action;
-use \Magento\Backend\App\Action\Context;
-use \Magento\Framework\View\Result\PageFactory;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\View\Result\PageFactory;
 
 /**
  * Class Index
@@ -48,11 +51,11 @@ class Index extends Action
     }
 
     /**
-     * @return \Magento\Backend\Model\View\Result\Page
+     * @return ResultInterface
      */
-    public function execute()
+    public function execute() : ResultInterface
     {
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+        /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Yireo_SalesBlock2::rules');
         $resultPage->addBreadcrumb(__('SalesBlock Rules'), __('SalesBlock Rules'));

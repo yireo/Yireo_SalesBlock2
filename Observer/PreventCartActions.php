@@ -9,10 +9,18 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Observer;
 
+use Magento\Checkout\Model\Session;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Quote\Api\Data\CartInterface;
+use Yireo\SalesBlock2\Exception\CmsPageException;
+use Yireo\SalesBlock2\Helper\Data as ModuleHelper;
+use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
 
 /**
  * Class PreventCartActions
@@ -21,30 +29,45 @@ use Magento\Framework\Event\ObserverInterface;
  */
 class PreventCartActions implements ObserverInterface
 {
-	/**
-	 * @var \Yireo\SalesBlock2\Helper\Data
-	 */
-	private $moduleHelper;
+    /**
+     * @var ModuleHelper
+     */
+    private $moduleHelper;
 
-	/**
-	 * @var \Magento\Framework\App\RequestInterface
-	 */
-	private $request;
+    /**
+     * @var RequestInterface
+     */
+    private $request;
 
-	/**
-	 * @var \Magento\Framework\App\ResponseInterface
-	 */
-	private $response;
+    /**
+     * @var ResponseInterface
+     */
+    private $response;
+    /**
+     * @var RuleHelper
+     */
+    private $ruleHelper;
 
+    /**
+     * PreventCartActions constructor.
+     *
+     * @param ModuleHelper $moduleHelper
+     * @param RuleHelper $ruleHelper
+     * @param Session $checkoutSession
+     * @param CartInterface $cart
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     */
     public function __construct(
-    	\Yireo\SalesBlock2\Helper\Data $moduleHelper,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Quote\Api\Data\CartInterface $cart,
-        \Magento\Framework\App\RequestInterface $request,
-		\Magento\Framework\App\ResponseInterface $response
-    )
-    {
-    	$this->moduleHelper = $moduleHelper;
+        ModuleHelper $moduleHelper,
+        RuleHelper $ruleHelper,
+        Session $checkoutSession,
+        CartInterface $cart,
+        RequestInterface $request,
+        ResponseInterface $response
+    ) {
+        $this->moduleHelper = $moduleHelper;
+        $this->ruleHelper = $ruleHelper;
         $this->checkoutSession = $checkoutSession;
         $this->cart = $cart;
         $this->request = $request;
@@ -53,7 +76,9 @@ class PreventCartActions implements ObserverInterface
 
     /**
      * @param Observer $observer
-	 * @return $this
+     *
+     * @return $this
+     * @throws CmsPageException
      */
     public function execute(Observer $observer)
     {
@@ -74,9 +99,12 @@ class PreventCartActions implements ObserverInterface
 
         $this->resetCustomerEmailInQuote();
 
-        $url = $this->moduleHelper->getUrl();
-        if (!empty($url)) {
-            $this->redirect($url);
+        try {
+            $url = $this->moduleHelper->getUrl();
+            if (!empty($url)) {
+                $this->redirect($url);
+            }
+        } catch (CmsPageException $cmsPageException) {
         }
 
         return $this;
@@ -111,7 +139,7 @@ class PreventCartActions implements ObserverInterface
         $response = $this->response;
         $actionName = $request->getActionName();
 
-		$this->request->setDispatched(false);
+        $this->request->setDispatched(false);
 
         $result = array();
         $result['success'] = false;

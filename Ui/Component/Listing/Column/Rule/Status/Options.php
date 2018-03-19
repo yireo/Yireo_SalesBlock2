@@ -9,6 +9,7 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Ui\Component\Listing\Column\Rule\Status;
 
 use Magento\Framework\Data\OptionSourceInterface;

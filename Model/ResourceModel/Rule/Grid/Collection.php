@@ -18,6 +18,21 @@ class Collection extends RegularCollection implements RuleSearchResultInterface
      */
     protected $aggregations;
 
+    /**
+     * Collection constructor.
+     *
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param $mainTable
+     * @param $eventPrefix
+     * @param $eventObject
+     * @param $resourceModel
+     * @param string $model
+     * @param null $connection
+     * @param null $resource
+     */
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
         \Psr\Log\LoggerInterface $logger,
@@ -49,7 +64,7 @@ class Collection extends RegularCollection implements RuleSearchResultInterface
     /**
      * @return AggregationInterface
      */
-    public function getAggregations()
+    public function getAggregations() : AggregationInterface
     {
         return $this->aggregations;
     }
@@ -68,7 +83,7 @@ class Collection extends RegularCollection implements RuleSearchResultInterface
      *
      * @return int
      */
-    public function getTotalCount()
+    public function getTotalCount() : int
     {
         return $this->getSize();
     }

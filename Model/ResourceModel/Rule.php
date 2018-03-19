@@ -9,6 +9,7 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;

@@ -9,7 +9,12 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Model\ResourceModel;
+
+use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class Metadata
@@ -27,31 +32,31 @@ class Metadata
     const RULE_RESOURCE_MODEL = '\Yireo\SalesBlock2\Model\ResourceModel\Rule';
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $objectManager
+        ObjectManagerInterface $objectManager
     ) {
         $this->objectManager = $objectManager;
     }
 
     /**
-     * @return \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+     * @return AbstractDb
      */
-    public function getMapper()
+    public function getMapper(): AbstractDb
     {
         return $this->objectManager->get(self::RULE_RESOURCE_MODEL);
     }
 
     /**
-     * @return \Magento\Framework\Api\ExtensibleDataInterface
+     * @return ExtensibleDataInterface
      */
-    public function getNewInstance()
+    public function getNewInstance(): ExtensibleDataInterface
     {
         return $this->objectManager->create(self::RULE_MODEL);
     }

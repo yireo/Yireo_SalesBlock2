@@ -12,20 +12,23 @@ declare(strict_types = 1);
 
 namespace Yireo\SalesBlock2\Test\Unit\Console\Command;
 
+use Magento\Framework\Api\Search\SearchCriteriaBuilder;
+use PHPUnit_Framework_TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Yireo\SalesBlock2\Console\Command\RulesCommand;
+use Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
 
 /**
  * Class RulesCommandTest
  *
  * @package Yireo\SalesBlock2\Test\Unit\Console\Command
  */
-class RulesCommandTest extends \PHPUnit_Framework_TestCase
+class RulesCommandTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Import traits
      */
-    use \Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
+    use RuleRepositoryMock;
 
     /**
      * @var RulesCommand
@@ -66,12 +69,12 @@ class RulesCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Framework\Api\Search\SearchCriteriaBuilder
+     * @return SearchCriteriaBuilder
      */
     protected function getSearchCriteriaBuilderMock()
     {
-        /** @var \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder */
-        $searchCriteriaBuilder = $this->getMockBuilder(\Magento\Framework\Api\Search\SearchCriteriaBuilder::class)
+        /** @var SearchCriteriaBuilder $searchCriteriaBuilder */
+        $searchCriteriaBuilder = $this->getMockBuilder(SearchCriteriaBuilder::class)
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 

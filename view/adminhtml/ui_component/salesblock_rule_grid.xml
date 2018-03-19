@@ -21,13 +21,13 @@
                 <item name="name" xsi:type="string">add</item>
                 <item name="label" xsi:type="string" translate="true">Add New Rule</item>
                 <item name="class" xsi:type="string">primary</item>
-                <item name="url" xsi:type="string">*/*/new</item>
+                <item name="url" xsi:type="string">*/*/form</item>
             </item>
         </item>
     </argument>
     <dataSource name="salesblock_rule_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Yireo\SalesBlock2\Ui\Component\DataProvider</argument>
+            <argument name="class" xsi:type="string">Yireo\SalesBlock2\Ui\Component\Listing\DataProvider</argument>
             <argument name="name" xsi:type="string">salesblock_rule_grid_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>

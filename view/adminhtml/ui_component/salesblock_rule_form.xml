@@ -12,47 +12,45 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">salesblock2_rule_form.salesblock_rule_grid_data_source</item>
-            <item name="deps" xsi:type="string">salesblock2_rule_form.salesblock_rule_grid_data_source</item>
+            <item name="provider" xsi:type="string">salesblock_rule_form.salesblock_rule_grid_data_source</item>
         </item>
         <item name="label" xsi:type="string" translate="true">Rule Form</item>
-        <item name="config" xsi:type="array">
-            <item name="dataScope" xsi:type="string">data</item>
-            <item name="namespace" xsi:type="string">salesblock2_rule_form</item>
-        </item>
-
-        <item name="buttons" xsi:type="array">
-            <item name="back" xsi:type="string">Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit\BackButton</item>
-            <!--
-            <item name="delete" xsi:type="string">Pfay\Contacts\Block\Adminhtml\Contact\Edit\DeleteButton</item>
-            <item name="reset" xsi:type="string">Pfay\Contacts\Block\Adminhtml\Contact\Edit\ResetButton</item>
-            <item name="save" xsi:type="string">Pfay\Contacts\Block\Adminhtml\Contact\Edit\SaveButton</item>
-            -->
-        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
 
+    <settings>
+        <namespace>salesblock_rule_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>salesblock_rule_form.salesblock_rule_grid_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="back" class="Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit\BackButton"/>
+        </buttons>
+    </settings>
+
     <dataSource name="salesblock_rule_grid_data_source">
-        <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Yireo\SalesBlock2\Ui\Component\DataProvider</argument>
-            <argument name="name" xsi:type="string">salesblock_rule_grid_data_source</argument>
-            <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
-            <argument name="requestFieldName" xsi:type="string">id</argument>
-        </argument>
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
                 <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
             </item>
         </argument>
+        <settings>
+            <validateUrl path="salesblock2/rule/validate"/>
+            <submitUrl path="salesblock2/rule/save"/>
+        </settings>
+        <dataProvider class="Yireo\SalesBlock2\Ui\Component\Form\DataProvider" name="salesblock_rule_grid_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>rule_id</primaryFieldName>
+            </settings>
+        </dataProvider>
     </dataSource>
 
     <fieldset name="rule">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="collapsible" xsi:type="boolean">true</item>
-                <item name="sortOrder" xsi:type="number">20</item>
-                <item name="label" xsi:type="string" translate="true">Rule Details</item>
-            </item>
-        </argument>
+        <settings>
+            <label translate="true">Rule Detail</label>
+        </settings>
 
         <field name="rule_id">
             <argument name="data" xsi:type="array">
@@ -88,6 +86,5 @@
                 </item>
             </argument>
         </field>
-
     </fieldset>
 </form>

@@ -1,14 +1,15 @@
 <?php
 
 declare(strict_types=1);
-namespace Yireo\SalesBlock2\Ui\Component;
+namespace Yireo\SalesBlock2\Ui\Component\Listing;
 
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider as GenericDataProvider;
 use Magento\Framework\View\Element\UiComponent\DataProvider\Reporting;
 
-class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider
+class DataProvider extends GenericDataProvider
 {
     /**
      * @param string $name

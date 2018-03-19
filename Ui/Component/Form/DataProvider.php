@@ -12,35 +12,30 @@ use Yireo\SalesBlock2\Model\ResourceModel\Rule\Collection;
 use Yireo\SalesBlock2\Model\ResourceModel\Rule\CollectionFactory as RuleCollectionFactory;
 use Magento\Ui\DataProvider\AbstractDataProvider;
 
-class DataProvider extends AbstractDataProvider
+class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider
 {
-    /**
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
-     * @param RuleCollectionFactory $ruleCollectionFactory
-     * @param array $meta
-     * @param array $data
-     */
     public function __construct(
         $name,
         $primaryFieldName,
         $requestFieldName,
-        RuleCollectionFactory $ruleCollectionFactory,
+        Reporting $reporting,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        RequestInterface $request,
+        FilterBuilder $filterBuilder,
         array $meta = [],
         array $data = []
-    ) {
-        $this->collection = $ruleCollectionFactory->create();
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
-    }
-
-    /**
-     * Get data
-     *
-     * @return array
-     */
-    public function getData()
+    )
     {
-        return [];
+        parent::__construct(
+            $name,
+            $primaryFieldName,
+            $requestFieldName,
+            $reporting,
+            $searchCriteriaBuilder,
+            $request,
+            $filterBuilder,
+            $meta,
+            $data
+        );
     }
 }

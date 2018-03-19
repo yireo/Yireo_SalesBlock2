@@ -61,8 +61,6 @@ abstract class Massaction extends Action
      */
     protected function getRuleIds(): array
     {
-        $params = $this->_request->getParams();
-
         $ruleIds = [];
         $ruleId = (int)$this->_request->getParam('id');
         if (!empty($ruleId)) {

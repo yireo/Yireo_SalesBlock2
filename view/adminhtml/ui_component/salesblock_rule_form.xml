@@ -25,6 +25,7 @@
             <dep>salesblock_rule_form.salesblock_rule_grid_data_source</dep>
         </deps>
         <buttons>
+            <button name="save" class="Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit\SaveButton"/>
             <button name="back" class="Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit\BackButton"/>
         </buttons>
     </settings>
@@ -36,8 +37,8 @@
             </item>
         </argument>
         <settings>
-            <validateUrl path="salesblock2/rule/validate"/>
-            <submitUrl path="salesblock2/rule/save"/>
+            <validateUrl path="salesblock/rule/validate"/>
+            <submitUrl path="salesblock/rule/save"/>
         </settings>
         <dataProvider class="Yireo\SalesBlock2\Ui\Component\Form\DataProvider" name="salesblock_rule_grid_data_source">
             <settings>
@@ -47,7 +48,7 @@
         </dataProvider>
     </dataSource>
 
-    <fieldset name="rule">
+    <fieldset name="basic">
         <settings>
             <label translate="true">Rule Detail</label>
         </settings>
@@ -63,6 +64,31 @@
             </argument>
         </field>
 
+        <field name="status" sortOrder="10" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">block</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Enable</label>
+                <dataScope>is_active</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+
         <field name="label">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -74,14 +100,61 @@
                 </item>
             </argument>
         </field>
+    </fieldset>
+
+    <fieldset name="matching">
+        <settings>
+            <label translate="true">Match Patterns</label>
+        </settings>
 
         <field name="email_value">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string">Email value</item>
+                    <item name="label" xsi:type="string">Email Patterns</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">rule</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="ip_value">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">IP Patterns</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">rule</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+
+    <fieldset name="frontend">
+        <settings>
+            <label translate="true">Frontend Information</label>
+        </settings>
+        <field name="frontend_label">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Frontend Label</item>
                     <item name="visible" xsi:type="boolean">true</item>
                     <item name="dataType" xsi:type="string">text</item>
                     <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rule</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="frontend_text">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Frontend Text</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
                     <item name="source" xsi:type="string">rule</item>
                 </item>
             </argument>

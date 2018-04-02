@@ -41,12 +41,18 @@ class Save extends Action
      */
     private $redirectFactory;
 
+    /**
+     * Save constructor.
+     *
+     * @param Action\Context $context
+     * @param RedirectFactory $redirectFactory
+     * @param RuleRepositoryInterface $ruleRepository
+     */
     public function __construct(
         Action\Context $context,
         RedirectFactory $redirectFactory,
         RuleRepositoryInterface $ruleRepository
-    )
-    {
+    ) {
         parent::__construct($context);
         $this->ruleRepository = $ruleRepository;
         $this->redirectFactory = $redirectFactory;
@@ -57,11 +63,11 @@ class Save extends Action
      */
     public function execute(): ResultInterface
     {
-        $data = [];
-        $data['label'] = $this->_request->getParam('label');
+        $ruleId = (int)$this->_request->getParam('rule_id');
+        $rule = $this->getRuleFromRepository($ruleId);
 
-        $ruleId = (int) $this->_request->getParam('id');
-        $this->save($ruleId, $data);
+        $this->save($rule);
+        $this->messageManager->addSuccessMessage(__('Rule has been saved'));
 
         /** @var Page $resultPage */
         $redirect = $this->resultRedirectFactory->create();
@@ -71,14 +77,30 @@ class Save extends Action
     }
 
     /**
-     * @param int $ruleId
-     * @param $data
+     * @param RuleInterface $rule
+     *
      * @return bool
      */
-    private function save(int $ruleId, $data): bool
+    private function save(RuleInterface $rule): bool
     {
-        $rule = $this->getRuleFromRepository($ruleId);
-        $rule->setData($data);
+        $label = (string) $this->_request->getParam('label');
+        $rule->setLabel($label);
+
+        $emailValue = (string) $this->_request->getParam('email_value');
+        $rule->setEmailValue($emailValue);
+
+        $ipValue = (string) $this->_request->getParam('ip_value');
+        $rule->setIpValue($ipValue);
+
+        $status = (int) $this->_request->getParam('status');
+        $rule->setStatus($status);
+
+        $frontendLabel = (string) $this->_request->getParam('frontend_label');
+        $rule->setFrontendLabel($frontendLabel);
+
+        $frontendText = (string) $this->_request->getParam('frontend_text');
+        $rule->setFrontendText($frontendText);
+
         $this->ruleRepository->save($rule);
 
         return true;
@@ -86,9 +108,10 @@ class Save extends Action
 
     /**
      * @param int $ruleId
+     *
      * @return RuleInterface
      */
-    private function getRuleFromRepository(int $ruleId) : RuleInterface
+    private function getRuleFromRepository(int $ruleId): RuleInterface
     {
         if ($ruleId > 0) {
             return $this->ruleRepository->get($ruleId);

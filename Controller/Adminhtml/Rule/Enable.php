@@ -33,6 +33,8 @@ class Enable extends Massaction
             $this->enableByRuleId($ruleId);
         }
 
+        $this->messageManager->addSuccessMessage(__('%1 rules enabled', count($ruleIds)));
+
         /** @var Page $resultPage */
         $redirect = $this->resultRedirectFactory->create();
         $redirect->setPath('*/*/index');

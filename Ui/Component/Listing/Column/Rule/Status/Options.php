@@ -50,16 +50,15 @@ class Options implements OptionSourceInterface
         if ($this->options === null) {
             $this->options = [];
 
-            /** @var \Magento\Framework\Phrase $state */
-            /*
-             * @todo: reactivate
-            foreach ($this->ruleRepository->create()->getStates() as $id => $state) {
-                $this->options[] = [
-                    'value' => $id,
-                    'label' => $state->render()
-                ];
-            }
-            */
+            $this->options[] = [
+                'value' => 0,
+                'label' => __('Disabled')
+            ];
+
+            $this->options[] = [
+                'value' => 1,
+                'label' => __('Enabled')
+            ];
         }
 
         return $this->options;

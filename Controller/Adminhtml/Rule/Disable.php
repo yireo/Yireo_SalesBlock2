@@ -33,6 +33,8 @@ class Disable extends Massaction
             $this->disableByRuleId($ruleId);
         }
 
+        $this->messageManager->addSuccessMessage(__('%1 rules disabled', count($ruleIds)));
+
         /** @var Page $resultPage */
         $redirect = $this->resultRedirectFactory->create();
         $redirect->setPath('*/*/index');

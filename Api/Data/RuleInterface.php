@@ -70,5 +70,25 @@ interface RuleInterface extends ExtensibleDataInterface
      */
     public function getStatus() : int;
 
-    // @todo: Add other properties
+    /**
+     * @param string $frontendLabel
+     * @return mixed
+     */
+    public function setFrontendLabel(string $frontendLabel);
+
+    /**
+     * @return string
+     */
+    public function getFrontendLabel() : string;
+
+    /**
+     * @param string $frontendText
+     * @return mixed
+     */
+    public function setFrontendText(string $frontendText);
+
+    /**
+     * @return string
+     */
+    public function getFrontendText() : string;
 }

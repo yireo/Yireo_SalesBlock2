@@ -22,6 +22,16 @@ use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
 class Rule
 {
     /**
+     * @var string
+     */
+    private $ip = '';
+
+    /**
+     * @var string
+     */
+    private $customerEmail = '';
+
+    /**
      * @var Data
      */
     private $helper;
@@ -84,6 +94,14 @@ class Rule
     public function hasMatch(): bool
     {
         return (bool)$this->getMatchId();
+    }
+
+    /**
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return $this->ruleService->getRules();
     }
 
     /**
@@ -223,12 +241,17 @@ class Rule
      */
     private function getCustomerEmail()
     {
+        if ($this->customerEmail) {
+            return $this->customerEmail;
+        }
+
         // Load the customer-record
         $customer = $this->customerSession->getCustomer();
         if ($customer->getId() > 0) {
             $customerEmail = $customer->getEmail();
             if (!empty($customerEmail)) {
-                return $customerEmail;
+                $this->customerEmail = $customerEmail;
+                return $this->customerEmail;
             }
         }
 
@@ -236,7 +259,8 @@ class Rule
         $quote = $this->cart->getQuote();
         $customerEmail = $quote->getCustomerEmail();
         if (!empty($customerEmail)) {
-            return $customerEmail;
+            $this->customerEmail = $customerEmail;
+            return $this->customerEmail;
         }
 
         // Check for AW Onestepcheckout form values
@@ -245,7 +269,8 @@ class Rule
             $customerEmail = $data['billing']['email'];
         }
 
-        return $customerEmail;
+        $this->customerEmail = $customerEmail;
+        return $this->customerEmail;
     }
 
     /**
@@ -255,13 +280,35 @@ class Rule
      */
     public function getIp()
     {
+        if (!empty($this->ip)) {
+            return $this->ip;
+        }
+
         $ip = $_SERVER['REMOTE_ADDR'];
 
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
 
-        return $ip;
+        $this->ip = $ip;
+
+        return $this->ip;
+    }
+
+    /**
+     * @param $ip
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+    }
+
+    /**
+     * @param $customerEmail
+     */
+    public function setCustomerEmail($customerEmail)
+    {
+        $this->customerEmail = $customerEmail;
     }
 
     /**

@@ -9,11 +9,14 @@
  */
 
 declare(strict_types = 1);
+
 namespace Yireo\SalesBlock2\Console\Command;
 
+use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface as Input;
 use Symfony\Component\Console\Output\OutputInterface as Output;
+use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 
 /**
  * Class RulesCommand
@@ -23,25 +26,25 @@ use Symfony\Component\Console\Output\OutputInterface as Output;
 class RulesCommand extends Command
 {
     /**
-     * @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface
+     * @var RuleRepositoryInterface
      */
     private $ruleRepository;
 
     /**
-     * @var \Magento\Framework\Api\Search\SearchCriteriaBuilder
+     * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
 
     /**
      * RulesCommand constructor.
      *
-     * @param \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository
-     * @param \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param RuleRepositoryInterface $ruleRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param string $name
      */
     public function __construct(
-        \Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository,
-        \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
+        RuleRepositoryInterface $ruleRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
         $name = null
     ) {
         $this->ruleRepository = $ruleRepository;

@@ -12,6 +12,11 @@ declare(strict_types = 1);
 
 namespace Yireo\SalesBlock2\Helper;
 
+use Magento\Checkout\Model\Cart;
+use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Customer\Model\Session;
+use Magento\Framework\Event\ManagerInterface;
+use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
 
 /**
@@ -42,22 +47,22 @@ class Rule
     private $ruleService;
 
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var CheckoutSession
      */
     private $checkoutSession;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
     private $customerSession;
 
     /**
-     * @var \Magento\Checkout\Model\Cart
+     * @var Cart
      */
     private $cart;
 
     /**
-     * @var \Magento\Framework\Event\ManagerInterface
+     * @var ManagerInterface
      */
     private $eventManager;
 
@@ -66,17 +71,18 @@ class Rule
      *
      * @param Data $moduleHelper
      * @param RuleService $ruleService
-     * @param \Magento\Customer\Model\Session\Proxy $customerSession
-     * @param \Magento\Checkout\Model\Session\Proxy $checkoutSession
-     * @param \Magento\Checkout\Model\Cart $cart
+     * @param Session $customerSession
+     * @param CheckoutSession $checkoutSession
+     * @param Cart $cart
+     * @param ManagerInterface $eventManager
      */
     public function __construct(
         Data $moduleHelper,
         RuleService $ruleService,
-        \Magento\Customer\Model\Session\Proxy $customerSession,
-        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
-        \Magento\Checkout\Model\Cart $cart,
-        \Magento\Framework\Event\ManagerInterface $eventManager
+        Session $customerSession,
+        CheckoutSession $checkoutSession,
+        Cart $cart,
+        ManagerInterface $eventManager
     ) {
         $this->helper = $moduleHelper;
         $this->ruleService = $ruleService;
@@ -91,7 +97,7 @@ class Rule
      *
      * @return bool
      */
-    public function hasMatch(): bool
+    public function hasMatch()
     {
         return (bool)$this->getMatchId();
     }
@@ -99,7 +105,7 @@ class Rule
     /**
      * @return array
      */
-    public function getRules(): array
+    public function getRules()
     {
         return $this->ruleService->getRules();
     }
@@ -109,7 +115,7 @@ class Rule
      *
      * @return int
      */
-    public function getMatchId(): int
+    public function getMatchId()
     {
         // Check whether the module is disabled
         if ($this->helper->enabled() === false) {
@@ -146,9 +152,9 @@ class Rule
      *
      * @return int
      */
-    private function getMatchIdFromRule($rule, $ip, $customerEmail) : int
+    private function getMatchIdFromRule($rule, $ip, $customerEmail)
     {
-        /** @var \Yireo\SalesBlock2\Api\Data\RuleInterface $rule */
+        /** @var RuleInterface $rule */
         $ruleIpValues = $this->helper->stringToArray($rule->getIpValue());
 
         // Direct IP matches
@@ -314,11 +320,11 @@ class Rule
     /**
      * Method to execute when a visitor is actually matched
      *
-     * @param \Yireo\SalesBlock2\Api\Data\RuleInterface $rule
+     * @param RuleInterface $rule
      * @param string $ip
      * @param string $email
      */
-    public function afterMatch(\Yireo\SalesBlock2\Api\Data\RuleInterface $rule, string $ip, string $email)
+    public function afterMatch(RuleInterface $rule, string $ip, string $email)
     {
         $eventArguments = ['rule' => $rule, 'ip' => $ip, 'email' => $email];
         $this->eventManager->dispatch('salesblock_rule_match_after', $eventArguments);

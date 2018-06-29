@@ -57,8 +57,6 @@ class Index extends Action
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->setActiveMenu('Yireo_SalesBlock2::rules');
-        $resultPage->addBreadcrumb(__('SalesBlock Rules'), __('SalesBlock Rules'));
         $resultPage->getConfig()->getTitle()->prepend(__('SalesBlock Rules'));
 
         return $resultPage;

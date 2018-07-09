@@ -158,7 +158,7 @@ class Rule
         $ruleIpValues = $this->helper->stringToArray($rule->getIpValue());
 
         // Direct IP matches
-        if (in_array($ip, $ruleIpValues)) {
+        if (in_array($ip, $ruleIpValues, true)) {
             $this->afterMatch($rule, $ip, $customerEmail);
             return $rule->getId();
         }

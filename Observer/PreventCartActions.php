@@ -131,7 +131,7 @@ class PreventCartActions implements ObserverInterface
         }
 
         $action = $this->request->getActionName();
-        if (!in_array($action, array('saveFormValues', 'placeOrder'))) {
+        if (!in_array($action, array('saveFormValues', 'placeOrder'), true)) {
             return false;
         }
 
@@ -166,13 +166,13 @@ class PreventCartActions implements ObserverInterface
         $excludeActions = array('saveAddress');
 
         $match = false;
-        if (in_array($controller, $includeControllers)) {
+        if (in_array($controller, $includeControllers, true)) {
             $match = true;
-        } elseif (in_array($module, $includeModules)) {
+        } elseif (in_array($module, $includeModules, true)) {
             $match = true;
         }
 
-        if (in_array($action, $excludeActions)) {
+        if (in_array($action, $excludeActions, true)) {
             $match = false;
         }
 

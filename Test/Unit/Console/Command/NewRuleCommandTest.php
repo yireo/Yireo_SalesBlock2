@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Yireo\SalesBlock2\Test\Unit\Console\Command;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
@@ -24,7 +25,7 @@ use Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
  *
  * @package Yireo\SalesBlock2\Test\Unit\Console\Command
  */
-class NewRuleCommandTest extends PHPUnit_Framework_TestCase
+class NewRuleCommandTest extends TestCase
 {
     /**
      * Import traits

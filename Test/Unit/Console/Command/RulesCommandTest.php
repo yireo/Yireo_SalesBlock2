@@ -12,8 +12,10 @@ declare(strict_types = 1);
 
 namespace Yireo\SalesBlock2\Test\Unit\Console\Command;
 
+use Magento\Framework\Api\Search\SearchCriteria;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
-use PHPUnit_Framework_TestCase;
+use Magento\TestFramework\ObjectManager;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Yireo\SalesBlock2\Console\Command\RulesCommand;
 use Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
@@ -23,7 +25,7 @@ use Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
  *
  * @package Yireo\SalesBlock2\Test\Unit\Console\Command
  */
-class RulesCommandTest extends PHPUnit_Framework_TestCase
+class RulesCommandTest extends TestCase
 {
     /**
      * Import traits
@@ -76,8 +78,24 @@ class RulesCommandTest extends PHPUnit_Framework_TestCase
         /** @var SearchCriteriaBuilder $searchCriteriaBuilder */
         $searchCriteriaBuilder = $this->getMockBuilder(SearchCriteriaBuilder::class)
             ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+            ->getMock();
+
+        $searchCriteriaBuilder->method('create')
+            ->willReturn($this->getSearchCriteriaMock());
 
         return $searchCriteriaBuilder;
+    }
+
+    /**
+     * @return SearchCriteria
+     */
+    private function getSearchCriteriaMock()
+    {
+        /** @var SearchCriteria $searchCriteria */
+        $searchCriteria = $this->getMockBuilder(SearchCriteria::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        return $searchCriteria;
     }
 }

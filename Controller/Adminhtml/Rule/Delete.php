@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
 use Magento\Backend\Model\View\Result\Page;
-use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultInterface;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 

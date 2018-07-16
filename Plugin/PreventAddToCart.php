@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Plugin;
 
 use Magento\Catalog\Model\Product;

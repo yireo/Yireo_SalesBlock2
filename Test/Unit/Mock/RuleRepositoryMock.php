@@ -42,6 +42,11 @@ trait RuleRepositoryMock
             );
 
         $ruleRepository->expects($this->any())
+            ->method('getList')
+            ->will($this->returnValue($this->getRuleCollectionMock())
+            );
+
+        $ruleRepository->expects($this->any())
             ->method('save')
             ->will($this->returnValue(true)
             );
@@ -59,5 +64,18 @@ trait RuleRepositoryMock
             ->getMockForAbstractClass();
 
         return $rule;
+    }
+
+    /**
+     * @return RuleInterface[]
+     */
+    protected function getRuleCollectionMock()
+    {
+        /** @var RuleInterface[] $rules */
+        $rules = [];
+        $rule[] = $this->getRuleMock();
+        $rule[] = $this->getRuleMock();
+
+        return $rules;
     }
 }

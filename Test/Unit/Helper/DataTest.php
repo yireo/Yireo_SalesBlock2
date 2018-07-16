@@ -15,6 +15,7 @@ namespace Yireo\SalesBlock2\Test\Unit\Helper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Request\Http;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 use \Yireo\SalesBlock2\Helper\Data as Target;
@@ -24,7 +25,7 @@ use \Yireo\SalesBlock2\Helper\Data as Target;
  *
  * @package Yireo\SalesBlock2\Test\Unit\Helper
  */
-class DataTest extends PHPUnit_Framework_TestCase
+class DataTest extends TestCase
 {
 	/**
 	 * @var array

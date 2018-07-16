@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Yireo\SalesBlock2\Test\Unit\Console\Command;
 
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Yireo\SalesBlock2\Console\Command\RulesCommand;
@@ -23,7 +24,7 @@ use Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;
  *
  * @package Yireo\SalesBlock2\Test\Unit\Console\Command
  */
-class RulesCommandTest extends PHPUnit_Framework_TestCase
+class RulesCommandTest extends TestCase
 {
     /**
      * Import traits

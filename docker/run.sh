@@ -16,18 +16,18 @@ cp $sourcedir/docker/files/install-config-mysql.php $webdir/dev/tests/integratio
 cp $sourcedir/docker/files/phpunit.xml $webdir/dev/tests/integration
 
 # Setup this extension
-echo "Installing this extension"
+echo "Linking this extension code"
 mkdir -p $webdir/app/code/Yireo
 ln -s /module_source $webdir/app/code/Yireo/SalesBlock2
 
 # Use the module
-echo "Enabling this extension"
-cd $webdir
-bin/magento module:enable ${module}
-bin/magento setup:upgrade
+#echo "Enabling this extension"
+#cd $webdir
+#bin/magento module:enable ${module}
+#bin/magento setup:upgrade
 
 # Run tests
 echo "Run integration tests"
 cd $webdir
-bin/magento dev:tests:run integration
+php -d memory_limit=2G bin/magento dev:tests:run -n -- integration
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 docker run \
-    -it \
+    --rm \
     --net=magento \
     --ip=172.20.0.101 \
     -v ~/.composer/auth.json:/root/.composer/auth.json \

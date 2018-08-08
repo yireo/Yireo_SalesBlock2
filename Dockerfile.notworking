@@ -1,0 +1,10 @@
+FROM yireo/magento2devbox
+
+LABEL maintainer="jisse@yireo.com"
+LABEL version="0.0.1"
+LABEL description="Magento 2 Development Box"
+
+ADD . /module_source
+
+WORKDIR /module_source
+RUN /module_source/docker/run.sh

@@ -1,0 +1,2 @@
+- Setup local Magento Marketplace mirror
+- Reuse composer cache in Docker image

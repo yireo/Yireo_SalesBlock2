@@ -33,8 +33,7 @@ class Delete extends Massaction
             $this->disableByRuleId($ruleId);
         }
 
-        $msg = __('%1 rules deleted', count($ruleIds));
-        $this->messageManager->addSuccessMessage($msg);
+        $this->messageManager->addSuccessMessage(__('%1 rules deleted', count($ruleIds)));
 
         /** @var Page $resultPage */
         $redirect = $this->resultRedirectFactory->create();

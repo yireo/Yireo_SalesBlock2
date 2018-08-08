@@ -25,43 +25,7 @@ class GridTest extends AbstractBackendController
     {
         parent::setUp();
         $this->resource = 'Yireo_SalesBlock2::rules';
-        $this->uri = 'backend/salesblock/rule/index';
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     */
-    public function testRouteIsConfigured()
-    {
-        $routeConfig = Bootstrap::getObjectManager()->create(RouteConfigInterface::class);
-        $this->assertContains('Yireo_SalesBlock2', $routeConfig->getModulesByFrontName('salesblock'));
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     */
-    public function testActionControllerIsFound()
-    {
-        $request = Bootstrap::getObjectManager()->create(Request::class);
-        $request->setModuleName('salesblock');
-        $request->setControllerName('rule');
-        $request->setActionName('index');
-        /** @var Router $baseRouter */
-        $baseRouter = Bootstrap::getObjectManager()->create(Router::class);
-        $expectedAction = Index::class;
-        $this->assertInstanceOf($expectedAction, $baseRouter->match($request));
-    }
-
-    /**
-     *
-     */
-    public function testReturnsResultInstance()
-    {
-        $context = Bootstrap::getObjectManager()->create(ActionContext::class);
-        $resultPageFactory = new PageFactory(Bootstrap::getObjectManager());
-        $controller = new Index($context, $resultPageFactory);
-        $result = $controller->execute();
-        $this->assertInstanceOf(ResultPage::class, $result);
+        $this->uri = 'backend/salesblock/rule';
     }
 
     /**
@@ -72,27 +36,22 @@ class GridTest extends AbstractBackendController
     public function testValidBodyContent()
     {
         /** @var \Magento\Framework\App\Request\Http $request */
-        $request = $this->getRequest();
-        $request->setMethod(Request::METHOD_GET);
+        //$request = $this->getRequest();
+        //$request->setMethod(Request::METHOD_GET);
         $this->dispatch($this->uri);
 
         /** @var \Magento\Framework\App\Response\Http $response */
         $response = $this->getResponse();
+
+        if ($response->getHttpResponseCode() !== 200) {
+            $msg = 'Unexpected HTTP Status code: ' . $response->getHttpResponseCode();
+            $this->fail('Unexpected HTTP Status code: ' . $msg);
+            return;
+        }
+
         $body = $response->getBody();
         $this->assertNotEmpty($body);
         $this->assertRegExp('#<body [^>]+>#s', $body);
         $this->assertContains('Dashboard', $body);
-    }
-
-    public function testAclNoAccess()
-    {
-        if ($this->resource === null) {
-            $this->markTestIncomplete('Acl test is not complete');
-        }
-        $this->_objectManager->get(\Magento\Framework\Acl\Builder::class)
-            ->getAcl()
-            ->deny(null, $this->resource);
-        $this->dispatch($this->uri);
-        $this->assertSame(200, $this->getResponse()->getHttpResponseCode());
     }
 }

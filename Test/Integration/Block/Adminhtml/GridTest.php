@@ -25,7 +25,7 @@ class GridTest extends AbstractBackendController
     {
         parent::setUp();
         $this->resource = 'Yireo_SalesBlock2::rules';
-        $this->uri = 'backend/salesblock/rule';
+        $this->uri = 'backend/salesblock/rule/index';
     }
 
     /**
@@ -35,6 +35,8 @@ class GridTest extends AbstractBackendController
      */
     public function testValidBodyContent()
     {
+        $this->assertTrue($this->_auth->isLoggedIn());
+
         /** @var \Magento\Framework\App\Request\Http $request */
         //$request = $this->getRequest();
         //$request->setMethod(Request::METHOD_GET);

@@ -29,38 +29,61 @@ class GridTest extends AbstractBackendController
     }
 
     /**
+     * @magentoAppArea adminhtml
+     */
+    public function testRouteIsConfigured()
+    {
+        $routeConfig = Bootstrap::getObjectManager()->create(RouteConfigInterface::class);
+        $this->assertContains('Yireo_SalesBlock2', $routeConfig->getModulesByFrontName('salesblock'));
+    }
+
+    /**
+     * @magentoAppArea adminhtml
+     */
+    public function testActionControllerIsFound()
+    {
+        $request = Bootstrap::getObjectManager()->create(Request::class);
+        $request->setModuleName('salesblock');
+        $request->setControllerName('rule');
+        $request->setActionName('index');
+        /** @var Router $baseRouter */
+        $baseRouter = Bootstrap::getObjectManager()->create(Router::class);
+        $expectedAction = Index::class;
+        $this->assertInstanceOf($expectedAction, $baseRouter->match($request));
+    }
+
+    /**
+     *
+     */
+    public function testReturnsResultInstance()
+    {
+        $context = Bootstrap::getObjectManager()->create(ActionContext::class);
+        $resultPageFactory = new PageFactory(Bootstrap::getObjectManager());
+        $controller = new Index($context, $resultPageFactory);
+        $result = $controller->execute();
+        $this->assertInstanceOf(ResultPage::class, $result);
+    }
+
+    /**
      * Test whether the page contains valid body content
      *
      * @magentoAppArea adminhtml
      */
     public function testValidBodyContent()
     {
-        $this->assertTrue($this->_auth->isLoggedIn());
-
         /** @var \Magento\Framework\App\Request\Http $request */
-        //$request = $this->getRequest();
-        //$request->setMethod(Request::METHOD_GET);
+        $request = $this->getRequest();
+        $request->setMethod(Request::METHOD_GET);
         $this->dispatch($this->uri);
 
         /** @var \Magento\Framework\App\Response\Http $response */
         $response = $this->getResponse();
-
-        if ($response->getHttpResponseCode() !== 200) {
-            $msg = 'Unexpected HTTP Status code: ' . $response->getHttpResponseCode();
-            $this->fail('Unexpected HTTP Status code: ' . $msg);
-            return;
-        }
-
         $body = $response->getBody();
-        $this->assertNotEmpty($body);
+        $this->assertNotEmpty($body, 'HTTP headers: '.var_export($response->getHeaders(), true));
         $this->assertRegExp('#<body [^>]+>#s', $body);
         $this->assertContains('Dashboard', $body);
     }
-<<<<<<< HEAD
 
-    /**
-     * Override of existing core method, because it is not 403 but 302
-     */
     public function testAclNoAccess()
     {
         if ($this->resource === null) {
@@ -70,8 +93,9 @@ class GridTest extends AbstractBackendController
             ->getAcl()
             ->deny(null, $this->resource);
         $this->dispatch($this->uri);
-        $this->assertSame(302, $this->getResponse()->getHttpResponseCode());
+
+        /** @var \Magento\Framework\App\Response\Http $response */
+        $response = $this->getResponse();
+        $this->assertSame(302, $response->getHttpResponseCode());
     }
-=======
->>>>>>> 7cf49b37c4323e694b381e52307c13c51b2b20ed
 }

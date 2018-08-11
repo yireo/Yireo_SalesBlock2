@@ -6,11 +6,9 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <!--
                 <item name="salesblock2_rules" xsi:type="object">Yireo\SalesBlock2\Console\Command\RulesCommand</item>
                 <item name="salesblock2_rule_new" xsi:type="object">Yireo\SalesBlock2\Console\Command\NewRuleCommand</item>
                 <item name="salesblock2_rule_delete" xsi:type="object">Yireo\SalesBlock2\Console\Command\DeleteRuleCommand</item>
-                                -->
                 <item name="salesblock2_rule_test" xsi:type="object">Yireo\SalesBlock2\Console\Command\TestRulesCommand</item>
             </argument>
         </arguments>

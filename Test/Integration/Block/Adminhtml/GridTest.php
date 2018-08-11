@@ -1,5 +1,5 @@
 <?php
-//declare(strict_types=1);
+declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Test\Integration\Block\Adminhtml;
 
@@ -40,22 +40,5 @@ class GridTest extends AbstractBackendController
         $this->assertNotEmpty($body);
         $this->assertRegExp('#<body [^>]+>#s', $body);
         $this->assertContains('Dashboard', $body);
-    }
-
-    /**
-     * Override of core method, because actually gives 302
-     */
-    public function testAclNoAccess()
-    {
-        if ($this->resource === null) {
-            $this->markTestIncomplete('Acl test is not complete');
-        }
-        $this->_objectManager->get(\Magento\Framework\Acl\Builder::class)
-            ->getAcl()
-            ->deny(null, $this->resource);
-        $this->dispatch($this->uri);
-
-        $response = $this->getResponse();
-        $this->assertSame(302, $response->getHttpResponseCode());
     }
 }

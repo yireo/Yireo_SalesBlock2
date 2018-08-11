@@ -1,17 +1,10 @@
 <?php
-declare(strict_types=1);
+//declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Test\Integration\Block\Adminhtml;
 
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestFramework\TestCase\AbstractBackendController;
 use Magento\TestFramework\Request;
-use Magento\Framework\View\Result\PageFactory;
-use Magento\Backend\App\Router;
-use Magento\Backend\App\Action\Context as ActionContext;
-use Magento\Framework\View\Result\Page\Interceptor as ResultPage;
-use Magento\Framework\App\Route\ConfigInterface as RouteConfigInterface;
-use Yireo\SalesBlock2\Controller\Adminhtml\Rule\Index;
+use Magento\TestFramework\TestCase\AbstractBackendController;
 
 /**
  *
@@ -29,57 +22,22 @@ class GridTest extends AbstractBackendController
     }
 
     /**
-     * @magentoAppArea adminhtml
-     */
-    public function testRouteIsConfigured()
-    {
-        $routeConfig = Bootstrap::getObjectManager()->create(RouteConfigInterface::class);
-        $this->assertContains('Yireo_SalesBlock2', $routeConfig->getModulesByFrontName('salesblock'));
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     */
-    public function testActionControllerIsFound()
-    {
-        $request = Bootstrap::getObjectManager()->create(Request::class);
-        $request->setModuleName('salesblock');
-        $request->setControllerName('rule');
-        $request->setActionName('index');
-        /** @var Router $baseRouter */
-        $baseRouter = Bootstrap::getObjectManager()->create(Router::class);
-        $expectedAction = Index::class;
-        $this->assertInstanceOf($expectedAction, $baseRouter->match($request));
-    }
-
-    /**
-     *
-     */
-    public function testReturnsResultInstance()
-    {
-        $context = Bootstrap::getObjectManager()->create(ActionContext::class);
-        $resultPageFactory = new PageFactory(Bootstrap::getObjectManager());
-        $controller = new Index($context, $resultPageFactory);
-        $result = $controller->execute();
-        $this->assertInstanceOf(ResultPage::class, $result);
-    }
-
-    /**
      * Test whether the page contains valid body content
-     *
-     * @magentoAppArea adminhtml
      */
     public function testValidBodyContent()
     {
-        /** @var \Magento\Framework\App\Request\Http $request */
-        $request = $this->getRequest();
-        $request->setMethod(Request::METHOD_GET);
+        $this->assertNotEmpty($this->_auth);
+        $this->assertTrue($this->_session->isLoggedIn());
+        $this->assertInstanceOf(\Magento\Backend\Model\Auth::class, $this->_auth);
+
         $this->dispatch($this->uri);
 
         /** @var \Magento\Framework\App\Response\Http $response */
         $response = $this->getResponse();
+        $this->assertSame(200, $response->getHttpResponseCode());
+
         $body = $response->getBody();
-        $this->assertNotEmpty($body, 'HTTP headers: '.var_export($response->getHeaders(), true));
+        $this->assertNotEmpty($body);
         $this->assertRegExp('#<body [^>]+>#s', $body);
         $this->assertContains('Dashboard', $body);
     }
@@ -97,7 +55,6 @@ class GridTest extends AbstractBackendController
             ->deny(null, $this->resource);
         $this->dispatch($this->uri);
 
-        /** @var \Magento\Framework\App\Response\Http $response */
         $response = $this->getResponse();
         $this->assertSame(302, $response->getHttpResponseCode());
     }

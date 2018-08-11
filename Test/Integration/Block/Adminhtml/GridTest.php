@@ -84,6 +84,9 @@ class GridTest extends AbstractBackendController
         $this->assertContains('Dashboard', $body);
     }
 
+    /**
+     * Override of existing core method, because it is not 403 but 302
+     */
     public function testAclNoAccess()
     {
         if ($this->resource === null) {
@@ -93,6 +96,6 @@ class GridTest extends AbstractBackendController
             ->getAcl()
             ->deny(null, $this->resource);
         $this->dispatch($this->uri);
-        $this->assertSame(200, $this->getResponse()->getHttpResponseCode());
+        $this->assertSame(302, $this->getResponse()->getHttpResponseCode());
     }
 }

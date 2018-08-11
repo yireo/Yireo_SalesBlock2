@@ -13,7 +13,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Yireo_SalesBlock2::sales_advanced" title="Advanced" translate="title" module="Yireo_SalesBlock2" sortOrder="10" parent="Magento_Sales::sales" resource="Yireo_SalesBlock2::sales_advanced" />
-        <add id="Yireo_SalesBlock2::rules" title="Sales Block Rules" translate="title" module="Yireo_SalesBlock2" parent="Yireo_SalesBlock2::sales_advanced" sortOrder="10" resource="Yireo_SalesBlock2::rules" action="salesblock/rule/index"/>
+        <add id="Yireo_SalesBlock2::overview" title="Advanced" translate="title" module="Yireo_SalesBlock2" sortOrder="10" parent="Magento_Sales::sales" resource="Yireo_SalesBlock2::overview" />
+        <add id="Yireo_SalesBlock2::rules" title="Sales Block Rules" translate="title" module="Yireo_SalesBlock2" parent="Magento_Sales::sales" sortOrder="10" resource="Yireo_SalesBlock2::rules" action="salesblock/rule/index"/>
     </menu>
 </config>

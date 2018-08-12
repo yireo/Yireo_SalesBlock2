@@ -26,15 +26,26 @@ class GridTest extends AbstractBackendController
      */
     public function testValidBodyContent()
     {
-        $this->assertNotEmpty($this->_auth);
-        $this->assertTrue($this->_session->isLoggedIn());
         $this->assertInstanceOf(\Magento\Backend\Model\Auth::class, $this->_auth);
+        $this->assertTrue($this->_session->isLoggedIn());
+        $this->assertTrue($this->_session->isAllowed($this->resource));
 
         $this->dispatch($this->uri);
+        $this->assertTrue($this->_session->isLoggedIn(), 'Session is no longer valid');
 
         /** @var \Magento\Framework\App\Response\Http $response */
         $response = $this->getResponse();
-        $this->assertSame(200, $response->getHttpResponseCode());
+        $headers = $response->getHeaders();
+        $msg = '';
+        foreach ($headers as $header) {
+            if (!$header instanceof \Zend\Http\Header\Location) {
+                continue;
+            }
+
+            $msg = 'Redirect to: '.$header->getUri();
+        }
+
+        $this->assertSame(200, $response->getHttpResponseCode(), $msg);
 
         $body = $response->getBody();
         $this->assertNotEmpty($body);

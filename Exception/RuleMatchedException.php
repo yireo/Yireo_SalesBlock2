@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Exception;
 
-use Exception;
+use Magento\Framework\Exception\LocalizedException;
 
-class RuleMatchedException extends Exception
+class RuleMatchedException extends LocalizedException
 {
 }

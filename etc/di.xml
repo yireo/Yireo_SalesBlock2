@@ -3,6 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Yireo\SalesBlock2\Api\RuleRepositoryInterface" type="Yireo\SalesBlock2\Model\Rule\Repository"/>
     <preference for="Yireo\SalesBlock2\Api\Data\RuleInterface" type="Yireo\SalesBlock2\Model\Rule"/>
+
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">

@@ -3,17 +3,19 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Plugin;
 
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Type\AbstractType;
 use Magento\Framework\Message\ManagerInterface;
-use Magento\Checkout\Model\Cart;
+use Magento\Quote\Api\Data\CartInterface;
 use Yireo\SalesBlock2\Exception\RuleMatchedException;
 use Yireo\SalesBlock2\Exception\RuleMatchedExceptionFactory;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
 
 /**
- * Plugin PreventAddToCart
+ * Plugin PreventAddToQuote
  * @package Yireo\SalesBlock2\Plugin
  */
-class PreventAddToCart
+class PreventAddToQuote
 {
     /**
      * @var RuleHelper
@@ -47,14 +49,21 @@ class PreventAddToCart
     }
 
     /**
-     * @param Cart $subject
+     * @param CartInterface $subject
+     * @param Product $product
+     * @param null $request
+     * @param string $processMode
+     * @return array
      * @throws RuleMatchedException
      */
-    public function beforeSave(
-        Cart $subject
+    public function beforeAddProduct(
+        CartInterface $subject,
+        Product $product,
+        $request = null,
+        $processMode = AbstractType::PROCESS_MODE_FULL
     ) {
         if (!$this->hasMatch()) {
-            return [];
+            return [$product, $request, $processMode];
         }
 
         $this->giveException();

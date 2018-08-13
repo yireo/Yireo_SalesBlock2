@@ -248,7 +248,7 @@ class Rule
     private function getCustomerEmail()
     {
         if ($this->customerEmail) {
-            return $this->customerEmail;
+            return (string) $this->customerEmail;
         }
 
         // Load the customer-record
@@ -256,7 +256,7 @@ class Rule
         if ($customer->getId() > 0) {
             $customerEmail = $customer->getEmail();
             if (!empty($customerEmail)) {
-                $this->customerEmail = $customerEmail;
+                $this->customerEmail = (string) $customerEmail;
                 return $this->customerEmail;
             }
         }
@@ -265,7 +265,7 @@ class Rule
         $quote = $this->cart->getQuote();
         $customerEmail = $quote->getCustomerEmail();
         if (!empty($customerEmail)) {
-            $this->customerEmail = $customerEmail;
+            $this->customerEmail = (string) $customerEmail;
             return $this->customerEmail;
         }
 
@@ -275,7 +275,7 @@ class Rule
             $customerEmail = $data['billing']['email'];
         }
 
-        $this->customerEmail = $customerEmail;
+        $this->customerEmail = (string) $customerEmail;
         return $this->customerEmail;
     }
 

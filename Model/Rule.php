@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Model;
 
-use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Magento\Framework\Model\AbstractModel;
+use Yireo\SalesBlock2\Api\Data\RuleInterface;
+use Yireo\SalesBlock2\Model\ResourceModel\Rule as RuleResourceModel;
 
 /**
  * Class Rule
@@ -27,7 +28,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     protected function _construct()
     {
-        $this->_init('Yireo\SalesBlock2\Model\ResourceModel\Rule');
+        $this->_init(RuleResourceModel::class);
     }
 
     /**
@@ -45,7 +46,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function getLabel(): string
     {
-        return $this->getData('label');
+        return (string) $this->getData('label');
     }
 
     /**
@@ -64,7 +65,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function getEmailValue(): string
     {
-        return $this->getData('email_value');
+        return (string) $this->getData('email_value');
     }
 
     /**
@@ -83,7 +84,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function getIpValue(): string
     {
-        return $this->getData('ip_value');
+        return (string) $this->getData('ip_value');
     }
 
     /**
@@ -101,7 +102,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function getStatus(): int
     {
-        return $this->getData('status');
+        return (int) $this->getData('status');
     }
 
     /**
@@ -119,7 +120,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function getFrontendLabel(): string
     {
-        return $this->getData('frontend_label');
+        return (string) $this->getData('frontend_label');
     }
 
     /**
@@ -137,7 +138,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function getFrontendText(): string
     {
-        return $this->getData('frontend_text');
+        return (string) $this->getData('frontend_text');
     }
 
     /**

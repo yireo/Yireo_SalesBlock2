@@ -8,7 +8,8 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Helper;
 
 use Magento\Framework\App\Helper\Context;
@@ -20,78 +21,76 @@ use Yireo\SalesBlock2\Exception\CmsPageException;
  * Class Data
  *
  * @package Yireo\SalesBlock2\Helper
+ * @todo: Remove this helper
  */
 class Data extends AbstractHelper
 {
-	/**
-	 * @var \Magento\Cms\Helper\Page
-	 */
-	private $cmsPageHelper;
+    /**
+     * @var \Magento\Cms\Helper\Page
+     */
+    private $cmsPageHelper;
 
-	/**
-	 * Data constructor.
-	 *
-	 * @param CmsPageHelper $cmsPageHelper
-	 * @param Context       $context
-	 */
-	public function __construct(
-		CmsPageHelper $cmsPageHelper,
-		Context $context
-	)
-	{
-		$this->cmsPageHelper = $cmsPageHelper;
+    /**
+     * Data constructor.
+     *
+     * @param CmsPageHelper $cmsPageHelper
+     * @param Context $context
+     */
+    public function __construct(
+        CmsPageHelper $cmsPageHelper,
+        Context $context
+    ) {
+        $this->cmsPageHelper = $cmsPageHelper;
 
-		parent::__construct($context);
-	}
+        parent::__construct($context);
+    }
 
-	/**
-	 * Helper-method to check if this module is enabled
-	 *
-	 * @return bool
-	 */
-	public function enabled() : bool
-	{
-		return (bool)$this->scopeConfig->getValue('salesblock/settings/enabled');
-	}
+    /**
+     * Helper-method to check if this module is enabled
+     *
+     * @return bool
+     */
+    public function enabled(): bool
+    {
+        return (bool)$this->scopeConfig->getValue('salesblock/settings/enabled');
+    }
 
-	/**
-	 * Determine the right URL for the custom deny page
-	 *
-	 * @return string
-	 * @throws CmsPageException
-	 */
-	public function getUrl() : string
-	{
-		$useCustomPage = (bool) $this->scopeConfig->getValue('salesblock/settings/use_custom_page');
+    /**
+     * Determine the right URL for the custom deny page
+     *
+     * @return string
+     * @throws CmsPageException
+     */
+    public function getUrl(): string
+    {
+        $useCustomPage = (bool)$this->scopeConfig->getValue('salesblock/settings/use_custom_page');
 
-		$cmsPageId = $this->scopeConfig->getValue('salesblock/settings/cmspage');
-		$cmsPageUrl = $this->cmsPageHelper->getPageUrl($cmsPageId);
+        $cmsPageId = $this->scopeConfig->getValue('salesblock/settings/cmspage');
+        $cmsPageUrl = $this->cmsPageHelper->getPageUrl($cmsPageId);
 
-		if ($useCustomPage && empty($cmsPageUrl))
-		{
-			throw new CmsPageException('Unknown CMS URL');
-		}
+        if ($useCustomPage && empty($cmsPageUrl)) {
+            throw new CmsPageException('Unknown CMS URL');
+        }
 
-		return $cmsPageUrl;
-	}
+        return $cmsPageUrl;
+    }
 
 
-	/**
-	 * Determine whether the current request is AJAX
-	 *
-	 * @return bool
-	 */
-	public function isAjax() : bool
-	{
-		/** @var \Magento\Framework\App\RequestInterface $request */
-		$request = $this->_request;
-		if ($request->isAjax())
-		{
-			return true;
-		}
+    /**
+     * Determine whether the current request is AJAX
+     *
+     * @return bool
+     */
+    public function isAjax(): bool
+    {
+        /** @var \Magento\Framework\App\RequestInterface $request */
+        $request = $this->_request;
+        if ($request->isAjax()) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     /**
      * Convert a string into an array
@@ -100,9 +99,9 @@ class Data extends AbstractHelper
      *
      * @return array
      */
-    public function stringToArray(string $string) : array
+    public function stringToArray(string $string): array
     {
-        $data = preg_split( "/(\n|,|;|\|)/", $string);
+        $data = preg_split("/(\n|,|;|\|)/", $string);
         $newData = array();
 
         foreach ($data as $value) {

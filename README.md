@@ -1,1 +1,1 @@
-@todo: Implement System Configuration options
+# Yireo SalesBlock2 for Magento 2

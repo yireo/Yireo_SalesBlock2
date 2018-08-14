@@ -1,2 +1,3 @@
-module=Yireo_SalesBlock2
+vendor_name=Yireo
+module_name=SalesBlock2
 composer_name=magento2-salesblock2

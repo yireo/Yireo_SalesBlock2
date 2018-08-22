@@ -16,7 +16,6 @@ use Magento\Framework\Api\Search\SearchCriteria;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use PHPUnit\Framework\TestCase;
 use Magento\TestFramework\ObjectManager;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Yireo\SalesBlock2\Console\Command\RulesCommand;
 use Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;

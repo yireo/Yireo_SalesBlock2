@@ -14,13 +14,9 @@ namespace Yireo\SalesBlock2\Test\Unit\Console\Command;
 
 use Magento\Framework\Api\Search\SearchCriteria;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
-<<<<<<< HEAD
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_TestCase;
-=======
 use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
->>>>>>> 933592da5487d35eb8eff4a4a0e6877eb18e4c04
 use Symfony\Component\Console\Tester\CommandTester;
 use Yireo\SalesBlock2\Console\Command\RulesCommand;
 use Yireo\SalesBlock2\Test\Unit\Mock\RuleRepositoryMock;

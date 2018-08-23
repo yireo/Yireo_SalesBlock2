@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\SalesBlock2\Test\Integration\Block\Adminhtml;
+namespace Yireo\SalesBlock2\Test\Integration\Controller\Adminhtml;
 
-use Magento\TestFramework\Request;
+use Yireo\SalesBlock2\Controller\Adminhtml\Rule\Index as Controller;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 
 /**
@@ -26,7 +26,6 @@ class GridTest extends AbstractBackendController
      */
     public function testValidBodyContent()
     {
-        $this->assertInstanceOf(\Magento\Backend\Model\Auth::class, $this->_auth);
         $this->assertTrue($this->_session->isLoggedIn());
         $this->assertTrue($this->_session->isAllowed($this->resource));
 
@@ -50,6 +49,30 @@ class GridTest extends AbstractBackendController
         $body = $response->getBody();
         $this->assertNotEmpty($body);
         $this->assertRegExp('#<body [^>]+>#s', $body);
-        $this->assertContains('Dashboard', $body);
+        $this->assertContains('SalesBlock Rules', $body);
+    }
+
+    /**
+     * Test whether the body does not contain a proper message when the module is enabled
+     *
+     * @magentoConfigFixture default/salesblock/settings/enabled 1
+     */
+    public function testValidMessageWhenModuleIsEnabled()
+    {
+        $this->dispatch($this->uri);
+        $body = $this->getResponse()->getBody();
+        $this->assertNotContains(Controller::ADMIN_MESSAGE_WHEN_DISABLED, $body);
+    }
+
+    /**
+     * Test whether the body contains a proper message when the module is disabled
+     *
+     * @magentoConfigFixture default/salesblock/settings/enabled 0
+     */
+    public function testValidMessageWhenModuleIsDisabled()
+    {
+        $this->dispatch($this->uri);
+        $body = $this->getResponse()->getBody();
+        $this->assertContains(Controller::ADMIN_MESSAGE_WHEN_DISABLED, $body);
     }
 }

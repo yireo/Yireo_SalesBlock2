@@ -15,7 +15,9 @@ namespace Yireo\SalesBlock2\Helper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Helper\Page as CmsPageHelper;
+use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Exception\CmsPageException;
+use Zend\Di\Config;
 
 /**
  * Class Data
@@ -29,30 +31,37 @@ class Data extends AbstractHelper
      * @var \Magento\Cms\Helper\Page
      */
     private $cmsPageHelper;
+    /**
+     * @var Configuration
+     */
+    private $configuration;
 
     /**
      * Data constructor.
      *
-     * @param CmsPageHelper $cmsPageHelper
      * @param Context $context
+     * @param CmsPageHelper $cmsPageHelper
+     * @param Configuration $configuration
      */
     public function __construct(
+        Context $context,
         CmsPageHelper $cmsPageHelper,
-        Context $context
+        Configuration $configuration
     ) {
-        $this->cmsPageHelper = $cmsPageHelper;
-
         parent::__construct($context);
+        $this->cmsPageHelper = $cmsPageHelper;
+        $this->configuration = $configuration;
     }
 
     /**
      * Helper-method to check if this module is enabled
      *
      * @return bool
+     * @deprecated Use Configuration::getUrl() instead
      */
     public function enabled(): bool
     {
-        return (bool)$this->scopeConfig->getValue('salesblock/settings/enabled');
+        return (bool)$this->configuration->enabled();
     }
 
     /**
@@ -60,19 +69,11 @@ class Data extends AbstractHelper
      *
      * @return string
      * @throws CmsPageException
+     * @deprecated Use Configuration::getUrl() instead
      */
     public function getUrl(): string
     {
-        $useCustomPage = (bool)$this->scopeConfig->getValue('salesblock/settings/use_custom_page');
-
-        $cmsPageId = $this->scopeConfig->getValue('salesblock/settings/cmspage');
-        $cmsPageUrl = $this->cmsPageHelper->getPageUrl($cmsPageId);
-
-        if ($useCustomPage && empty($cmsPageUrl)) {
-            throw new CmsPageException('Unknown CMS URL');
-        }
-
-        return $cmsPageUrl;
+        return $this->configuration->getUrl();
     }
 
 

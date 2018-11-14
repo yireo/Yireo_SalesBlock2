@@ -150,15 +150,6 @@
                 </item>
             </argument>
         </column>
-        <column name="ip_value">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="sortOrder" xsi:type="number">6</item>
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">IP Match</item>
-                </item>
-            </argument>
-        </column>
         <column name="status" component="Magento_Ui/js/grid/columns/select">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Yireo\SalesBlock2\Ui\Component\Listing\Column\Rule\Status\Options</item>

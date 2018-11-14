@@ -52,7 +52,7 @@ class NewRuleCommandTest extends TestCase
     {
         $commandTester = new CommandTester($this->command);
 
-        $options = ['--label' => 'test', '--email-value' => '@example.com', '--ip-value' => ''];
+        $options = ['--label' => 'test', '--conditions' => '{}'];
         $commandTester->execute($options);
 
         $this->assertContains(

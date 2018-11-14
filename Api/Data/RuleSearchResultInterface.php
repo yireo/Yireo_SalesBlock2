@@ -9,10 +9,15 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Api\Data;
 
 use Magento\Framework\Api\Search\SearchResultInterface;
 
+/**
+ * Interface RuleSearchResultInterface
+ * @package Yireo\SalesBlock2\Api\Data
+ */
 interface RuleSearchResultInterface extends SearchResultInterface
 {
 }

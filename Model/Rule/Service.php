@@ -9,9 +9,13 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Model\Rule;
 
 use Magento\Framework\Api\Filter;
+use Magento\Framework\Api\Search\SearchCriteriaBuilder;
+use Yireo\SalesBlock2\Api\Data\RuleInterface;
+use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 
 /**
  * Class Service
@@ -20,49 +24,48 @@ use Magento\Framework\Api\Filter;
  */
 class Service
 {
-	/**
-	 * @var \Yireo\SalesBlock2\Api\RuleRepositoryInterface
-	 */
-	private $ruleRepository;
+    /**
+     * @var RuleRepositoryInterface
+     */
+    private $ruleRepository;
 
-	/**
-	 * @var \Magento\Framework\Api\Search\SearchCriteriaBuilder
-	 */
-	private $searchCriteriaBuilder;
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
 
-	/**
-	 * Service constructor.
-	 *
-	 * @param \Yireo\SalesBlock2\Api\RuleRepositoryInterface      $ruleRepository
-	 * @param \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder
-	 *
-	 */
-	public function __construct(
-		\Yireo\SalesBlock2\Api\RuleRepositoryInterface $ruleRepository,
-		\Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder
-	)
-	{
-		$this->ruleRepository = $ruleRepository;
-		$this->searchCriteriaBuilder = $searchCriteriaBuilder;
-	}
+    /**
+     * Service constructor.
+     *
+     * @param RuleRepositoryInterface $ruleRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     *
+     */
+    public function __construct(
+        RuleRepositoryInterface $ruleRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder
+    ) {
+        $this->ruleRepository = $ruleRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+    }
 
-	/**
-	 * Helper-method to fetch all rules
-	 *
-	 * @return \Yireo\SalesBlock2\Api\Data\RuleInterface[]
-	 */
-	public function getRules()
-	{
-		$searchCriteriaBuilder = $this->searchCriteriaBuilder;
-		$searchCriteriaBuilder->addFilter(new Filter([
-			Filter::KEY_FIELD => 'status',
-			Filter::KEY_CONDITION_TYPE => 'eq',
-			Filter::KEY_VALUE => 1
-		]));
+    /**
+     * Helper-method to fetch all rules
+     *
+     * @return RuleInterface[]
+     */
+    public function getRules()
+    {
+        $searchCriteriaBuilder = $this->searchCriteriaBuilder;
+        $searchCriteriaBuilder->addFilter(new Filter([
+            Filter::KEY_FIELD => 'status',
+            Filter::KEY_CONDITION_TYPE => 'eq',
+            Filter::KEY_VALUE => 1
+        ]));
 
-		$searchCriteria = $searchCriteriaBuilder->create();
-		$rules = $this->ruleRepository->getList($searchCriteria);
+        $searchCriteria = $searchCriteriaBuilder->create();
+        $rules = $this->ruleRepository->getList($searchCriteria);
 
-		return $rules;
-	}
+        return $rules;
+    }
 }

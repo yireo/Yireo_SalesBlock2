@@ -17,6 +17,7 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Event\ManagerInterface;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
+use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
 
 /**
@@ -65,10 +66,15 @@ class Rule
      * @var ManagerInterface
      */
     private $eventManager;
+    /**
+     * @var Configuration
+     */
+    private $configuration;
 
     /**
      * Rule constructor.
      *
+     * @param Configuration $configuration
      * @param Data $moduleHelper
      * @param RuleService $ruleService
      * @param Session $customerSession
@@ -77,6 +83,7 @@ class Rule
      * @param ManagerInterface $eventManager
      */
     public function __construct(
+        Configuration $configuration,
         Data $moduleHelper,
         RuleService $ruleService,
         Session $customerSession,
@@ -84,6 +91,7 @@ class Rule
         Cart $cart,
         ManagerInterface $eventManager
     ) {
+        $this->configuration = $configuration;
         $this->helper = $moduleHelper;
         $this->ruleService = $ruleService;
         $this->checkoutSession = $checkoutSession;
@@ -99,7 +107,7 @@ class Rule
      */
     public function hasMatch()
     {
-        return (bool)$this->getMatchId();
+        return (bool)$this->findMatch();
     }
 
     /**
@@ -115,10 +123,10 @@ class Rule
      *
      * @return int
      */
-    public function getMatchId()
+    public function findMatch()
     {
         // Check whether the module is disabled
-        if ($this->helper->enabled() === false) {
+        if ($this->configuration->enabled() === false) {
             return 0;
         }
 
@@ -130,7 +138,7 @@ class Rule
         }
 
         // Fetch the IP
-        $ip = $this->getIp();
+        $ip = $this->getCurrentIp();
 
         // Load the customer-record
         $customerEmail = $this->getCustomerEmail();
@@ -284,7 +292,7 @@ class Rule
      *
      * @return string
      */
-    public function getIp()
+    public function getCurrentIp()
     {
         if (!empty($this->ip)) {
             return $this->ip;

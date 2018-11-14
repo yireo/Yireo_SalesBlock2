@@ -104,25 +104,15 @@
 
     <fieldset name="matching">
         <settings>
-            <label translate="true">Match Patterns</label>
+            <label translate="true">Conditions</label>
         </settings>
 
-        <field name="email_value">
+        <field name="conditions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string">Email Patterns</item>
-                    <item name="visible" xsi:type="boolean">true</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="formElement" xsi:type="string">textarea</item>
-                    <item name="source" xsi:type="string">rule</item>
-                </item>
-            </argument>
-        </field>
-
-        <field name="ip_value">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string">IP Patterns</item>
+                    <item name="label" xsi:type="string">Conditions</item>
+                    <item name="component" xsi:type="string">Yireo_SalesBlock2/js/form/element/conditions</item>
+                    <item name="elementTmpl" xsi:type="string">Yireo_SalesBlock2/conditions</item>
                     <item name="visible" xsi:type="boolean">true</item>
                     <item name="dataType" xsi:type="string">text</item>
                     <item name="formElement" xsi:type="string">textarea</item>

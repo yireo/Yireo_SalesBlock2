@@ -1,8 +1,22 @@
 <?php
+/**
+ * Yireo SalesBlock2 for Magento
+ *
+ * @package     Yireo_SalesBlock2
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2017 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Model\ResourceModel\Rule\Grid;
 
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Data\Collection\EntityFactoryInterface;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\View\Element\UiComponent\DataProvider\Document;
+use Psr\Log\LoggerInterface;
 use Yireo\SalesBlock2\Api\Data\RuleSearchResultInterface;
 use Magento\Framework\Api\Search\AggregationInterface;
 use Yireo\SalesBlock2\Model\ResourceModel\Rule\Collection as RegularCollection;
@@ -21,10 +35,10 @@ class Collection extends RegularCollection implements RuleSearchResultInterface
     /**
      * Collection constructor.
      *
-     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
-     * @param \Psr\Log\LoggerInterface $logger
-     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param EntityFactoryInterface $entityFactory
+     * @param LoggerInterface $logger
+     * @param FetchStrategyInterface $fetchStrategy
+     * @param ManagerInterface $eventManager
      * @param $mainTable
      * @param $eventPrefix
      * @param $eventObject
@@ -34,15 +48,15 @@ class Collection extends RegularCollection implements RuleSearchResultInterface
      * @param null $resource
      */
     public function __construct(
-        \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
-        \Psr\Log\LoggerInterface $logger,
-        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
+        EntityFactoryInterface $entityFactory,
+        LoggerInterface $logger,
+        FetchStrategyInterface $fetchStrategy,
+        ManagerInterface $eventManager,
         $mainTable,
         $eventPrefix,
         $eventObject,
         $resourceModel,
-        $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document',
+        $model = Document::class,
         $connection = null,
         $resource = null
     ) {

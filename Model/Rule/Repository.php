@@ -9,14 +9,20 @@
  */
 
 declare(strict_types=1);
+
 namespace Yireo\SalesBlock2\Model\Rule;
 
+use Exception;
 use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\InputException;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 use Yireo\SalesBlock2\Model\ResourceModel\Metadata;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Model\ResourceModel\Rule\Collection as RuleCollection;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Yireo\SalesBlock2\Model\ResourceModel\Rule\Collection;
 
 /**
  * Class Repository
@@ -60,12 +66,12 @@ class Repository implements RuleRepositoryInterface
      * @param int $id
      * @return mixed
      * @throws NoSuchEntityException
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws InputException
      */
     public function get($id)
     {
         if (!$id) {
-            throw new \Magento\Framework\Exception\InputException(__('ID required'));
+            throw new InputException(__('ID required'));
         }
         if (!isset($this->registry[$id])) {
             /** @var RuleInterface $entity */
@@ -89,12 +95,12 @@ class Repository implements RuleRepositoryInterface
     /**
      * Find entities by criteria
      *
-     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
+     * @param SearchCriteria $searchCriteria
      * @return RuleCollection
      */
-    public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria)
+    public function getList(SearchCriteria $searchCriteria)
     {
-        /** @var \Yireo\SalesBlock2\Model\ResourceModel\Rule\Collection $collection */
+        /** @var Collection $collection */
         $collection = $this->collection;
 
         foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
@@ -116,6 +122,7 @@ class Repository implements RuleRepositoryInterface
      *
      * @param RuleInterface $entity
      * @return bool
+     * @throws Exception
      */
     public function delete(RuleInterface $entity)
     {
@@ -129,6 +136,8 @@ class Repository implements RuleRepositoryInterface
      *
      * @param int $id
      * @return bool
+     * @throws NoSuchEntityException
+     * @throws InputException
      */
     public function deleteById($id)
     {
@@ -141,6 +150,7 @@ class Repository implements RuleRepositoryInterface
      *
      * @param RuleInterface $entity
      * @return RuleInterface
+     * @throws AlreadyExistsException
      */
     public function save(RuleInterface $entity)
     {

@@ -86,11 +86,9 @@ class Save extends Action
         $label = (string) $this->_request->getParam('label');
         $rule->setLabel($label);
 
-        $emailValue = (string) $this->_request->getParam('email_value');
-        $rule->setEmailValue($emailValue);
-
-        $ipValue = (string) $this->_request->getParam('ip_value');
-        $rule->setIpValue($ipValue);
+        print_r($_POST);
+        $conditions = $this->_request->getParam('conditions');
+        $rule->setConditions($conditions);
 
         $status = (int) $this->_request->getParam('status');
         $rule->setStatus($status);

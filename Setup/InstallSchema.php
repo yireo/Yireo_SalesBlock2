@@ -51,17 +51,11 @@ class InstallSchema implements InstallSchemaInterface
             ['nullable' => true],
             'Label'
         )->addColumn(
-            'email_value',
+            'conditions',
             Table::TYPE_TEXT,
             null,
             ['nullable' => true],
-            'Email value'
-        )->addColumn(
-            'ip_value',
-            Table::TYPE_TEXT,
-            null,
-            ['nullable' => true],
-            'IP value'
+            'Conditions'
         )->addColumn(
             'frontend_label',
             Table::TYPE_TEXT,

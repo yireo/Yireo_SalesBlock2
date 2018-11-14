@@ -38,26 +38,15 @@ interface RuleInterface extends ExtensibleDataInterface
     public function getLabel() : string;
 
     /**
-     * @param string $emailValue
+     * @param string $conditions
      * @return mixed
      */
-    public function setEmailValue(string $emailValue);
+    public function setConditions(string $conditions);
 
     /**
      * @return string
      */
-    public function getEmailValue() : string;
-
-    /**
-     * @param string $ipValue
-     * @return mixed
-     */
-    public function setIpValue(string $ipValue);
-
-    /**
-     * @return string
-     */
-    public function getIpValue() : string;
+    public function getConditions() : string;
 
     /**
      * @param int $status

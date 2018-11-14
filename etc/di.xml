@@ -7,6 +7,7 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
+                <item name="salesblock2_matchers" xsi:type="object">Yireo\SalesBlock2\Console\Command\MatchersCommand</item>
                 <item name="salesblock2_rules" xsi:type="object">Yireo\SalesBlock2\Console\Command\RulesCommand</item>
                 <item name="salesblock2_rule_new" xsi:type="object">Yireo\SalesBlock2\Console\Command\NewRuleCommand</item>
                 <item name="salesblock2_rule_delete" xsi:type="object">Yireo\SalesBlock2\Console\Command\DeleteRuleCommand</item>
@@ -14,6 +15,7 @@
             </argument>
         </arguments>
     </type>
+
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
@@ -23,6 +25,7 @@
             </argument>
         </arguments>
     </type>
+
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">
         <arguments>
             <argument name="entities" xsi:type="array">
@@ -32,6 +35,7 @@
             </argument>
         </arguments>
     </type>
+
     <type name="Yireo\SalesBlock2\Model\ResourceModel\Rule\Grid\Collection">
         <arguments>
             <argument name="mainTable" xsi:type="string">salesblock_rule</argument>
@@ -40,22 +44,26 @@
             <argument name="resourceModel" xsi:type="string">Yireo\SalesBlock2\Model\ResourceModel\Rule</argument>
         </arguments>
     </type>
+
     <type name="Yireo\SalesBlock2\Console\Command\DeleteRuleCommand">
         <arguments>
             <argument name="ruleRepository" xsi:type="object">Yireo\SalesBlock2\Api\RuleRepositoryInterface\Proxy</argument>
         </arguments>
     </type>
+
     <type name="Yireo\SalesBlock2\Console\Command\NewRuleCommand">
         <arguments>
             <argument name="ruleRepository" xsi:type="object">Yireo\SalesBlock2\Api\RuleRepositoryInterface\Proxy</argument>
         </arguments>
     </type>
+
     <type name="Yireo\SalesBlock2\Console\Command\RulesCommand">
         <arguments>
             <argument name="ruleRepository" xsi:type="object">Yireo\SalesBlock2\Api\RuleRepositoryInterface\Proxy</argument>
             <argument name="searchCriteriaBuilder" xsi:type="object">Magento\Framework\Api\Search\SearchCriteriaBuilder\Proxy</argument>
         </arguments>
     </type>
+
     <type name="Yireo\SalesBlock2\Console\Command\TestRulesCommand">
         <arguments>
             <argument name="ruleHelper" xsi:type="object">Yireo\SalesBlock2\Helper\Rule\Proxy</argument>

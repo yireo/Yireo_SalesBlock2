@@ -1,0 +1,35 @@
+<!--
+/**
+ * Yireo SalesBlock2 for Magento
+ *
+ * @package     Yireo_SalesBlock2
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
+-->
+<div data-bind="foreach: conditions">
+    <div style="padding-bottom:5px;">
+        <select class="admin__control-select salesblock-rule-condition" data-bind="
+            attr:{'data-index': $index()},
+            event:{change: $parent.onChangeConditions.bind($parent)},
+            value: matchName
+        ">
+            <option value="">-- Select a matching mechanism --</option>
+            <option value="ip">Match an IP pattern</option>
+            <option value="email">Match an e-mail pattern</option>
+        </select>
+        <input class="admin__control-text salesblock-rule-condition" type="text" data-bind="
+            attr:{'data-index': $index()},
+            event:{change: $parent.onChangeConditions.bind($parent)},
+            value: matchValue
+        " maxlength="255" value="" style="width:auto;">
+        &nbsp; <a><small>[remove]</small></a>
+    </div>
+</div>
+
+<input type="hidden" name="conditions" data-bind="value: value">
+
+<button title="Add new condition" type="button" data-bind="click: addConditionField">
+    <span data-bind="i18n: 'Add new condition'"></span>
+</button>

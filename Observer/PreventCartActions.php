@@ -18,6 +18,7 @@ use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Quote\Api\Data\CartInterface;
+use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Exception\CmsPageException;
 use Yireo\SalesBlock2\Helper\Data as ModuleHelper;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
@@ -43,14 +44,30 @@ class PreventCartActions implements ObserverInterface
      * @var ResponseInterface
      */
     private $response;
+
     /**
      * @var RuleHelper
      */
     private $ruleHelper;
 
     /**
+     * @var CartInterface
+     */
+    private $cart;
+
+    /**
+     * @var Session
+     */
+    private $checkoutSession;
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    /**
      * PreventCartActions constructor.
      *
+     * @param Configuration $configuration
      * @param ModuleHelper $moduleHelper
      * @param RuleHelper $ruleHelper
      * @param Session $checkoutSession
@@ -59,6 +76,7 @@ class PreventCartActions implements ObserverInterface
      * @param ResponseInterface $response
      */
     public function __construct(
+        Configuration $configuration,
         ModuleHelper $moduleHelper,
         RuleHelper $ruleHelper,
         Session $checkoutSession,
@@ -66,6 +84,7 @@ class PreventCartActions implements ObserverInterface
         RequestInterface $request,
         ResponseInterface $response
     ) {
+        $this->configuration = $configuration;
         $this->moduleHelper = $moduleHelper;
         $this->ruleHelper = $ruleHelper;
         $this->checkoutSession = $checkoutSession;
@@ -86,7 +105,7 @@ class PreventCartActions implements ObserverInterface
             return $this;
         }
 
-        $match = (int)$this->ruleHelper->getMatchId();
+        $match = (int)$this->ruleHelper->findMatch();
         if (empty($match)) {
             return $this;
         }
@@ -100,7 +119,7 @@ class PreventCartActions implements ObserverInterface
         $this->resetCustomerEmailInQuote();
 
         try {
-            $url = $this->moduleHelper->getUrl();
+            $url = $this->configuration->getUrl();
             if (!empty($url)) {
                 $this->redirect($url);
             }
@@ -118,7 +137,7 @@ class PreventCartActions implements ObserverInterface
         /** @var \Magento\Quote\Model\Quote $quote */
         $quote = $this->cart->getQuote();
         $quote->setCustomerEmail('');
-        $quote->save();
+        $quote->save(); // @todo: Does this work?
     }
 
     /**
@@ -131,7 +150,7 @@ class PreventCartActions implements ObserverInterface
         }
 
         $action = $this->request->getActionName();
-        if (!in_array($action, array('saveFormValues', 'placeOrder'), true)) {
+        if (!in_array($action, ['saveFormValues', 'placeOrder'], true)) {
             return false;
         }
 
@@ -143,8 +162,8 @@ class PreventCartActions implements ObserverInterface
 
         $result = array();
         $result['success'] = false;
-        $result['messages'][] = $this->moduleHelper->__('Email is incorrect.');
-        $jsonData = Mage::helper('core')->jsonEncode($result);
+        $result['messages'][] = __('Email is incorrect.');
+        $jsonData = json_encode($result);
         $response->setBody($jsonData);
 
         return true;
@@ -161,9 +180,9 @@ class PreventCartActions implements ObserverInterface
         $controller = '';
         $action = $this->request->getActionName();
 
-        $includeControllers = array('onepage', 'multishipping');
-        $includeModules = array('onestep', 'onestepcheckout');
-        $excludeActions = array('saveAddress');
+        $includeControllers = ['onepage', 'multishipping'];
+        $includeModules = ['onestep', 'onestepcheckout'];
+        $excludeActions = ['saveAddress'];
 
         $match = false;
         if (in_array($controller, $includeControllers, true)) {

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Yireo SalesBlock2 for Magento
+ *
+ * @package     Yireo_SalesBlock2
+ * @author      Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2017 Yireo (https://www.yireo.com/)
+ * @license     Open Source License (OSL v3)
+ */
+
 declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Plugin;
@@ -62,7 +71,7 @@ class PreventAddToQuote
         $request = null,
         $processMode = AbstractType::PROCESS_MODE_FULL
     ) {
-        if (!$this->hasMatch()) {
+        if (!$this->ruleHelper->hasMatch()) {
             return [$product, $request, $processMode];
         }
 
@@ -85,16 +94,8 @@ class PreventAddToQuote
     private function getException(): RuleMatchedException
     {
         $message = __('You are not allowed to purchase any products from your IP %s');
-        $message = sprintf($message, $this->ruleHelper->getIp());
+        $message = sprintf($message, $this->ruleHelper->getCurrentIp());
 
         return $this->ruleMatchedExceptionFactory->create($message);
-    }
-
-    /**
-     * @return bool
-     */
-    private function hasMatch(): bool
-    {
-        return $this->ruleHelper->hasMatch();
     }
 }

@@ -30,6 +30,11 @@ class TestRulesCommand extends Command
      */
     private $ruleHelper;
 
+    /**
+     * TestRulesCommand constructor.
+     * @param RuleHelper $ruleHelper
+     * @param null $name
+     */
     public function __construct(
         RuleHelper $ruleHelper,
         $name = null
@@ -47,19 +52,12 @@ class TestRulesCommand extends Command
         $this->setName('yireo_salesblock2:test')->setDescription('Test all rules for specific matches');
         $this->setDefinition([
             new InputOption(
-                'email',
+                'conditions',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Email'
-            ),
-            new InputOption(
-                'ip',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'IP address'
+                'Conditions'
             )
         ]);
-
     }
 
     /**
@@ -70,17 +68,5 @@ class TestRulesCommand extends Command
      */
     protected function execute(Input $input, Output $output)
     {
-        $email = $input->getOption('email');
-        $ip = $input->getOption('ip');
-
-        if (empty($email) && empty($ip)) {
-            $output->writeln('You need to supply either an email or an IP to test rules');
-            return;
-        }
-
-        $this->ruleHelper->setCustomerEmail($email);
-        $this->ruleHelper->setIp($ip);
-
-        $output->writeln('Found rule: '.$this->ruleHelper->getMatchId());
     }
 }

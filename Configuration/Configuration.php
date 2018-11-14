@@ -27,6 +27,7 @@ class Configuration
      * @var ScopeConfigInterface
      */
     private $scopeConfig;
+
     /**
      * @var CmsPageHelper
      */
@@ -76,5 +77,4 @@ class Configuration
 
         return $cmsPageUrl;
     }
-
 }

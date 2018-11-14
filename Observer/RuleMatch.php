@@ -4,7 +4,7 @@
  *
  * @package     Yireo_SalesBlock2
  * @author      Yireo (https://www.yireo.com/)
- * @copyright   Copyright 2017 Yireo (https://www.yireo.com/)
+ * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
  */
 
@@ -12,43 +12,46 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Observer;
 
+use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
+use Psr\Log\LoggerInterface;
+use Yireo\SalesBlock2\Api\Data\RuleInterface;
+
 /**
  * Class RuleMatch
  *
  * @package Yireo\SalesBlock2\Observer
  */
-class RuleMatch implements \Magento\Framework\Event\ObserverInterface
+class RuleMatch implements ObserverInterface
 {
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     private $logger;
 
     /**
      * RuleMatch constructor.
      *
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        \Psr\Log\LoggerInterface $logger
-    )
-    {
+        LoggerInterface $logger
+    ) {
         $this->logger = $logger;
     }
 
     /**
-     * @param \Magento\Framework\Event\Observer $observer
+     * @param Observer $observer
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
         $event = $observer->getEvent();
 
-        /** @var \Yireo\SalesBlock2\Api\Data\RuleInterface $rule */
+        /** @var RuleInterface $rule */
         $rule = $event->getRule();
-        $email = (string) $event->getEmail();
-        $ip = (string) $event->getIp();
+        $conditions = (string) $rule->getConditions();
 
-        $message = 'SalesBlock: rule ' . $rule->getId() . ', IP ' . $ip . ', email ' . $email;
+        $message = 'SalesBlock: rule ' . $rule->getId() . ' = ' . $conditions;
         $this->logger->log('notice', $message);
     }
 }

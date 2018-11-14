@@ -2,7 +2,7 @@
   "name": "yireo/magento2-salesblock2",
   "license": "OSL-3.0",
   "type": "magento2-module",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "homepage": "https://www.yireo.com/software/magento-extensions/salesblock2",
   "description": "Block transactions based on various rules",
   "keywords": [
@@ -18,11 +18,17 @@
   "require": {
     "magento/module-store": "^100.1|^101.0",
     "magento/module-quote": "^100.1|^101.0|^102.0",
+    "ext-json": "*",
     "php": ">=7.0.0"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
     "composer/composer": "*@dev"
+  },
+  "suggest": {
+    "yireo/magento2-salesblock2-by-geo":"*",
+    "yireo/magento2-salesblock2-by-ip":"*",
+    "yireo/magento2-salesblock2-by-email":"*"
   },
   "autoload": {
     "psr-4": {

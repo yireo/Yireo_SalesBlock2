@@ -34,6 +34,11 @@ class Validate extends Action
      */
     private $resultJsonFactory;
 
+    /**
+     * Validate constructor.
+     * @param Action\Context $context
+     * @param JsonFactory $resultJsonFactory
+     */
     public function __construct(
         Action\Context $context,
         JsonFactory $resultJsonFactory

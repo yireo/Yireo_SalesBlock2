@@ -39,6 +39,7 @@ class DataTest extends TestCase
 
     /**
      * Test whether the enabled flag works
+     * @todo: Move this to the configuration
      */
     public function testEnabled()
     {
@@ -53,6 +54,7 @@ class DataTest extends TestCase
 
     /**
      * Test whether the URL returns some value
+     * @todo: Move this to the configuration
      */
     public function testGetUrl()
     {
@@ -68,6 +70,7 @@ class DataTest extends TestCase
      * Test whether the URL returns an exception if nothing is filled in
      *
      * @expectedException \Exception
+     * @todo: Move this to the configuration
      */
     public function testGetUrlException()
     {

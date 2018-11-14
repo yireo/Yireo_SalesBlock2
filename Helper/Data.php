@@ -31,6 +31,7 @@ class Data extends AbstractHelper
      * @var \Magento\Cms\Helper\Page
      */
     private $cmsPageHelper;
+
     /**
      * @var Configuration
      */
@@ -51,17 +52,6 @@ class Data extends AbstractHelper
         parent::__construct($context);
         $this->cmsPageHelper = $cmsPageHelper;
         $this->configuration = $configuration;
-    }
-
-    /**
-     * Helper-method to check if this module is enabled
-     *
-     * @return bool
-     * @deprecated Use Configuration::getUrl() instead
-     */
-    public function enabled(): bool
-    {
-        return (bool)$this->configuration->enabled();
     }
 
     /**
@@ -103,7 +93,7 @@ class Data extends AbstractHelper
     public function stringToArray(string $string): array
     {
         $data = preg_split("/(\n|,|;|\|)/", $string);
-        $newData = array();
+        $newData = [];
 
         foreach ($data as $value) {
             $value = trim($value);

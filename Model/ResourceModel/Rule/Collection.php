@@ -15,6 +15,8 @@ namespace Yireo\SalesBlock2\Model\ResourceModel\Rule;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\Api\Search\AggregationInterface;
+use Yireo\SalesBlock2\Model\ResourceModel\Rule as RuleResourceModel;
+use Yireo\SalesBlock2\Model\Rule;
 
 /**
  * Class Collection
@@ -43,7 +45,7 @@ class Collection extends AbstractCollection
      */
     protected function _construct()
     {
-        $this->_init('Yireo\SalesBlock2\Model\Rule', 'Yireo\SalesBlock2\Model\ResourceModel\Rule');
+        $this->_init(Rule::class, RuleResourceModel::class);
     }
 
     /**
@@ -61,7 +63,6 @@ class Collection extends AbstractCollection
      *
      * @param SearchCriteriaInterface $searchCriteria
      * @return $this
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function setSearchCriteria(SearchCriteriaInterface $searchCriteria = null)
     {

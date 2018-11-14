@@ -50,41 +50,21 @@ class Rule extends AbstractModel implements RuleInterface
     }
 
     /**
-     * @param string $emailValue
+     * @param string $conditions
      *
      * @return mixed
      */
-    public function setEmailValue(string $emailValue)
+    public function setConditions(string $conditions)
     {
-        $emailValues = $this->stringToArray($emailValue);
-        return $this->setData('email_value', $this->arrayToString($emailValues));
+        return $this->setData('conditions', $conditions);
     }
 
     /**
      * @return string
      */
-    public function getEmailValue(): string
+    public function getConditions(): string
     {
-        return (string) $this->getData('email_value');
-    }
-
-    /**
-     * @param string $ipValue
-     *
-     * @return mixed
-     */
-    public function setIpValue(string $ipValue)
-    {
-        $ipValues = $this->stringToArray($ipValue);
-        return $this->setData('ip_value', $this->arrayToString($ipValues));
-    }
-
-    /**
-     * @return string
-     */
-    public function getIpValue(): string
-    {
-        return (string) $this->getData('ip_value');
+        return (string) $this->getData('conditions');
     }
 
     /**
@@ -139,39 +119,5 @@ class Rule extends AbstractModel implements RuleInterface
     public function getFrontendText(): string
     {
         return (string) $this->getData('frontend_text');
-    }
-
-    /**
-     * @param string $string
-     *
-     * @return string[]
-     */
-    private function stringToArray(string $string): array
-    {
-        $values = explode(',', $string);
-        if (empty($values)) {
-            $values = explode("\n", $string);
-        }
-
-        $newValues = [];
-        foreach ($values as $value) {
-            $value = trim($value);
-
-            if (!empty($value)) {
-                $newValues[] = $value;
-            }
-        }
-
-        return $newValues;
-    }
-
-    /**
-     * @param string[] $array
-     *
-     * @return string
-     */
-    private function arrayToString(array $array) : string
-    {
-        return implode(',', $array);
     }
 }

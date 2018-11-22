@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Test\Integration\Controller\Frontend;
 
+use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\TestFramework\TestCase\AbstractController;
 use Zend\Http\Request;
 
@@ -31,8 +32,8 @@ class CheckExceptionByRuleTest extends AbstractController
         $request->setPost($post);
         $this->dispatch('checkout/cart/add');
 
-        /** @var \Magento\Checkout\Model\CheckoutSession $checkoutSession */
-        $checkoutSession = $this->_objectManager->get(\Magento\Checkout\Model\CheckoutSession::class);
+        /** @var CheckoutSession $checkoutSession */
+        $checkoutSession = $this->_objectManager->get(CheckoutSession::class);
         $quote = $checkoutSession->getQuote();
         $items = $quote->getItems();
         $this->assertNotEmpty($items);

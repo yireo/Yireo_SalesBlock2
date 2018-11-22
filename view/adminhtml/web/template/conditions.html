@@ -12,19 +12,23 @@
     <div style="padding-bottom:5px;">
         <select class="admin__control-select salesblock-rule-condition" data-bind="
             attr:{'data-index': $index()},
-            event:{change: $parent.onChangeConditions.bind($parent)},
-            value: matchName
-        ">
-            <option value="">-- Select a matching mechanism --</option>
-            <option value="ip">Match an IP pattern</option>
-            <option value="email">Match an e-mail pattern</option>
-        </select>
+            value: matchName,
+            options: matcherOptions,
+            optionsText: 'value',
+            optionsValue: 'name',
+            optionsCaption: 'Select a matching pattern'
+        "></select>
         <input class="admin__control-text salesblock-rule-condition" type="text" data-bind="
             attr:{'data-index': $index()},
-            event:{change: $parent.onChangeConditions.bind($parent)},
+            valueUpdate: 'input',
             value: matchValue
         " maxlength="255" value="" style="width:auto;">
-        &nbsp; <a><small>[remove]</small></a>
+        &nbsp;
+        <button class="action-close" data-bind="
+            click: function(data, event) { $parent.removeConditionField($index()); }
+        ">
+            <span class="action-close-text" data-bind="i18n: 'Remove'">Remove</span>
+        </button>
     </div>
 </div>
 

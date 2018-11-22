@@ -22,6 +22,11 @@ interface MatcherInterface
     /**
      * @return string
      */
+    public function getCode(): string;
+
+    /**
+     * @return string
+     */
     public function getName(): string;
 
     /**

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Matcher;
 
-use Yireo\SalesBlock2\Api\Data\MatcherInterface;
+use Yireo\SalesBlock2\Api\MatcherInterface;
 
 /**
  * Class MatcherList

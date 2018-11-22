@@ -31,8 +31,8 @@ class CheckExceptionByRuleTest extends AbstractController
         $request->setPost($post);
         $this->dispatch('checkout/cart/add');
 
-        /** @var \Magento\Checkout\Model\Session $checkoutSession */
-        $checkoutSession = $this->_objectManager->get(\Magento\Checkout\Model\Session::class);
+        /** @var \Magento\Checkout\Model\CheckoutSession $checkoutSession */
+        $checkoutSession = $this->_objectManager->get(\Magento\Checkout\Model\CheckoutSession::class);
         $quote = $checkoutSession->getQuote();
         $items = $quote->getItems();
         $this->assertNotEmpty($items);

@@ -35,7 +35,9 @@ interface MatcherInterface
     public function getDescription(): string;
 
     /**
+     * @param string $value
+     *
      * @return bool
      */
-    public function match(): bool;
+    public function match(string $value): bool;
 }

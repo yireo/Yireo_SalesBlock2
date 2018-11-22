@@ -44,9 +44,9 @@ interface RuleInterface extends ExtensibleDataInterface
     public function setConditions(string $conditions);
 
     /**
-     * @return string
+     * @return array
      */
-    public function getConditions() : string;
+    public function getConditions() : array;
 
     /**
      * @param int $status

@@ -60,11 +60,11 @@ class Rule extends AbstractModel implements RuleInterface
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getConditions(): string
+    public function getConditions(): array
     {
-        return (string) $this->getData('conditions');
+        return json_decode((string)$this->getData('conditions'), true);
     }
 
     /**

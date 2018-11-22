@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Observer;
 
-use Magento\Checkout\Model\Session;
+use Magento\Checkout\Model\CheckoutSession;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Event\Observer;
@@ -56,7 +56,7 @@ class PreventCartActions implements ObserverInterface
     private $cart;
 
     /**
-     * @var Session
+     * @var CheckoutSession
      */
     private $checkoutSession;
     /**
@@ -70,7 +70,7 @@ class PreventCartActions implements ObserverInterface
      * @param Configuration $configuration
      * @param ModuleHelper $moduleHelper
      * @param RuleHelper $ruleHelper
-     * @param Session $checkoutSession
+     * @param CheckoutSession $checkoutSession
      * @param CartInterface $cart
      * @param RequestInterface $request
      * @param ResponseInterface $response
@@ -79,7 +79,7 @@ class PreventCartActions implements ObserverInterface
         Configuration $configuration,
         ModuleHelper $moduleHelper,
         RuleHelper $ruleHelper,
-        Session $checkoutSession,
+        CheckoutSession $checkoutSession,
         CartInterface $cart,
         RequestInterface $request,
         ResponseInterface $response

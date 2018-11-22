@@ -42,4 +42,20 @@ class MatcherList
     {
         return $this->matchers;
     }
+
+    /**
+     * @param string $code
+     * @return MatcherInterface
+     * @throws \Exception
+     */
+    public function getMatcherByCode(string $code): MatcherInterface
+    {
+        foreach ($this->matchers as $matcher) {
+            if ($matcher->getCode() === $code) {
+                return $matcher;
+            }
+        }
+
+        throw new \Exception('No valid matcher found');
+    }
 }

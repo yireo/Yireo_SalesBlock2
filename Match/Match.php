@@ -31,6 +31,11 @@ class Match
     private $rule;
 
     /**
+     * @var array
+     */
+    private $variables = [];
+
+    /**
      * Match constructor.
      * @param string $message
      */
@@ -45,7 +50,20 @@ class Match
      */
     public function getMessage(): string
     {
-        return $this->message;
+        $ruleMessage = $this->getRule()->getFrontendLabel();
+        if ($ruleMessage) {
+            $message = $ruleMessage;
+        }
+
+        if (empty($message)) {
+            $message = $this->message;
+        }
+
+        foreach ($this->variables as $variableName => $variableValue) {
+            $message = str_replace('%'.$variableName.'%', $variableValue, $message);
+        }
+
+        return $message;
     }
 
     /**
@@ -64,5 +82,14 @@ class Match
     {
         $this->rule = $rule;
         return $this;
+    }
+
+    /**
+     * @param array $variables
+     * @return mixed
+     */
+    public function setVariables(array $variables)
+    {
+        $this->variables = $variables;
     }
 }

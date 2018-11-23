@@ -16,8 +16,8 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\NotFoundException;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Configuration\Configuration;
+use Yireo\SalesBlock2\Exception\NoMatchException;
 use Yireo\SalesBlock2\Match\Match;
-use Yireo\SalesBlock2\Match\MatchHolder;
 use Yireo\SalesBlock2\Matcher\MatcherList;
 use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
 
@@ -55,11 +55,6 @@ class Rule
     private $matcherList;
 
     /**
-     * @var MatchHolder
-     */
-    private $matchHolder;
-
-    /**
      * Rule constructor.
      *
      * @param MatcherList $matcherList
@@ -67,37 +62,19 @@ class Rule
      * @param Data $moduleHelper
      * @param RuleService $ruleService
      * @param ManagerInterface $eventManager
-     * @param MatchHolder $matchHolder
      */
     public function __construct(
         MatcherList $matcherList,
         Configuration $configuration,
         Data $moduleHelper,
         RuleService $ruleService,
-        ManagerInterface $eventManager,
-        MatchHolder $matchHolder
+        ManagerInterface $eventManager
     ) {
         $this->matcherList = $matcherList;
         $this->configuration = $configuration;
         $this->helper = $moduleHelper;
         $this->ruleService = $ruleService;
         $this->eventManager = $eventManager;
-        $this->matchHolder = $matchHolder;
-    }
-
-    /**
-     * Method to check whether the current visitor matches a SalesBlock rule
-     *
-     * @return bool
-     */
-    public function hasMatch()
-    {
-        try {
-            $this->findMatch();
-            return true;
-        } catch (NotFoundException $exception) {
-            return false;
-        }
     }
 
     /**
@@ -130,8 +107,13 @@ class Rule
 
         // Loop through all rules
         foreach ($rules as $rule) {
-            if ($match = $this->getMatchFromRule($rule)) {
-                return $match;
+            try {
+                if ($match = $this->getMatchFromRule($rule)) {
+                    $this->afterMatch($match);
+                    return $match;
+                }
+            } catch (NotFoundException $exception) {
+                continue;
             }
         }
 
@@ -154,20 +136,23 @@ class Rule
 
             try {
                 $matcher = $this->matcherList->getMatcherByCode($condition['name']);
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException $exception) {
                 continue;
             }
 
-            if (!$matcher->match($condition['value'])) {
+            try {
+                if (!$match = $matcher->match($condition['value'])) {
+                    continue;
+                }
+            } catch (NoMatchException $exception) {
                 continue;
             }
 
-            $match = $this->matchHolder->getMatch()->setRule($rule);
-            $this->afterMatch($match);
+            $match->setRule($rule);
             return $match;
         }
 
-        throw new NotFoundException(__('No rule is applicable'));
+        throw new NotFoundException(__('This rule is not applicable'));
     }
 
     /**

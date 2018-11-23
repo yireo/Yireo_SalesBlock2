@@ -12,11 +12,13 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Plugin;
 
+use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Checkout\Model\Cart;
 use Yireo\SalesBlock2\Exception\RuleMatchedException;
 use Yireo\SalesBlock2\Exception\RuleMatchedExceptionFactory;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
+use Yireo\SalesBlock2\Match\Match;
 
 /**
  * Plugin PreventAddToCart
@@ -63,19 +65,22 @@ class PreventAddToCart
     public function beforeSave(
         Cart $subject
     ) {
-        if (!$this->ruleHelper->hasMatch()) {
+        try {
+            $match = $this->ruleHelper->findMatch();
+        } catch (NotFoundException $exception) {
             return [];
         }
 
-        $this->giveException();
+        $this->giveException($match);
     }
 
     /**
+     * @param Match $match
      * @throws RuleMatchedException
      */
-    private function giveException()
+    private function giveException(Match $match)
     {
-        $exception = $this->getException();
+        $exception = $this->getException($match);
         $this->messageManager->addExceptionMessage($exception);
         throw $exception;
     }
@@ -83,9 +88,11 @@ class PreventAddToCart
     /**
      * @return RuleMatchedException
      */
-    private function getException(): RuleMatchedException
+    private function getException(Match $match): RuleMatchedException
     {
-        $message = __('You are not allowed to purchase any products');
-        return $this->ruleMatchedExceptionFactory->create((string) $message);
+        // @todo: Use $this->matchHolder for getting the message across
+        $message = __('You are not allowed to purchase any products.');
+        $message .= '. ' . $match->getMessage();
+        return $this->ruleMatchedExceptionFactory->create((string)$message);
     }
 }

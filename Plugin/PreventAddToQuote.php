@@ -14,11 +14,13 @@ namespace Yireo\SalesBlock2\Plugin;
 
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type\AbstractType;
+use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Quote\Api\Data\CartInterface;
 use Yireo\SalesBlock2\Exception\RuleMatchedException;
 use Yireo\SalesBlock2\Exception\RuleMatchedExceptionFactory;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
+use Yireo\SalesBlock2\Match\Match;
 
 /**
  * Plugin PreventAddToQuote
@@ -71,19 +73,21 @@ class PreventAddToQuote
         $request = null,
         $processMode = AbstractType::PROCESS_MODE_FULL
     ) {
-        if ($this->ruleHelper->hasMatch() === false) {
+        try {
+            $match = $this->ruleHelper->findMatch();
+        } catch (NotFoundException $exception) {
             return [$product, $request, $processMode];
         }
 
-        $this->giveException();
+        $this->giveException($match);
     }
 
     /**
      * @throws RuleMatchedException
      */
-    private function giveException()
+    private function giveException(Match $match)
     {
-        $exception = $this->getException();
+        $exception = $this->getException($match);
         $this->messageManager->addExceptionMessage($exception);
         throw $exception;
     }
@@ -91,10 +95,13 @@ class PreventAddToQuote
     /**
      * @return RuleMatchedException
      */
-    private function getException(): RuleMatchedException
+    private function getException(Match $match): RuleMatchedException
     {
-        $message = __('You are not allowed to purchase any products');
+        $message = (string) $match->getMessage();
+        if (empty($message)) {
+            $message = (string) __('You are not allowed to purchase any products');
+        }
 
-        return $this->ruleMatchedExceptionFactory->create((string)$message);
+        return $this->ruleMatchedExceptionFactory->create($message);
     }
 }

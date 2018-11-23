@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Api;
 
+use Yireo\SalesBlock2\Match\Match;
+
 /**
  * Class MatcherInterface
  *
@@ -37,7 +39,7 @@ interface MatcherInterface
     /**
      * @param string $value
      *
-     * @return bool
+     * @return Match
      */
-    public function match(string $value): bool;
+    public function match(string $value): Match;
 }

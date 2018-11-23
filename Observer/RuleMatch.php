@@ -15,7 +15,6 @@ namespace Yireo\SalesBlock2\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Psr\Log\LoggerInterface;
-use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Match\Match;
 
 /**

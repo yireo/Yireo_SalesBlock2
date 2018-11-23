@@ -59,6 +59,7 @@ class Service
         $searchCriteriaBuilder = $this->searchCriteriaBuilder;
         $searchCriteriaBuilder->addFilter($this->getActiveFilter());
         $searchCriteria = $searchCriteriaBuilder->create();
+
         $rules = $this->ruleRepository->getList($searchCriteria);
 
         return $rules;

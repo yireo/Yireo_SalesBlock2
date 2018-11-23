@@ -22,17 +22,16 @@
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="use_custom_page" type="select" translate="label" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Use custom page</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-
                 <!--
-                <field id="cms_page" type="select" translate="label" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>CMS Page</label>
-                    <source_model>Yireo\SalesBlock\Model\Backend\Source\CmsPage</source_model>
-                </field>
-                -->
+               <field id="use_custom_page" type="select" translate="label" sortOrder="33" showInDefault="1" showInWebsite="1" showInStore="1">
+                   <label>Use custom page</label>
+                   <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+               </field>
+               <field id="cms_page" type="select" translate="label" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                   <label>CMS Page</label>
+                   <source_model>Yireo\SalesBlock\Model\Backend\Source\CmsPage</source_model>
+               </field>
+               -->
             </group>
         </section>
     </system>

@@ -71,7 +71,7 @@ class PreventAddToQuote
         $request = null,
         $processMode = AbstractType::PROCESS_MODE_FULL
     ) {
-        if (!$this->ruleHelper->hasMatch()) {
+        if ($this->ruleHelper->hasMatch() === false) {
             return [$product, $request, $processMode];
         }
 
@@ -93,9 +93,8 @@ class PreventAddToQuote
      */
     private function getException(): RuleMatchedException
     {
-        $message = __('You are not allowed to purchase any products from your IP %s');
-        $message = sprintf($message, $this->ruleHelper->getCurrentIp());
+        $message = __('You are not allowed to purchase any products');
 
-        return $this->ruleMatchedExceptionFactory->create($message);
+        return $this->ruleMatchedExceptionFactory->create((string)$message);
     }
 }

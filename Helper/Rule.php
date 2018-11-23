@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Helper;
 
-use Exception;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Exception\NotFoundException;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Match\Match;
-use Yireo\SalesBlock2\Match\MatchList;
+use Yireo\SalesBlock2\Match\MatchHolder;
 use Yireo\SalesBlock2\Matcher\MatcherList;
 use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
 
@@ -55,9 +55,9 @@ class Rule
     private $matcherList;
 
     /**
-     * @var MatchList
+     * @var MatchHolder
      */
-    private $matchList;
+    private $matchHolder;
 
     /**
      * Rule constructor.
@@ -67,7 +67,7 @@ class Rule
      * @param Data $moduleHelper
      * @param RuleService $ruleService
      * @param ManagerInterface $eventManager
-     * @param MatchList $matchList
+     * @param MatchHolder $matchHolder
      */
     public function __construct(
         MatcherList $matcherList,
@@ -75,14 +75,14 @@ class Rule
         Data $moduleHelper,
         RuleService $ruleService,
         ManagerInterface $eventManager,
-        MatchList $matchList
+        MatchHolder $matchHolder
     ) {
         $this->matcherList = $matcherList;
         $this->configuration = $configuration;
         $this->helper = $moduleHelper;
         $this->ruleService = $ruleService;
         $this->eventManager = $eventManager;
-        $this->matchList = $matchList;
+        $this->matchHolder = $matchHolder;
     }
 
     /**
@@ -92,7 +92,12 @@ class Rule
      */
     public function hasMatch()
     {
-        return (bool)$this->findMatch();
+        try {
+            $this->findMatch();
+            return true;
+        } catch (NotFoundException $exception) {
+            return false;
+        }
     }
 
     /**
@@ -106,38 +111,40 @@ class Rule
     /**
      * Method to check whether the current visitor matches a SalesBlock rule
      *
-     * @return int
+     * @return Match
+     * @throws NotFoundException
      */
-    public function findMatch(): int
+    public function findMatch()
     {
         // Check whether the module is disabled
         if ($this->configuration->enabled() === false) {
-            return 0;
+            throw new NotFoundException(__('SalesBlock is not enabled'));
         }
 
         // Load all rules and exit if there are no rules
         $rules = $this->ruleService->getRules();
 
         if (count($rules) === false) {
-            return 0;
+            throw new NotFoundException(__('No rules are found'));
         }
 
         // Loop through all rules
         foreach ($rules as $rule) {
-            if ($matchId = $this->getMatchIdFromRule($rule)) {
-                return $matchId;
+            if ($match = $this->getMatchFromRule($rule)) {
+                return $match;
             }
         }
 
-        return 0;
+        throw new NotFoundException(__('No rule is applicable'));
     }
 
     /**
      * @param RuleInterface $rule
      *
-     * @return int
+     * @return Match
+     * @throws NotFoundException
      */
-    private function getMatchIdFromRule(RuleInterface $rule): int
+    private function getMatchFromRule(RuleInterface $rule): Match
     {
         $conditions = $rule->getConditions();
         foreach ($conditions as $condition) {
@@ -147,29 +154,30 @@ class Rule
 
             try {
                 $matcher = $this->matcherList->getMatcherByCode($condition['name']);
-            } catch (Exception $e) {
+            } catch (NotFoundException $e) {
                 continue;
             }
 
-            if ($matcher->match($condition['value'])) {
-                $matches = $this->matchList->getMatches();
-                $this->afterMatch($rule, array_shift($matches));
-                return $rule->getId();
+            if (!$matcher->match($condition['value'])) {
+                continue;
             }
+
+            $match = $this->matchHolder->getMatch()->setRule($rule);
+            $this->afterMatch($match);
+            return $match;
         }
 
-        return 0;
+        throw new NotFoundException(__('No rule is applicable'));
     }
 
     /**
      * Method to execute when a visitor is actually matched
      *
-     * @param RuleInterface $rule
      * @param Match $match
      */
-    public function afterMatch(RuleInterface $rule, Match $match)
+    private function afterMatch(Match $match)
     {
-        $eventArguments = ['rule' => $rule, 'match' => $match];
+        $eventArguments = ['match' => $match];
         $this->eventManager->dispatch('salesblock_rule_match_after', $eventArguments);
     }
 }

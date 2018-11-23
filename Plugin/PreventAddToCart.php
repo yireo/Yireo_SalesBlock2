@@ -85,9 +85,7 @@ class PreventAddToCart
      */
     private function getException(): RuleMatchedException
     {
-        $message = __('You are not allowed to purchase any products from your IP %s');
-        $message = sprintf($message, $this->ruleHelper->getCurrentIp());
-
-        return $this->ruleMatchedExceptionFactory->create($message);
+        $message = __('You are not allowed to purchase any products');
+        return $this->ruleMatchedExceptionFactory->create((string) $message);
     }
 }

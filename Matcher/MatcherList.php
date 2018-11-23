@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Matcher;
 
+use Magento\Framework\Exception\NotFoundException;
 use Yireo\SalesBlock2\Api\MatcherInterface;
 
 /**
@@ -38,7 +39,7 @@ class MatcherList
     /**
      * @return MatcherInterface[]
      */
-    public function getMatchers(): array
+    public function getMatchers()
     {
         return $this->matchers;
     }
@@ -46,9 +47,9 @@ class MatcherList
     /**
      * @param string $code
      * @return MatcherInterface
-     * @throws \Exception
+     * @throws NotFoundException
      */
-    public function getMatcherByCode(string $code): MatcherInterface
+    public function getMatcherByCode(string $code)
     {
         foreach ($this->matchers as $matcher) {
             if ($matcher->getCode() === $code) {
@@ -56,6 +57,6 @@ class MatcherList
             }
         }
 
-        throw new \Exception('No valid matcher found');
+        throw new NotFoundException(__('No valid matcher found'));
     }
 }

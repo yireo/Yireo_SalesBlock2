@@ -13,29 +13,29 @@ declare(strict_types=1);
 namespace Yireo\SalesBlock2\Match;
 
 /**
- * Class MatchList
+ * Class MatchHolder
  * @package Yireo\SalesBlock2\Matcher
  */
-class MatchList
+class MatchHolder
 {
     /**
-     * @var Match[]
+     * @var Match
      */
-    private $matches;
+    private $match;
 
     /**
      * @param Match $match
      */
-    public function addMatch(Match $match)
+    public function setMatch(Match $match)
     {
-        $this->matches[] = $match;
+        $this->match = $match;
     }
 
     /**
-     * @return Match[]
+     * @return Match
      */
-    public function getMatches(): array
+    public function getMatch(): Match
     {
-        return $this->matches;
+        return $this->match;
     }
 }

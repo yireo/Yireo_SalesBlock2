@@ -71,7 +71,6 @@ class RulesCommand extends Command
     {
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $rules = $this->ruleRepository->getList($searchCriteria);
-        $output->writeln(get_class($this->getApplication()));
 
         if (empty($rules)) {
             $output->writeln('No rules found');

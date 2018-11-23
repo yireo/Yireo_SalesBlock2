@@ -64,6 +64,12 @@
         </arguments>
     </type>
 
+    <type name="Yireo\SalesBlock2\Console\Command\MatchersCommand">
+        <arguments>
+            <argument name="matcherList" xsi:type="object">Yireo\SalesBlock2\Matcher\MatcherList\Proxy</argument>
+        </arguments>
+    </type>
+
     <type name="Yireo\SalesBlock2\Console\Command\TestRulesCommand">
         <arguments>
             <argument name="ruleHelper" xsi:type="object">Yireo\SalesBlock2\Helper\Rule\Proxy</argument>

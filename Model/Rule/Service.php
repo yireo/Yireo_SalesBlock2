@@ -57,15 +57,22 @@ class Service
     public function getRules()
     {
         $searchCriteriaBuilder = $this->searchCriteriaBuilder;
-        $searchCriteriaBuilder->addFilter(new Filter([
-            Filter::KEY_FIELD => 'status',
-            Filter::KEY_CONDITION_TYPE => 'eq',
-            Filter::KEY_VALUE => 1
-        ]));
-
+        $searchCriteriaBuilder->addFilter($this->getActiveFilter());
         $searchCriteria = $searchCriteriaBuilder->create();
         $rules = $this->ruleRepository->getList($searchCriteria);
 
         return $rules;
+    }
+
+    /**
+     * @return Filter
+     */
+    private function getActiveFilter(): Filter
+    {
+        return new Filter([
+            Filter::KEY_FIELD => 'status',
+            Filter::KEY_CONDITION_TYPE => 'eq',
+            Filter::KEY_VALUE => 1
+        ]);
     }
 }

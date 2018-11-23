@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Match;
 
+use Yireo\SalesBlock2\Api\Data\RuleInterface;
+
 /**
  * Class Match
  * @package Yireo\SalesBlock2\Matcher
@@ -22,6 +24,11 @@ class Match
      * @var string
      */
     private $message;
+
+    /**
+     * @var RuleInterface
+     */
+    private $rule;
 
     /**
      * Match constructor.
@@ -39,5 +46,23 @@ class Match
     public function getMessage(): string
     {
         return $this->message;
+    }
+
+    /**
+     * @return RuleInterface
+     */
+    public function getRule(): RuleInterface
+    {
+        return $this->rule;
+    }
+
+    /**
+     * @param RuleInterface $rule
+     * @return Match
+     */
+    public function setRule(RuleInterface $rule): Match
+    {
+        $this->rule = $rule;
+        return $this;
     }
 }

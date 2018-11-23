@@ -16,6 +16,7 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Psr\Log\LoggerInterface;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
+use Yireo\SalesBlock2\Match\Match;
 
 /**
  * Class RuleMatch
@@ -47,11 +48,12 @@ class RuleMatch implements ObserverInterface
     {
         $event = $observer->getEvent();
 
-        /** @var RuleInterface $rule */
-        $rule = $event->getRule();
-        $conditions = (string) $rule->getConditions();
+        /** @var Match $match */
+        $match = $event->getMatch();
+        $rule = $match->getRule();
+        $conditions = var_export($rule->getConditions(), true);
 
-        $message = 'SalesBlock: rule ' . $rule->getId() . ' = ' . $conditions;
+        $message = 'SalesBlock: rule ' . $rule->getId() . ' = ' . $match->getMessage();
         $this->logger->log('notice', $message);
     }
 }

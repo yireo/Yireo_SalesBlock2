@@ -17,6 +17,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\NotFoundException;
 use Magento\Quote\Api\Data\CartInterface;
 use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Exception\CmsPageException;
@@ -106,8 +107,9 @@ class PreventCartActions implements ObserverInterface
             return $this;
         }
 
-        $match = (int)$this->ruleHelper->findMatch();
-        if (empty($match)) {
+        try {
+            $match = $this->ruleHelper->findMatch();
+        } catch (NotFoundException $exception) {
             return $this;
         }
 

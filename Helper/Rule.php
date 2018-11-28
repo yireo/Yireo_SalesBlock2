@@ -78,7 +78,7 @@ class Rule
     }
 
     /**
-     * @return array
+     * @return RuleInterface[]
      */
     public function getRules()
     {

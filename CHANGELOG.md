@@ -1,3 +1,7 @@
+# 2.0.0 (November 2018)
+- Magento 2.3 compatibility
+- Major rewrite to decouple rules from main module
+
 # 1.0.1 (August 2018)
 - Create separate Configuration class instead of using Helper
 - Add message in grid when module is disabled through setting

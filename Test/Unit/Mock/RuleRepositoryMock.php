@@ -8,7 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Test\Unit\Mock;
 
@@ -33,23 +33,19 @@ trait RuleRepositoryMock
 
         $ruleRepository->expects($this->any())
             ->method('create')
-            ->will($this->returnValue($this->getRuleMock())
-            );
+            ->will($this->returnValue($this->getRuleMock()));
 
         $ruleRepository->expects($this->any())
             ->method('get')
-            ->will($this->returnValue($this->getRuleMock())
-            );
+            ->will($this->returnValue($this->getRuleMock()));
 
         $ruleRepository->expects($this->any())
             ->method('getList')
-            ->will($this->returnValue($this->getRuleCollectionMock())
-            );
+            ->will($this->returnValue($this->getRuleCollectionMock()));
 
         $ruleRepository->expects($this->any())
             ->method('save')
-            ->will($this->returnValue(true)
-            );
+            ->will($this->returnValue(true));
 
         return $ruleRepository;
     }

@@ -58,7 +58,8 @@ class DeleteRuleCommand extends Command
             'id',
             null,
             InputOption::VALUE_REQUIRED,
-            'Rule ID');
+            'Rule ID'
+        );
     }
 
     /**

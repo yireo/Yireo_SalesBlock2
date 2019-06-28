@@ -40,11 +40,11 @@ class Index extends Action
      * @var PageFactory
      */
     protected $resultPageFactory;
+
     /**
      * @var Configuration
      */
     private $configuration;
-
 
     /**
      * Index constructor.

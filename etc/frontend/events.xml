@@ -14,15 +14,6 @@
     <event name="controller_action_predispatch">
         <observer name="yireo_salesblock2_prevent_cart_actions" instance="Yireo\SalesBlock2\Observer\PreventCartActions"/>
     </event>
-    <event name="core_block_abstract_to_html_after">
-        <observer name="yireo_salesblock2_replace_rule_variables" instance="Yireo\SalesBlock2\Observer\ReplaceRuleVariables"/>
-    </event>
-    <event name="sales_quote_save_before">
-        <observer name="yireo_salesblock2_prevent_quote_save" instance="Yireo\SalesBlock2\Observer\PreventQuoteSave"/>
-    </event>
-    <event name="sales_order_place_before">
-        <observer name="yireo_salesblock2_prevent_order_save" instance="Yireo\SalesBlock2\Observer\PreventOrderSave"/>
-    </event>
     -->
     <event name="salesblock_rule_match_after">
         <observer name="yireo_salesblock2_rule_match_log" instance="Yireo\SalesBlock2\Observer\RuleMatch"/>

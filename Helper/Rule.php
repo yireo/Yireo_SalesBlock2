@@ -107,17 +107,28 @@ class Rule
 
         // Loop through all rules
         foreach ($rules as $rule) {
-            try {
-                if ($match = $this->getMatchFromRule($rule)) {
-                    $this->afterMatch($match);
-                    return $match;
-                }
-            } catch (NotFoundException $exception) {
-                continue;
+            if ($match = $this->processRuleWithMatch($rule)) {
+                return $match;
             }
         }
 
         throw new NotFoundException(__('No rule is applicable'));
+    }
+
+    /**
+     * @param RuleInterface $rule
+     * @return bool|Match
+     */
+    private function processRuleWithMatch(RuleInterface $rule)
+    {
+        try {
+            if ($match = $this->getMatchFromRule($rule)) {
+                $this->afterMatch($match);
+                return $match;
+            }
+        } catch (NotFoundException $exception) {
+            return false;
+        }
     }
 
     /**
@@ -130,29 +141,40 @@ class Rule
     {
         $conditions = $rule->getConditions();
         foreach ($conditions as $condition) {
-            if (!isset($condition['name'])) {
-                continue;
+            if ($match = $this->findMatchFromCondition($condition)) {
+                $match->setRule($rule);
+                return $match;
             }
-
-            try {
-                $matcher = $this->matcherList->getMatcherByCode($condition['name']);
-            } catch (NotFoundException $exception) {
-                continue;
-            }
-
-            try {
-                if (!$match = $matcher->match($condition['value'])) {
-                    continue;
-                }
-            } catch (NoMatchException $exception) {
-                continue;
-            }
-
-            $match->setRule($rule);
-            return $match;
         }
 
         throw new NotFoundException(__('This rule is not applicable'));
+    }
+
+    /**
+     * @param array $condition
+     * @return bool|Match
+     */
+    private function findMatchFromCondition(array $condition)
+    {
+        if (!isset($condition['name'])) {
+            return false;
+        }
+
+        try {
+            $matcher = $this->matcherList->getMatcherByCode($condition['name']);
+        } catch (NotFoundException $exception) {
+            return false;
+        }
+
+        try {
+            if (!$match = $matcher->match($condition['value'])) {
+                return false;
+            }
+        } catch (NoMatchException $exception) {
+            return false;
+        }
+
+        return $match;
     }
 
     /**

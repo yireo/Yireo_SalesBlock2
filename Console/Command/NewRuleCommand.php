@@ -60,14 +60,16 @@ class NewRuleCommand extends Command
             'label',
             null,
             InputOption::VALUE_REQUIRED,
-            'Rule label');
+            'Rule label'
+        );
 
         // @todo: Rewrite this to an interactive way of asking for the right matcher
         $this->addOption(
             'conditions',
             null,
             InputOption::VALUE_REQUIRED,
-            'Conditions');
+            'Conditions'
+        );
     }
 
     /**

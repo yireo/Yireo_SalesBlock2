@@ -66,7 +66,6 @@ class Data extends AbstractHelper
         return $this->configuration->getUrl();
     }
 
-
     /**
      * Determine whether the current request is AJAX
      *

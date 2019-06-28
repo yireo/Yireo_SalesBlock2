@@ -47,7 +47,6 @@ class Configuration
         $this->cmsPageHelper = $cmsPageHelper;
     }
 
-
     /**
      * Helper-method to check if this module is enabled
      *

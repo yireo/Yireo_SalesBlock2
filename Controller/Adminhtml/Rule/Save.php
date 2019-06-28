@@ -86,7 +86,6 @@ class Save extends Action
         $label = (string) $this->_request->getParam('label');
         $rule->setLabel($label);
 
-        print_r($_POST);
         $conditions = $this->_request->getParam('conditions');
         $rule->setConditions($conditions);
 

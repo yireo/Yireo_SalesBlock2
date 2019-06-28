@@ -68,5 +68,11 @@ class TestRulesCommand extends Command
      */
     protected function execute(Input $input, Output $output)
     {
+        $rules = $this->ruleHelper->getRules();
+        if (empty($rules)) {
+            $output->writeln('<error>No rules found</error>');
+        }
+
+        // @todo: Implement rules for this
     }
 }

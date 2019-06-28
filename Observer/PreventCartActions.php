@@ -127,6 +127,7 @@ class PreventCartActions implements ObserverInterface
                 $this->redirect($url);
             }
         } catch (CmsPageException $cmsPageException) {
+            return $this;
         }
 
         return $this;
@@ -163,7 +164,7 @@ class PreventCartActions implements ObserverInterface
 
         $this->request->setDispatched(false);
 
-        $result = array();
+        $result = [];
         $result['success'] = false;
         $result['messages'][] = __('Email is incorrect.');
         $jsonData = json_encode($result);

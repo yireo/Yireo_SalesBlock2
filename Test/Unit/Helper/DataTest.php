@@ -119,8 +119,7 @@ class DataTest extends TestCase
 
         $cmsPageHelper->expects($this->any())
             ->method('getPageUrl')
-            ->will($this->returnValue($this->cmsPageUrl)
-            );
+            ->will($this->returnValue($this->cmsPageUrl));
 
         return $cmsPageHelper;
     }
@@ -142,14 +141,12 @@ class DataTest extends TestCase
         $scopeConfig = $this->getScopeConfigMock();
         $context->expects($this->any())
             ->method('getScopeConfig')
-            ->will($this->returnValue($scopeConfig)
-            );
+            ->will($this->returnValue($scopeConfig));
 
         $request = $this->getRequestMock();
         $context->expects($this->any())
             ->method('getRequest')
-            ->will($this->returnValue($request)
-            );
+            ->will($this->returnValue($request));
 
         return $context;
     }
@@ -173,7 +170,8 @@ class DataTest extends TestCase
      */
     protected function getRequestMock()
     {
-        $request = $this->createMock('Magento\Framework\App\Request\Http',
+        $request = $this->createMock(
+            'Magento\Framework\App\Request\Http',
             [],
             [],
             '',
@@ -183,8 +181,7 @@ class DataTest extends TestCase
 
         $request->expects($this->any())
             ->method('isAjax')
-            ->will($this->returnValue(false)
-            );
+            ->will($this->returnValue(false));
 
         return $request;
     }

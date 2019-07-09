@@ -1,5 +1,5 @@
 # Installation add-ons
-Do make sure to install one or more of the following packages as well:
+Do make sure to install one or more of the following packages as well. They are available on Packagist and GitHub:
 
     composer require yireo/magento2-salesblock2-by-ip
     composer require yireo/magento2-salesblock2-by-email

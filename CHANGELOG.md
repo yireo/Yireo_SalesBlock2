@@ -5,13 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.0.2] - 15 July 2019
 ### Added
 - `config.xml` with default settings
 - Handy methods in rule repository
 - Strict typing in rule repository and interface
 - Integration test for rule repository
+- Integration test for rule helper with simulation of IP and email matching
 
-## [2.0.1] - July 2019
+## [2.0.1] - 4 July 2019
 ### Added
 - Add KeepAChangeLog support
 - Move configuration to separate **Yireo** section

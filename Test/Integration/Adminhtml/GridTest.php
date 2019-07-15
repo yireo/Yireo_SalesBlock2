@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Yireo\SalesBlock2\Test\Integration\Controller\Adminhtml;
+namespace Yireo\SalesBlock2\Test\Integration\Adminhtml;
 
 use Yireo\SalesBlock2\Controller\Adminhtml\Rule\Index as Controller;
 use Magento\TestFramework\TestCase\AbstractBackendController;

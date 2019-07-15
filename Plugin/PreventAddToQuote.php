@@ -80,6 +80,7 @@ class PreventAddToQuote
         }
 
         $this->giveException($match);
+        return [$product, $request, $processMode];
     }
 
     /**

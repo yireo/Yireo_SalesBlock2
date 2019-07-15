@@ -63,14 +63,7 @@ class RepositoryTest extends TestCase
      */
     public function testIfRepositoryLoadsAndSavesAndDeletes()
     {
-        $this->assertInstanceOf(RuleRepository::class, $this->repository);
-        $items = $this->repository->getAll();
-        $this->assertEmpty($items);
-
         $rule = $this->createRule('Foobar', 1);
-        $rules = $this->repository->getAll();
-        $this->assertCount(1, $rules);
-
         $this->assertNotEmpty($rule->getId());
         $this->assertTrue($rule->getId() > 0);
         $newRule = $this->repository->getById((int)$rule->getId());

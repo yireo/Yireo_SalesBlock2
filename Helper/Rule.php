@@ -100,8 +100,7 @@ class Rule
 
         // Load all rules and exit if there are no rules
         $rules = $this->ruleService->getRules();
-
-        if (count($rules) === false) {
+        if (empty($rules)) {
             throw new NotFoundException(__('No rules are found'));
         }
 

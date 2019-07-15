@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Api;
 
+use Magento\Framework\Api\Search\SearchResult;
 use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchResults;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 
 /**
@@ -23,38 +26,67 @@ use Yireo\SalesBlock2\Api\Data\RuleInterface;
 interface RuleRepositoryInterface
 {
     /**
-     * Lists the invoice items that match specified search criteria.
-     *
-     * @param SearchCriteria $searchCriteria
-     *
-     * @return RuleInterface[]
+     * @return SearchCriteriaBuilder
      */
-    public function getList(SearchCriteria $searchCriteria);
+    public function getSearchCriteriaBuilder(): SearchCriteriaBuilder;
 
     /**
-     * Loads a specified invoice item.
-     *
+     * @param SearchCriteria $searchCriteria
+     * @return RuleInterface[]
+     */
+    public function getItems(SearchCriteria $searchCriteria): array;
+
+    /**
+     * @param SearchCriteria $searchCriteria
+     * @return SearchResult
+     */
+    public function getList(SearchCriteria $searchCriteria): SearchResults;
+
+    /**
+     * @return RuleInterface[]
+     */
+    public function getAll(): array;
+
+    /**
      * @param int $id
-     *
+     * @return RuleInterface
+     * @deprecated Use getById() instead because it looks cleaner
+     */
+    public function get(int $id): RuleInterface;
+
+    /**
+     * @param int $id
      * @return RuleInterface
      */
-    public function get($id);
+    public function getById(int $id): RuleInterface;
+
+    /**
+     * @return RuleInterface
+     */
+    public function getEmpty(): RuleInterface;
 
     /**
      * Create a new rule
      *
      * @return RuleInterface
      */
-    public function create();
+    public function create(): RuleInterface;
 
     /**
      * Deletes a rule
      *
      * @param RuleInterface $entity
-     *
      * @return bool
      */
-    public function delete(RuleInterface $entity);
+    public function delete(RuleInterface $entity): bool;
+
+    /**
+     * Delete entity by Id
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deleteById(int $id): bool;
 
     /**
      * Saves a rule

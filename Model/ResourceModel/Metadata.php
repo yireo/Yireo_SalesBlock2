@@ -15,6 +15,7 @@ namespace Yireo\SalesBlock2\Model\ResourceModel;
 use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\ObjectManagerInterface;
+use Yireo\SalesBlock2\Model\Rule as RuleModel;
 
 /**
  * Class Metadata
@@ -24,12 +25,12 @@ class Metadata
     /**
      * Reference to rule model
      */
-    const RULE_MODEL = '\Yireo\SalesBlock2\Model\Rule';
+    const RULE_MODEL = RuleModel::class;
 
     /**
      * Reference to rule resource model
      */
-    const RULE_RESOURCE_MODEL = '\Yireo\SalesBlock2\Model\ResourceModel\Rule';
+    const RULE_RESOURCE_MODEL = Rule::class;
 
     /**
      * @var ObjectManagerInterface

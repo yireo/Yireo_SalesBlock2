@@ -41,7 +41,7 @@ class GridTest extends AbstractBackendController
                 continue;
             }
 
-            $msg = 'Redirect to: '.$header->getUri();
+            $msg = 'Redirect to: ' . $header->getUri();
         }
 
         $this->assertSame(200, $response->getHttpResponseCode(), $msg);

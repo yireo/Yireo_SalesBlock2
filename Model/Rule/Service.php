@@ -21,6 +21,7 @@ use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
  * Class Service
  *
  * @package Yireo\SalesBlock2\Model\Rule
+ * @todo Move this to Yireo\SalesBlock2\Service\RuleService
  */
 class Service
 {

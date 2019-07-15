@@ -5,7 +5,7 @@ namespace Yireo\SalesBlock2\Test\Integration;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
-use Yireo\SalesBlock2\Model\Rule\Repository as RuleRepository;
+use Yireo\SalesBlock2\Repository\RuleRepository;
 
 /**
  * Class DiTest

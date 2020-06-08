@@ -17,7 +17,6 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Helper\Page as CmsPageHelper;
 use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Exception\CmsPageException;
-use Zend\Di\Config;
 
 /**
  * Class Data

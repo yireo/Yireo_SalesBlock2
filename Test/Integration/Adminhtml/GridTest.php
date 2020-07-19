@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Test\Integration\Adminhtml;
 
+use Laminas\Http\Header\Location;
 use Yireo\SalesBlock2\Controller\Adminhtml\Rule\Index as Controller;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 
@@ -37,7 +38,7 @@ class GridTest extends AbstractBackendController
         $headers = $response->getHeaders();
         $msg = '';
         foreach ($headers as $header) {
-            if (!$header instanceof \Zend\Http\Header\Location) {
+            if (!$header instanceof Location) {
                 continue;
             }
 

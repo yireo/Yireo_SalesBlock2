@@ -10,14 +10,12 @@ use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
+use Magento\Framework\HTTP\PhpEnvironment\Request;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\AbstractController;
 
 use Yireo\SalesBlock2\Test\Integration\RuleProvider;
-use Yireo\SalesBlock2\Api\Data\RuleInterface;
-use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
-use Zend\Http\Request;
 
 /**
  * Class CheckExceptionByRuleTest
@@ -43,7 +41,7 @@ class CheckExceptionByRuleTest extends AbstractController
 
         /** @var Request $request */
         $request = $this->getRequest();
-        $request->setMethod(Request::METHOD_POST);
+        $request->setMethod('POST');
 
         $data = [
             'qty' => '1',

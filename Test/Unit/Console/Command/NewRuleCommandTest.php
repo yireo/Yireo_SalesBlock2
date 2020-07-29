@@ -40,8 +40,9 @@ class NewRuleCommandTest extends TestCase
     /**
      * Setup all requirements for the test
      */
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->command = $this->getTargetCommand();
     }
 
@@ -55,10 +56,7 @@ class NewRuleCommandTest extends TestCase
         $options = ['--label' => 'test', '--conditions' => '{}'];
         $commandTester->execute($options);
 
-        $this->assertContains(
-            'Rule has been created',
-            $commandTester->getDisplay()
-        );
+        $this->assertTrue((bool)strpos($commandTester->getDisplay(), 'Rule has been created'));
     }
 
     /**

@@ -40,8 +40,9 @@ class DeleteRuleCommandTest extends TestCase
     /**
      * Setup all requirements for the test
      */
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->command = $this->getTargetCommand();
     }
 
@@ -55,10 +56,7 @@ class DeleteRuleCommandTest extends TestCase
         $options = ['--id' => '1'];
         $commandTester->execute($options);
 
-        $this->assertContains(
-            'Rule has been deleted',
-            $commandTester->getDisplay()
-        );
+        $this->assertTrue((bool)strpos($commandTester->getDisplay(), 'Rule has been deleted'));
     }
 
     /**

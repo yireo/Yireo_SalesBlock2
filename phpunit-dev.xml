@@ -12,7 +12,7 @@
         <ini name="xdebug.max_nesting_level" value="200"/>
     </php>
     <filter>
-        <whitelist addUncoveredFilesFromWhiteList="true">
+        <whitelist>
             <directory suffix=".php">*</directory>
             <exclude>
                 <directory>src/Test</directory>

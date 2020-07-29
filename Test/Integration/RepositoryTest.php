@@ -31,8 +31,9 @@ class RepositoryTest extends TestCase
     /**
      * Setup
      */
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->repository = $this->objectManager->get(RuleRepositoryInterface::class);
     }

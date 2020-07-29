@@ -40,8 +40,9 @@ class RulesCommandTest extends TestCase
     /**
      * Setup all requirements for the test
      */
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->command = $this->getTargetCommand();
     }
 
@@ -53,10 +54,7 @@ class RulesCommandTest extends TestCase
         $commandTester = new CommandTester($this->command);
         $commandTester->execute([]);
 
-        $this->assertContains(
-            'No rules found',
-            $commandTester->getDisplay()
-        );
+        $this->assertTrue((bool)strpos($commandTester->getDisplay(), 'No rules found'));
     }
 
     /**

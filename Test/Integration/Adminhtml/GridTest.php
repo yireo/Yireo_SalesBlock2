@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Test\Integration\Adminhtml;
@@ -15,7 +16,7 @@ class GridTest extends AbstractBackendController
     /**
      * Setup method
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->resource = 'Yireo_SalesBlock2::rules';
@@ -49,8 +50,8 @@ class GridTest extends AbstractBackendController
 
         $body = $response->getBody();
         $this->assertNotEmpty($body);
-        $this->assertRegExp('#<body [^>]+>#s', $body);
-        $this->assertContains('SalesBlock Rules', $body);
+        $this->assertTrue((bool)preg_match('#<body [^>]+>#s', $body));
+        $this->assertTrue((bool)strpos($body, 'SalesBlock Rules'));
     }
 
     /**
@@ -62,7 +63,7 @@ class GridTest extends AbstractBackendController
     {
         $this->dispatch($this->uri);
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains(Controller::ADMIN_MESSAGE_WHEN_DISABLED, $body);
+        $this->assertFalse((bool)strpos($body, Controller::ADMIN_MESSAGE_WHEN_DISABLED));
     }
 
     /**
@@ -74,6 +75,6 @@ class GridTest extends AbstractBackendController
     {
         $this->dispatch($this->uri);
         $body = $this->getResponse()->getBody();
-        $this->assertContains(Controller::ADMIN_MESSAGE_WHEN_DISABLED, $body);
+        $this->assertTrue((bool)strpos($body, Controller::ADMIN_MESSAGE_WHEN_DISABLED));
     }
 }

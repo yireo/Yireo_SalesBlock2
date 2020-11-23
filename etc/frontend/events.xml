@@ -10,9 +10,11 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:/Event/etc/events.xsd">
+    <!--
     <event name="controller_action_predispatch">
         <observer name="yireo_salesblock2_prevent_cart_actions" instance="Yireo\SalesBlock2\Observer\PreventCartActions"/>
     </event>
+    -->
     <event name="salesblock_rule_match_after">
         <observer name="yireo_salesblock2_rule_match_log" instance="Yireo\SalesBlock2\Observer\RuleMatch"/>
     </event>

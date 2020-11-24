@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Remove PHP dep from composer
 
+## [2.0.4] - 24 November 2020
+### Fixed
+- Issue when checkout is accessed directly
+
 ## [2.0.3] - 29 July 2020
 ### Added
 - Magento 2.4 compatibility

@@ -9,7 +9,7 @@
         <plugin name="salesblock_cart_controller_quote_reset" type="Yireo\SalesBlock2\Plugin\CartControllerQuoteReset" />
     </type>
 
-    <type name="Magento\Checkout\Controller\Checkout\Index">
+    <type name="Magento\Checkout\Controller\Index\Index">
         <plugin name="salesblock_checkout_controller_quote_reset" type="Yireo\SalesBlock2\Plugin\CheckoutControllerQuoteReset" />
     </type>
 </config>

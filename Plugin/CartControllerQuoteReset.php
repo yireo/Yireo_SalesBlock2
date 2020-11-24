@@ -75,6 +75,7 @@ class CartControllerQuoteReset
             $this->messageManager->addWarningMessage($match->getMessage());
 
             $quote = $this->checkoutSession->getQuote();
+            $quote->setItemsCount(0);
             if ($quote->getAllVisibleItems()) {
                 foreach ($quote->getAllVisibleItems() as $item) {
                     $itemId = $item->getItemId();

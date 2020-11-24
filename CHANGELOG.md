@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.4] - 24 November 2020
 ### Fixed
 - Issue when checkout is accessed directly
+- Removed deprecated observer
+- Set items_count to 0 as well to force "no-items" in cart
 
 ## [2.0.3] - 29 July 2020
 ### Added

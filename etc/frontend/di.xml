@@ -12,4 +12,24 @@
     <type name="Magento\Checkout\Controller\Index\Index">
         <plugin name="salesblock_checkout_controller_quote_reset" type="Yireo\SalesBlock2\Plugin\CheckoutControllerQuoteReset" />
     </type>
+
+    <type name="Yireo\SalesBlock2\Logger\Debugger">
+        <arguments>
+            <argument name="logger" xsi:type="object">Yireo\SalesBlock2\Logger\CustomLogger</argument>
+        </arguments>
+    </type>
+
+    <virtualType type="Magento\Framework\Logger\Monolog" name="Yireo\SalesBlock2\Logger\CustomLogger">
+        <arguments>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Yireo\SalesBlock2\Logger\CustomLogHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType type="Magento\Framework\Logger\Handler\Base" name="Yireo\SalesBlock2\Logger\CustomLogHandler">
+        <arguments>
+            <argument name="fileName" xsi:type="string">var/log/yireo_salesblock.log</argument>
+        </arguments>
+    </virtualType>
 </config>

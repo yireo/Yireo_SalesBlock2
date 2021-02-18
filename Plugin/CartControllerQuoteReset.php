@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Yireo SalesBlock2 for Magento
  *
@@ -8,16 +9,14 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types=1);
-
 namespace Yireo\SalesBlock2\Plugin;
 
-use Magento\Checkout\Model\Cart;
-use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Checkout\Controller\Cart\Index as CartController;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
+use Yireo\SalesBlock2\Logger\Debugger;
+use Yireo\SalesBlock2\Utils\DestroyQuote;
 
 /**
  * Plugin CartControllerQuoteReset
@@ -31,37 +30,36 @@ class CartControllerQuoteReset
     private $ruleHelper;
 
     /**
-     * @var CheckoutSession
-     */
-    private $checkoutSession;
-
-    /**
      * @var ManagerInterface
      */
     private $messageManager;
 
     /**
-     * @var Cart
+     * @var DestroyQuote
      */
-    private $cart;
+    private $destroyQuote;
+    /**
+     * @var Debugger
+     */
+    private $debugger;
 
     /**
      * PreventAddToCart constructor.
      * @param RuleHelper $ruleHelper
-     * @param CheckoutSession $checkoutSession
      * @param ManagerInterface $messageManager
-     * @param Cart $cart
+     * @param DestroyQuote $destroyQuote
+     * @param Debugger $debugger
      */
     public function __construct(
         RuleHelper $ruleHelper,
-        CheckoutSession $checkoutSession,
         ManagerInterface $messageManager,
-        Cart $cart
+        DestroyQuote $destroyQuote,
+        Debugger $debugger
     ) {
         $this->ruleHelper = $ruleHelper;
-        $this->checkoutSession = $checkoutSession;
         $this->messageManager = $messageManager;
-        $this->cart = $cart;
+        $this->destroyQuote = $destroyQuote;
+        $this->debugger = $debugger;
     }
 
     /**
@@ -73,19 +71,10 @@ class CartControllerQuoteReset
         try {
             $match = $this->ruleHelper->findMatch();
             $this->messageManager->addWarningMessage($match->getMessage());
-
-            $quote = $this->checkoutSession->getQuote();
-            $quote->setItemsCount(0);
-            if ($quote->getAllVisibleItems()) {
-                foreach ($quote->getAllVisibleItems() as $item) {
-                    $itemId = $item->getItemId();
-                    $this->cart->removeItem($itemId)->save();
-                }
-                $this->checkoutSession->clearStorage();
-                $this->checkoutSession->resetCheckout();
-            }
+            $this->destroyQuote->destroy();
             return;
         } catch (NotFoundException $exception) {
+            $this->debugger->debug('Plugin for Magento\Checkout\Controller\Cart\Index: No match found');
             return;
         }
     }

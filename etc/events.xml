@@ -13,4 +13,16 @@
     <event name="salesblock_rule_match_after">
         <observer name="yireo_salesblock2_rule_match_log" instance="Yireo\SalesBlock2\Observer\RuleMatch"/>
     </event>
+
+    <event name="sales_quote_save_after">
+        <observer name="yireo_salesblock2_remove_quote" instance="Yireo\SalesBlock2\Observer\RemoveQuote"/>
+    </event>
+
+    <event name="sales_order_save_before">
+        <observer name="yireo_salesblock2_prevent_save" instance="Yireo\SalesBlock2\Observer\PreventSaveOrder" />
+    </event>
+
+    <event name="checkout_submit_before">
+        <observer name="yireo_salesblock2_prevent_submit" instance="Yireo\SalesBlock2\Observer\PreventSubmit" />
+    </event>
 </config>

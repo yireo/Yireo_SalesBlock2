@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Remove PHP dep from composer
 
+## [2.1.0] - 18 February 2021
+### Fixed
+- Code compliance with Magento PHPCS
+- Fixed issue with Guest Checkout email not being properly picked up
+
+### Added
+- Added additional event observer to guarantee blocking of guest orders
+- Debugging with `var/log/yireo_salesblock.log` file
+
 ## [2.0.4] - 24 November 2020
 ### Fixed
 - Issue when checkout is accessed directly

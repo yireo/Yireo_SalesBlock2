@@ -3,7 +3,9 @@
     <default>
         <salesblock>
             <settings>
-                <enabled>0</enabled>
+                <enabled>1</enabled>
+                <logging>0</logging>
+                <destroy_cart>0</destroy_cart>
             </settings>
         </salesblock>
     </default>

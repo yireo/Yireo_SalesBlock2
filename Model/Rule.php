@@ -67,6 +67,11 @@ class Rule extends AbstractModel implements RuleInterface
         return json_decode((string)$this->getData('conditions'), true);
     }
 
+    public function addCondition()
+    {
+        // @todo: Use a Value Object and auto-convert to a string
+    }
+
     /**
      * @param int $status
      *

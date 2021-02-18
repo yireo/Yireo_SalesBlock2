@@ -58,6 +58,22 @@ class Configuration
     }
 
     /**
+     * @return bool
+     */
+    public function isLogging(): bool
+    {
+        return (bool)$this->scopeConfig->getValue('salesblock/settings/logging');
+    }
+
+    /**
+     * @return bool
+     */
+    public function destroyCart(): bool
+    {
+        return (bool)$this->scopeConfig->getValue('salesblock/settings/destroy_cart');
+    }
+
+    /**
      * Determine the right URL for the custom deny page
      *
      * @return string

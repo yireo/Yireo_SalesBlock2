@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Yireo SalesBlock2 for Magento
  *
@@ -7,8 +8,6 @@
  * @copyright   Copyright 2017 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
  */
-
-declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Model\Rule;
 
@@ -36,11 +35,15 @@ class Service
     private $searchCriteriaBuilder;
 
     /**
+     * @var RuleInterface[]
+     */
+    private $rules;
+
+    /**
      * Service constructor.
      *
      * @param RuleRepositoryInterface $ruleRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     *
      */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,
@@ -55,12 +58,34 @@ class Service
      *
      * @return RuleInterface[]
      */
-    public function getRules()
+    public function getRules(): array
     {
+        if (is_array($this->rules)) {
+            return $this->rules;
+        }
+
         $searchCriteriaBuilder = $this->searchCriteriaBuilder;
         $searchCriteriaBuilder->addFilter($this->getActiveFilter());
         $searchCriteria = $searchCriteriaBuilder->create();
-        return $this->ruleRepository->getItems($searchCriteria);
+        $this->rules = $this->ruleRepository->getItems($searchCriteria);
+        return $this->rules;
+    }
+
+    /**
+     * @param RuleInterface $rule
+     */
+    public function addRule(RuleInterface $rule)
+    {
+        $this->rules[] = $rule;
+    }
+
+    /**
+     * @return Service
+     */
+    public function reset(): Service
+    {
+        $this->rules = [];
+        return $this;
     }
 
     /**

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Yireo SalesBlock2 for Magento
  *
@@ -8,13 +9,11 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types=1);
-
 namespace Yireo\SalesBlock2\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Psr\Log\LoggerInterface;
+use Yireo\SalesBlock2\Logger\Debugger;
 use Yireo\SalesBlock2\Match\Match;
 
 /**
@@ -25,19 +24,18 @@ use Yireo\SalesBlock2\Match\Match;
 class RuleMatch implements ObserverInterface
 {
     /**
-     * @var LoggerInterface
+     * @var Debugger
      */
-    private $logger;
+    private $debugger;
 
     /**
      * RuleMatch constructor.
-     *
-     * @param LoggerInterface $logger
+     * @param Debugger $debugger
      */
     public function __construct(
-        LoggerInterface $logger
+        Debugger $debugger
     ) {
-        $this->logger = $logger;
+        $this->debugger = $debugger;
     }
 
     /**
@@ -50,9 +48,8 @@ class RuleMatch implements ObserverInterface
         /** @var Match $match */
         $match = $event->getMatch();
         $rule = $match->getRule();
-        $conditions = var_export($rule->getConditions(), true);
 
-        $message = 'SalesBlock: rule ' . $rule->getId() . ' = ' . $match->getMessage();
-        $this->logger->log('notice', $message);
+        $message = 'RuleMatch ' . $rule->getId() . ' = ' . $match->getMessage();
+        $this->debugger->debug($message);
     }
 }

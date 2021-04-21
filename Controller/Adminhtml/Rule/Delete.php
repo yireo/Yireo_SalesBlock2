@@ -49,8 +49,7 @@ class Delete extends Massaction
      */
     private function disableByRuleId(int $ruleId) : bool
     {
-        /** @var RuleInterface $rule */
-        $rule = $this->ruleRepository->get($ruleId);
+        $rule = $this->ruleRepository->getById($ruleId);
         $this->ruleRepository->delete($rule);
 
         return true;

@@ -26,6 +26,7 @@
         </deps>
         <buttons>
             <button name="save" class="Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit\SaveButton"/>
+            <button name="delete" class="Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit\DeleteButton"/>
             <button name="back" class="Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit\BackButton"/>
         </buttons>
     </settings>

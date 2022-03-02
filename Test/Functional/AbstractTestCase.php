@@ -13,7 +13,7 @@ use Yireo\SalesBlock2\Api\Data\RuleInterfaceFactory;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
 use Yireo\SalesBlock2\Model\Rule;
 use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
-use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
+use Yireo\SalesBlock2\Utils\CurrentEmail;
 
 abstract class AbstractTestCase extends TestCase
 {

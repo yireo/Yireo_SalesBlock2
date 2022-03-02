@@ -10,7 +10,7 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
 use Yireo\SalesBlock2\Logger\Debugger;
 use Yireo\SalesBlock2\Utils\DestroyQuote;
-use Yireo\SalesBlock2ByEmail\Utils\CurrentEmail;
+use Yireo\SalesBlock2\Utils\CurrentEmail;
 
 class PreventSaveOrder implements ObserverInterface
 {

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
 /**
- * Yireo SalesBlock2 for Magento
+ * Yireo SalesBlock2By for Magento
  *
- * @package     Yireo_SalesBlock2
+ * @package     Yireo_SalesBlock2By
  * @author      Yireo (https://www.yireo.com/)
  * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
@@ -17,7 +17,7 @@ use Yireo\SalesBlock2\Logger\Debugger;
 
 /**
  * Class CurrentEmail
- * @package Yireo\SalesBlock2\Utils
+ * @package Yireo\SalesBlock2By\Utils
  */
 class CurrentEmail
 {

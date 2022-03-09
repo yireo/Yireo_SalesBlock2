@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
 /**
- * Yireo SalesBlock2By for Magento
+ * Yireo SalesBlock2 for Magento
  *
- * @package     Yireo_SalesBlock2By
+ * @package     Yireo_SalesBlock2
  * @author      Yireo (https://www.yireo.com/)
  * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
  */
 
-namespace Yireo\SalesBlock2By\Utils;
+namespace Yireo\SalesBlock2\Utils;
 
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Quote\Api\Data\CartInterface;
@@ -17,7 +17,7 @@ use Yireo\SalesBlock2\Logger\Debugger;
 
 /**
  * Class CurrentEmail
- * @package Yireo\SalesBlock2By\Utils
+ * @package Yireo\SalesBlock2\Utils
  */
 class CurrentEmail
 {

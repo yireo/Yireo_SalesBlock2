@@ -11,16 +11,31 @@
 
 namespace Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit;
 
-use Magento\Cms\Block\Adminhtml\Block\Edit\GenericButton;
+use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
 /**
  * Class DeleteButton
  */
-class DeleteButton extends GenericButton implements ButtonProviderInterface
+class DeleteButton implements ButtonProviderInterface
 {
     /**
-     * @return array
+     * @var Context
+     */
+    private $context;
+
+    /**
+     * @param Context $context
+     */
+    public function __construct(
+        Context $context
+    )
+    {
+        $this->context = $context;
+    }
+
+    /**
+     * @return string[]
      */
     public function getButtonData()
     {
@@ -37,8 +52,8 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
      *
      * @return string
      */
-    public function getButtonUrl()
+    public function getButtonUrl(): string
     {
-        return $this->getUrl('*/*/delete', ['id' => $this->getModelId()]);
+        return $this->context->getUrlBuilder()->getUrl('*/*/delete', ['id' => $this->context->getRequest()->getParam('id')]);
     }
 }

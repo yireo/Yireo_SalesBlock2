@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.4] - 10 March 2022
+### Removed
+- Removed unneeded module version
+- Remove button dep with CMS module
+
 ## [2.1.3] - 9 March 2022
 ### Fixed
 - Fix broken namespace

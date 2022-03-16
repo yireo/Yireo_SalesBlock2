@@ -36,8 +36,8 @@ class PreventAddToQuoteTest extends TestCase
         $productRepository = ObjectManager::getInstance()->get(ProductRepositoryInterface::class);
         $product = $productRepository->get('simple');
 
-        $inputArguments = $plugin->beforeAddProduct($cart, $product);
-        $this->assertNotEmpty($inputArguments);
+        $this->expectException(RuleMatchedException::class);
+        $plugin->beforeAddProduct($cart, $product);
     }
 
     /**

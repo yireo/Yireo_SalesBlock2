@@ -47,7 +47,7 @@ class RuleHelperTest extends TestCase
             $this->ruleHelper->findMatch();
             $this->assertTrue(false);
         } catch (NotFoundException $exception) {
-            $this->assertSame('SalesBlock is not enabled', $exception->getMessage());
+            $this->assertSame('No rules are found', $exception->getMessage());
         }
     }
 

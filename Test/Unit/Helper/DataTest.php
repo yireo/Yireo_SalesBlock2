@@ -16,9 +16,8 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Request\Http;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
-use \Yireo\SalesBlock2\Helper\Data as Target;
+use Yireo\SalesBlock2\Configuration\Configuration;
+use Yireo\SalesBlock2\Helper\Data as Target;
 
 /**
  * Class DataTest
@@ -38,50 +37,6 @@ class DataTest extends TestCase
     protected $cmsPageUrl = '';
 
     /**
-     * Test whether the enabled flag works
-     * @todo: Move this to the configuration
-     */
-    public function testEnabled()
-    {
-        $this->setScopeConfigValue('salesblock/settings/enabled', 1);
-        $target = $this->getTargetObject();
-        $this->assertSame($target->enabled(), true);
-
-        $this->setScopeConfigValue('salesblock/settings/enabled', 0);
-        $target = $this->getTargetObject();
-        $this->assertSame($target->enabled(), false);
-    }
-
-    /**
-     * Test whether the URL returns some value
-     * @todo: Move this to the configuration
-     */
-    public function testGetUrl()
-    {
-        $this->setScopeConfigValue('salesblock/settings/use_custom_page', 1);
-        $this->setScopeConfigValue('salesblock/settings/cmspage', 'dummy');
-        $this->cmsPageUrl = 'dummy';
-
-        $target = $this->getTargetObject();
-        $this->assertNotEmpty($target->getUrl());
-    }
-
-    /**
-     * Test whether the URL returns an exception if nothing is filled in
-     *
-     * @expectedException \Exception
-     * @todo: Move this to the configuration
-     */
-    public function testGetUrlException()
-    {
-        $this->setScopeConfigValue('salesblock/settings/cmspage', '');
-        $this->cmsPageUrl = '';
-
-        $target = $this->getTargetObject();
-        $target->getUrl();
-    }
-
-    /**
      * Test whether this is an AJAX request
      */
     public function testIsAjax()
@@ -97,8 +52,11 @@ class DataTest extends TestCase
     {
         $context = $this->getContextMock();
         $cmsPageHelper = $this->getCmsPageHelperMock();
+        $configuration = $this->getMockBuilder(Configuration::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $target = new Target($cmsPageHelper, $context);
+        $target = new Target($context, $cmsPageHelper, $configuration);
 
         return $target;
     }

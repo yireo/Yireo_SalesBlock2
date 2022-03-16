@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Converted InstallSchema into DB schema XML
 
+### Removed
+- Remove deprecated unit tests
+
 ## [2.1.4] - 10 March 2022
 ### Removed
 - Removed unneeded module version

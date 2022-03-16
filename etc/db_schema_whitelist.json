@@ -1,0 +1,14 @@
+{
+  "salesblock_rule": {
+    "column": {
+      "rule_id": true,
+      "label": true
+    },
+    "index": {
+      "SALESBLOCK_RULE_RULE_ID": true
+    },
+    "constraint": {
+      "PRIMARY": true
+    }
+  }
+}

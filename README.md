@@ -18,9 +18,9 @@ bin/magento setup:upgrade
 
 Next, install (and enable) one or more of the additional plugins. Without these plugins, the SalesBlock2 extension will not work:
 
-- [github.com/yireo/Yireo_SalesBlock2ByIp](https://github.com/yireo/Yireo_SalesBlock2ByIp]
-- [github.com/yireo/Yireo_SalesBlock2ByEmail](https://github.com/yireo/Yireo_SalesBlock2ByEmail]
-- [github.com/yireo/Yireo_SalesBlock2ByGeo](https://github.com/yireo/Yireo_SalesBlock2ByGeo] (also requires the PHP GeoIP module)
+- (github.com/yireo/Yireo_SalesBlock2ByIp)[https://github.com/yireo/Yireo_SalesBlock2ByIp]
+- (github.com/yireo/Yireo_SalesBlock2ByEmail)[https://github.com/yireo/Yireo_SalesBlock2ByEmail]
+- (github.com/yireo/Yireo_SalesBlock2ByGeo)[https://github.com/yireo/Yireo_SalesBlock2ByGeo] (also requires the PHP GeoIP module)
 
 ## Usage
 Navigate in the Magento Admin Panel to the Store Configuration to enable this module. Then, navigate in the Magento Admin Panel to **Sales > Sales Block Rules** to configure a rule. A rule consists of the following parts:

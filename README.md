@@ -30,3 +30,5 @@ Navigate in the Magento Admin Panel to the Store Configuration to enable this mo
 - **Conditions**: One or more conditions that **all** need to be met, before the rule is a match. The conditions are activated only through additional modules (see above). For instance, you could say that you are blocking sales for a person, coming from a certain IP range **and** using a specific email address.
 - **Frontend label**: The message to display to the blocked customer on the frontend.
 - **Frontend text**: An additional explanation to display to the blocked customer.
+
+For additional details, see the READMEs of all submodules.

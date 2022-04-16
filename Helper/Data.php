@@ -85,7 +85,6 @@ class Data extends AbstractHelper
      * Convert a string into an array
      *
      * @param string $string
-     *
      * @return array
      */
     public function stringToArray(string $string): array

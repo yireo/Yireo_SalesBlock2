@@ -9,7 +9,7 @@
  * @license     Open Source License (OSL v3)
  */
 
-namespace Yireo\SalesBlock2By\Utils;
+namespace Yireo\SalesBlock2\Utils;
 
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Quote\Api\Data\CartInterface;

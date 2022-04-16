@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Yireo SalesBlock2 for Magento
  *
@@ -8,22 +9,34 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types=1);
-
 namespace Yireo\SalesBlock2\Block\Adminhtml\Rule\Edit;
 
-use Magento\Cms\Block\Adminhtml\Block\Edit\GenericButton;
+use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
 /**
  * Class BackButton
  */
-class BackButton extends GenericButton implements ButtonProviderInterface
+class BackButton implements ButtonProviderInterface
 {
     /**
-     * @return array
+     * @var Context
      */
-    public function getButtonData()
+    private $context;
+
+    /**
+     * @param Context $context
+     */
+    public function __construct(
+        Context $context
+    ) {
+        $this->context = $context;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getButtonData(): array
     {
         return [
             'label' => __('Back'),
@@ -34,12 +47,10 @@ class BackButton extends GenericButton implements ButtonProviderInterface
     }
 
     /**
-     * Get URL for this button
-     *
      * @return string
      */
-    public function getButtonUrl()
+    public function getButtonUrl(): string
     {
-        return $this->getUrl('*/*/');
+        return $this->context->getUrlBuilder()->getUrl('*/*/');
     }
 }

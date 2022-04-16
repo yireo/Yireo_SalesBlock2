@@ -10,6 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - PHP 8 compatibility (and therefore Magento 2.4.4)
 
+## [2.1.5] - 16 March 2022
+### Fixed
+- Converted InstallSchema into DB schema XML
+
+### Removed
+- Remove deprecated unit tests
+
+## [2.1.4] - 10 March 2022
+### Removed
+- Removed unneeded module version
+- Remove button dep with CMS module
+
+## [2.1.3] - 9 March 2022
+### Fixed
+- Fix broken namespace
+>>>>>>> bd20f5d4773b621e93f13932581e6b2fc85fb677
+
 ## [2.1.2] - 2 March 2022
 ### Fixed
 - Remove dep with SalesBlock2ByEmail module

@@ -14,14 +14,14 @@ namespace Yireo\SalesBlock2\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Yireo\SalesBlock2\Logger\Debugger;
-use Yireo\SalesBlock2\Match\Match;
+use Yireo\SalesBlock2\Match\RuleMatch;
 
 /**
  * Class RuleMatch
  *
  * @package Yireo\SalesBlock2\Observer
  */
-class RuleMatch implements ObserverInterface
+class MatchRule implements ObserverInterface
 {
     /**
      * @var Debugger
@@ -45,7 +45,7 @@ class RuleMatch implements ObserverInterface
     {
         $event = $observer->getEvent();
 
-        /** @var Match $match */
+        /** @var RuleMatch $match */
         $match = $event->getMatch();
         $rule = $match->getRule();
 

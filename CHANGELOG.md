@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 16 April 2022
+### Fixed
+- PHP 8 compatibility (and therefore Magento 2.4.4)
+
 ## [2.1.2] - 2 March 2022
 ### Fixed
 - Remove dep with SalesBlock2ByEmail module

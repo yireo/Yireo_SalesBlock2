@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Yireo SalesBlock2 for Magento
  *
@@ -7,8 +7,6 @@
  * @copyright   Copyright 2017 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
  */
-
-declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Plugin;
 
@@ -20,7 +18,7 @@ use Magento\Quote\Api\Data\CartInterface;
 use Yireo\SalesBlock2\Exception\RuleMatchedException;
 use Yireo\SalesBlock2\Exception\RuleMatchedExceptionFactory;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
-use Yireo\SalesBlock2\Match\Match;
+use Yireo\SalesBlock2\Match\RuleMatch;
 
 /**
  * Plugin PreventAddToQuote
@@ -86,7 +84,7 @@ class PreventAddToQuote
     /**
      * @throws RuleMatchedException
      */
-    private function giveException(Match $match)
+    private function giveException(RuleMatch $match)
     {
         $exception = $this->getException($match);
         $this->messageManager->addExceptionMessage($exception);
@@ -96,7 +94,7 @@ class PreventAddToQuote
     /**
      * @return RuleMatchedException
      */
-    private function getException(Match $match): RuleMatchedException
+    private function getException(RuleMatch $match): RuleMatchedException
     {
         $message = (string) $match->getMessage();
         if (empty($message)) {

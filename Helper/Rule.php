@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Yireo SalesBlock2 for Magento
  *
@@ -8,8 +8,6 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types=1);
-
 namespace Yireo\SalesBlock2\Helper;
 
 use Magento\Framework\Event\ManagerInterface;
@@ -17,7 +15,7 @@ use Magento\Framework\Exception\NotFoundException;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Exception\NoMatchException;
-use Yireo\SalesBlock2\Match\Match;
+use Yireo\SalesBlock2\Match\RuleMatch;
 use Yireo\SalesBlock2\Matcher\MatcherList;
 use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
 
@@ -88,7 +86,7 @@ class Rule
     /**
      * Method to check whether the current visitor matches a SalesBlock rule
      *
-     * @return Match
+     * @return RuleMatch
      * @throws NotFoundException
      */
     public function findMatch()
@@ -116,7 +114,7 @@ class Rule
 
     /**
      * @param RuleInterface $rule
-     * @return bool|Match
+     * @return bool|RuleMatch
      */
     private function processRuleWithMatch(RuleInterface $rule)
     {
@@ -133,10 +131,10 @@ class Rule
     /**
      * @param RuleInterface $rule
      *
-     * @return Match
+     * @return RuleMatch
      * @throws NotFoundException
      */
-    private function getMatchFromRule(RuleInterface $rule): Match
+    private function getMatchFromRule(RuleInterface $rule): RuleMatch
     {
         $conditions = $rule->getConditions();
         foreach ($conditions as $condition) {
@@ -151,7 +149,7 @@ class Rule
 
     /**
      * @param array $condition
-     * @return bool|Match
+     * @return bool|RuleMatch
      */
     private function findMatchFromCondition(array $condition)
     {
@@ -179,9 +177,9 @@ class Rule
     /**
      * Method to execute when a visitor is actually matched
      *
-     * @param Match $match
+     * @param RuleMatch $match
      */
-    private function afterMatch(Match $match)
+    private function afterMatch(RuleMatch $match)
     {
         $eventArguments = ['match' => $match];
         $this->eventManager->dispatch('salesblock_rule_match_after', $eventArguments);

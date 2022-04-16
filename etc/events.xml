@@ -11,7 +11,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:/Event/etc/events.xsd">
     <event name="salesblock_rule_match_after">
-        <observer name="yireo_salesblock2_rule_match_log" instance="Yireo\SalesBlock2\Observer\RuleMatch"/>
+        <observer name="yireo_salesblock2_rule_match_log" instance="Yireo\SalesBlock2\Observer\MatchRule"/>
     </event>
 
     <event name="sales_quote_save_after">

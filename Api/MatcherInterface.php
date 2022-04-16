@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Yireo SalesBlock2 for Magento
  *
@@ -8,11 +9,9 @@
  * @license     Open Source License (OSL v3)
  */
 
-declare(strict_types=1);
-
 namespace Yireo\SalesBlock2\Api;
 
-use Yireo\SalesBlock2\Match\Match;
+use Yireo\SalesBlock2\Match\RuleMatch;
 
 /**
  * Class MatcherInterface
@@ -39,7 +38,7 @@ interface MatcherInterface
     /**
      * @param string $value
      *
-     * @return Match
+     * @return RuleMatch
      */
-    public function match(string $value): Match;
+    public function match(string $value): RuleMatch;
 }

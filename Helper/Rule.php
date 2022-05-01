@@ -162,15 +162,11 @@ class Rule
         } catch (NotFoundException $exception) {
             return false;
         }
-
-        try {
-            if (!$match = $matcher->match($condition['value'])) {
-                return false;
-            }
-        } catch (NoMatchException $exception) {
+    
+        if (!$match = $matcher->match($condition['value'])) {
             return false;
         }
-
+    
         return $match;
     }
 

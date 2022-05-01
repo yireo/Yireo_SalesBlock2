@@ -9,6 +9,7 @@ use Magento\Framework\Exception\NotFoundException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
+use Yireo\SalesBlock2\Exception\NoMatchException;
 use Yireo\SalesBlock2\Helper\Rule;
 use Yireo\SalesBlock2\Test\Integration\RuleProvider;
 
@@ -22,12 +23,12 @@ class RuleHelperTest extends TestCase
      * @var ObjectManager
      */
     private $objectManager;
-
+    
     /**
      * @var Rule
      */
     private $ruleHelper;
-
+    
     /**
      * Setup dependencies
      */
@@ -37,7 +38,7 @@ class RuleHelperTest extends TestCase
         $this->objectManager = Bootstrap::getObjectManager();
         $this->ruleHelper = $this->objectManager->get(Rule::class);
     }
-
+    
     /**
      * @magentoConfigFixture current_store salesblock/settings/enabled 0
      */
@@ -50,7 +51,7 @@ class RuleHelperTest extends TestCase
             $this->assertSame('No rules are found', $exception->getMessage());
         }
     }
-
+    
     /**
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
@@ -58,12 +59,12 @@ class RuleHelperTest extends TestCase
     public function testFindRuleWithoutAnyRules()
     {
         $this->setConfigValue('salesblock/settings/enabled', 1);
-
+        
         /** @var Rule $ruleHelper */
         $ruleHelper = $this->objectManager->get(Rule::class);
         $rules = $ruleHelper->getRules();
         $this->assertEmpty($rules);
-
+        
         try {
             $ruleHelper->findMatch();
             $this->assertTrue(false);
@@ -71,7 +72,7 @@ class RuleHelperTest extends TestCase
             $this->assertSame('No rules are found', $exception->getMessage());
         }
     }
-
+    
     /**
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
@@ -80,20 +81,17 @@ class RuleHelperTest extends TestCase
     {
         $this->setConfigValue('salesblock/settings/enabled', 1);
         $this->getRuleProvider()->createRule('ip', '127.0.0.1', true);
-
+        
         /** @var Rule $ruleHelper */
         $ruleHelper = $this->objectManager->get(Rule::class);
         $rules = $ruleHelper->getRules();
         $this->assertNotEmpty($rules);
-
-        try {
-            $ruleHelper->findMatch();
-            $this->assertTrue(false);
-        } catch (NotFoundException $exception) {
-            $this->assertSame('No rule is applicable', $exception->getMessage());
-        }
+        
+        $this->expectException(NoMatchException::class);
+        $this->expectExceptionMessage('No match found');
+        $ruleHelper->findMatch();
     }
-
+    
     /**
      * @return RuleProvider
      */
@@ -101,7 +99,7 @@ class RuleHelperTest extends TestCase
     {
         return $this->objectManager->get(RuleProvider::class);
     }
-
+    
     /**
      * @param string $configPath
      * @param $value

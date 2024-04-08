@@ -11,7 +11,7 @@
 
 namespace Yireo\SalesBlock2\Api;
 
-use Yireo\SalesBlock2\Match\RuleMatch;
+use Yireo\SalesBlock2\RuleMatch\RuleMatch;
 
 /**
  * Class MatcherInterface

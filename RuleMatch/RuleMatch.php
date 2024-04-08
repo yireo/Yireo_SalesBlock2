@@ -8,7 +8,7 @@
  * @license     Open Source License (OSL v3)
  */
 
-namespace Yireo\SalesBlock2\Match;
+namespace Yireo\SalesBlock2\RuleMatch;
 
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 

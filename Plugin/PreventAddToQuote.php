@@ -18,7 +18,7 @@ use Magento\Quote\Api\Data\CartInterface;
 use Yireo\SalesBlock2\Exception\RuleMatchedException;
 use Yireo\SalesBlock2\Exception\RuleMatchedExceptionFactory;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
-use Yireo\SalesBlock2\Match\RuleMatch;
+use Yireo\SalesBlock2\RuleMatch\RuleMatch;
 
 /**
  * Plugin PreventAddToQuote

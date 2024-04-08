@@ -15,7 +15,7 @@ use Magento\Framework\Exception\NotFoundException;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Configuration\Configuration;
 use Yireo\SalesBlock2\Exception\NoMatchException;
-use Yireo\SalesBlock2\Match\RuleMatch;
+use Yireo\SalesBlock2\RuleMatch\RuleMatch;
 use Yireo\SalesBlock2\Matcher\MatcherList;
 use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
 

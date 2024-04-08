@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.1] - 8 April 2028
 ### Fixed
 - Compat psr/log with Magento 2.4.7
+- Rename Match/ folder to RuleMatch/ for PHP 8.2 compat
 
 ## [2.2.0] - 16 April 2022
 ### Fixed

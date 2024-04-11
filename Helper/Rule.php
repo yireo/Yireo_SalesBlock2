@@ -27,45 +27,28 @@ use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
  */
 class Rule
 {
-    /**
-     * @var RuleService
-     */
-    private $ruleService;
-
-    /**
-     * @var ManagerInterface
-     */
-    private $eventManager;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var MatcherList
-     */
-    private $matcherList;
-
+    private RuleService $ruleService;
+    private ManagerInterface $eventManager;
+    
+    private Configuration $configuration;
+    private MatcherList $matcherList;
+    
     /**
      * Rule constructor.
      *
      * @param MatcherList $matcherList
      * @param Configuration $configuration
-     * @param Data $moduleHelper
      * @param RuleService $ruleService
      * @param ManagerInterface $eventManager
      */
     public function __construct(
         MatcherList $matcherList,
         Configuration $configuration,
-        Data $moduleHelper,
         RuleService $ruleService,
         ManagerInterface $eventManager
     ) {
         $this->matcherList = $matcherList;
         $this->configuration = $configuration;
-        $this->helper = $moduleHelper;
         $this->ruleService = $ruleService;
         $this->eventManager = $eventManager;
     }

@@ -28,11 +28,6 @@ use Yireo\SalesBlock2\Model\Rule\Service as RuleService;
 class Rule
 {
     /**
-     * @var Data
-     */
-    private $helper;
-
-    /**
      * @var RuleService
      */
     private $ruleService;
@@ -123,9 +118,10 @@ class Rule
                 $this->afterMatch($match);
                 return $match;
             }
-        } catch (NotFoundException $exception) {
-            return false;
+        } catch (NotFoundException|NoMatchException $exception) {
         }
+        
+        return false;
     }
 
     /**

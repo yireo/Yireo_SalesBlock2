@@ -6,7 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.2.2] - 9 April 2028
+## [2.2.3] - 11 April 2024
+### Fixed
+- Bug when no rules are matched by any matcher
+
+## [2.2.2] - 9 April 2024
 ### Fixed
 - Compat psr/log with Magento 2.4.7
 - Rename Match/ folder to RuleMatch/ for PHP 8.2 compat

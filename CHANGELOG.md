@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.5] - 14 August 2025
+### Fixed
+- PHP 8.4 compat
+
 ## [2.2.4] - 11 April 2024
 ### Fixed
 - Removed helper

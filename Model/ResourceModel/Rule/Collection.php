@@ -64,7 +64,7 @@ class Collection extends AbstractCollection
      * @param SearchCriteriaInterface $searchCriteria
      * @return $this
      */
-    public function setSearchCriteria(SearchCriteriaInterface $searchCriteria = null)
+    public function setSearchCriteria(?SearchCriteriaInterface $searchCriteria = null)
     {
         $this->searchCriteria = $searchCriteria;
         return $this;

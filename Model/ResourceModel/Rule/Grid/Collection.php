@@ -121,7 +121,7 @@ class Collection extends RegularCollection implements RuleSearchResultInterface
      * @return $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function setItems(array $items = [])
+    public function setItems(?array $items = null)
     {
         return $this;
     }

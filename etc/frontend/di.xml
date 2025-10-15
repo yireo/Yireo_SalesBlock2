@@ -15,19 +15,19 @@
 
     <type name="Yireo\SalesBlock2\Logger\Debugger">
         <arguments>
-            <argument name="logger" xsi:type="object">Yireo\SalesBlock2\Logger\CustomLogger</argument>
+            <argument name="logger" xsi:type="object">Yireo\SalesBlock2\Logger\VirtualCustom</argument>
         </arguments>
     </type>
 
-    <virtualType type="Magento\Framework\Logger\Monolog" name="Yireo\SalesBlock2\Logger\CustomLogger">
+    <virtualType type="Magento\Framework\Logger\Monolog" name="Yireo\SalesBlock2\Logger\VirtualCustom">
         <arguments>
             <argument name="handlers"  xsi:type="array">
-                <item name="system" xsi:type="object">Yireo\SalesBlock2\Logger\CustomLogHandler</item>
+                <item name="system" xsi:type="object">Yireo\SalesBlock2\Logger\VirtualCustomLogHandler</item>
             </argument>
         </arguments>
     </virtualType>
 
-    <virtualType type="Magento\Framework\Logger\Handler\Base" name="Yireo\SalesBlock2\Logger\CustomLogHandler">
+    <virtualType type="Magento\Framework\Logger\Handler\Base" name="Yireo\SalesBlock2\Logger\VirtualCustomLogHandler">
         <arguments>
             <argument name="fileName" xsi:type="string">var/log/yireo_salesblock.log</argument>
         </arguments>

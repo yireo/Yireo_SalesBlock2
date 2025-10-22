@@ -6,11 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.2.2] - 22 October 2025
+## [2.2.7] - 22 October 2025
 ### Fixed
 - Change virtual type ending with Logger to prevent DI debug message
 - PHP 8.4 compat
 - Fix issue with rule not found by any matcher
+
+## [2.2.6] - 14 August 2025
+### Fixed
+- Broken release
 
 ## [2.2.5] - 14 August 2025
 ### Fixed

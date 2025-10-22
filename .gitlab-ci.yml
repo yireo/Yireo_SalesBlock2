@@ -1,0 +1,194 @@
+stages:
+  - linting
+  - unit
+  - integration
+  - e2e
+
+variables:
+  ES_JAVA_OPTS: "-Xms128m -Xmx512m"
+  ES_SETTING_DISCOVERY_TYPE: "single-node"
+  ES_SETTING_XPACK_SECURITY_ENABLED: "false"
+  MAGENTO_BASE_URL: "http://127.0.0.1:8888/"
+  MAGENTO_BACKEND_FRONTNAME: "admin"
+  MAGENTO_ADMIN_FIRSTNAME: "CI"
+  MAGENTO_ADMIN_LASTNAME: "User"
+  MAGENTO_ADMIN_EMAIL: "admin@example.com"
+  MAGENTO_ADMIN_USER: "admin"
+  MAGENTO_ADMIN_PASSWORD: "Admin123!@#"
+  MAGENTO_LANGUAGE: "en_US"
+  MAGENTO_CURRENCY: "USD"
+  MAGENTO_TIMEZONE: "UTC"
+  MAGENTO_USE_REWRITES: "1"
+  MAGENTO_SEARCH_ENGINE: "opensearch"
+  COMPOSER_ALLOW_SUPERUSER: "1"
+  COMPOSER_MEMORY_LIMIT: "-1"
+  MYSQL_HOST: "mysql"
+  MYSQL_USER: magento2
+  MYSQL_PASSWORD: magento2
+  MYSQL_DATABASE: magento2
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_PORT: "3306"
+  ES_HOST: "opensearch-dummy"
+  ES_PORT: "9200"
+
+php-linting:
+  image: yireo/php-testbox:$PHP_VERSION
+  stage: linting
+  script:
+    - cat .module.ini | grep PHP_VERSIONS | grep -q $PHP_VERSION || exit 0
+    - sh -c 'if find . -name "*.php" -exec php -l {} 2>&1 \; | grep -v "^No syntax errors detected"; then exit 1; fi'
+  parallel:
+    matrix:
+      - PHP_VERSION: ['8.1', '8.2', '8.3', '8.4']
+
+magento-unit-tests:
+  image: yireo/magento2installed:2.4.8
+  stage: unit
+  script:
+    - cat .module.ini | grep PHP_VERSIONS | grep -q 8.4 || exit 0
+    - test -d $CI_PROJECT_DIR/Test/Unit/ || exit 0
+    - source .module.ini
+    - cd /tmp/magento
+    - composer config --global gitlab-token.gitlab.yireo.com $CI_JOB_TOKEN
+    - composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
+    - composer config repositories.local-source path $CI_PROJECT_DIR
+    - composer require --prefer-source -- $COMPOSER_NAME:@dev
+    - export MAGENTO_MODULE=${EXTENSION_VENDOR}_${EXTENSION_NAME}
+    - cd /tmp/magento/dev/tests/unit/
+    - cp $CI_PROJECT_DIR/.gitlab-ci/unit-tests/phpunit.xml phpunit.xml
+    - php ../../../vendor/bin/phpunit -c phpunit.xml --colors=never ../../../vendor/$COMPOSER_NAME/Test/Unit
+
+magento-integration-tests:
+  image: yireo/magento2installed:2.4.8
+  stage: integration
+  script:
+    - cat .module.ini | grep PHP_VERSIONS | grep -q 8.4 || exit 0
+    - test -d Test/Integration/ || exit 0
+    - source .module.ini
+    - cd /tmp/magento
+    - composer config --global gitlab-token.gitlab.yireo.com $CI_JOB_TOKEN
+    - composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
+    - composer config repositories.local-source path $CI_PROJECT_DIR
+    - composer require --prefer-source -- $COMPOSER_NAME:@dev yireo/magento2-integration-test-helper
+    - curl -sf -o /dev/null http://opensearch:9200  || (echo "ElasticSearch not alive" && exit 1)
+    - cd /tmp/magento/dev/tests/integration/
+    - cp $CI_PROJECT_DIR/.gitlab-ci/integration-tests/install-config-mysql.php etc/install-config-mysql.php
+    - cp $CI_PROJECT_DIR/.gitlab-ci/integration-tests/phpunit10.xml phpunit.xml
+    - MAGENTO_MODULE_FOLDER=vendor/$COMPOSER_NAME php -d display_errors=1 -d memory_limit=4G ../../../vendor/bin/phpunit ../../../vendor/$COMPOSER_NAME/Test/Integration/
+  services:
+    - name: yireo/mysql:8.0
+      alias: mysql
+    - name: redis:latest
+      alias: redis
+    - name: yireo/opensearch-dummy
+      alias: opensearch
+
+magento-playwright:
+  image: yireo/magento2installed:2.4.8
+  stage: e2e
+  before_script:
+    - |
+      echo "Waiting for MySQL "
+      for i in {1..60}; do
+        if mysqladmin ping -h"${MYSQL_HOST}" -P"${MYSQL_PORT}" --silent; then
+          echo "OK"; break
+        fi
+        echo -n "."
+        sleep 1
+      done
+
+      mysql -h"${MYSQL_HOST}" -P"${MYSQL_PORT}" -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+      mysql -h"${MYSQL_HOST}" -P"${MYSQL_PORT}" -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+      mysql -h"${MYSQL_HOST}" -P"${MYSQL_PORT}" -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%'; FLUSH PRIVILEGES;"
+
+      echo "Waiting for OpenSearch "
+      result=0
+      for i in {1..60}; do
+        if curl -s "http://${ES_HOST}:${ES_PORT}" | grep -q '"tagline"'; then
+          echo "OK"; result=1; break
+        fi
+        echo -n "."
+        sleep 1
+      done
+      echo "NOT OK"
+      #test $result -eq 0 && echo "Not available" && exit 1
+
+      cd /tmp/magento
+      php -dmemory_limit=-1 bin/magento setup:install \
+        --base-url="${MAGENTO_BASE_URL}" \
+        --db-host="${MYSQL_HOST}" \
+        --db-name="${MYSQL_DATABASE}" \
+        --db-user="${MYSQL_USER}" \
+        --db-password="${MYSQL_PASSWORD}" \
+        --backend-frontname="${MAGENTO_BACKEND_FRONTNAME}" \
+        --admin-firstname="${MAGENTO_ADMIN_FIRSTNAME}" \
+        --admin-lastname="${MAGENTO_ADMIN_LASTNAME}" \
+        --admin-email="${MAGENTO_ADMIN_EMAIL}" \
+        --admin-user="${MAGENTO_ADMIN_USER}" \
+        --admin-password="${MAGENTO_ADMIN_PASSWORD}" \
+        --language="${MAGENTO_LANGUAGE}" \
+        --currency="${MAGENTO_CURRENCY}" \
+        --timezone="${MAGENTO_TIMEZONE}" \
+        --use-rewrites="${MAGENTO_USE_REWRITES}" \
+        --search-engine="${MAGENTO_SEARCH_ENGINE}" \
+        --elasticsearch-host="${ES_HOST}" \
+        --elasticsearch-port="${ES_PORT}" \
+        --session-save=redis \
+        --session-save-redis-host=redis \
+        --session-save-redis-port=6379 \
+        --cache-backend-redis-server=redis \
+        --cache-backend-redis-port=6379 \
+
+      #php -dmemory_limit=-1 bin/magento setup:di:compile
+      #php -dmemory_limit=-1 bin/magento setup:static-content:deploy -f
+
+      cd /tmp/magento/pub/
+      nohup php -S 0.0.0.0:8888 >/tmp/php-server.log 2>&1 &
+
+      echo "Waiting for Magento front to become reachable"; break
+      result=0
+      for i in {1..60}; do
+        if curl -s "${MAGENTO_BASE_URL}" 2>1 >/dev/null; then
+          echo "OK"; result=1; break
+        fi
+        echo -n "."
+        sleep 1
+      done
+      test $result -eq 0 && echo "Not available" && cat /tmp/php-server.log && exit 1
+  script:
+    - cd $CI_PROJECT_DIR
+    - ls -al
+    - test -d Test/Playwright/ || exit 0
+    - source .module.ini
+    - cd /tmp/magento
+    - composer config --global gitlab-token.gitlab.yireo.com $CI_JOB_TOKEN
+    - composer config repositories.loki-checkout composer https://gitlab.yireo.com/api/v4/group/loki-checkout/-/packages/composer/packages.json
+    - composer config repositories.local-source path $CI_PROJECT_DIR
+    - composer require --prefer-source -- $COMPOSER_NAME:@dev loki-checkout/magento2-functional-tests:@dev yireo/magento2-enable-module-sequence
+    - bin/magento module:enable Yireo_EnableModuleSequence
+    - bin/magento module:enable:sequence ${EXTENSION_VENDOR}_${EXTENSION_NAME}
+    - bin/magento setup:upgrade
+    - bin/magento config:set loki_functional_tests/general/token loki
+    - cd vendor/loki-checkout/magento2-functional-tests/Test/Playwright/
+    - npm install
+    - npx playwright install
+    - touch .env
+    - echo "TEST_URL=$MAGENTO_BASE_URL" >> .env
+    - echo "TEST_TOKEN=loki" >> .env
+    - npx playwright test --project=LokiCheckout_Core
+  services:
+    - name: yireo/mysql:8.0
+      alias: mysql
+    - name: redis:latest
+      alias: redis
+    - name: yireo/opensearch-dummy
+      alias: opensearch-dummy
+    - name: yireo/opensearch
+      alias: opensearch
+
+cache:
+  key: "$CI_JOB_NAME"
+  paths:
+    - /build/cache/
+    - vendor/
+

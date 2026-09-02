@@ -1,0 +1,15 @@
+{
+    "module_name": "Yireo_SalesBlock2",
+    "composer_name": "yireo/magento2-salesblock2",
+    "sequence": [
+        "Magento_Backend",
+        "Magento_Checkout",
+        "Magento_Cms",
+        "Magento_Config",
+        "Magento_Customer",
+        "Magento_Quote",
+        "Magento_Sales",
+        "Magento_Store",
+        "Magento_Ui"
+    ]
+}

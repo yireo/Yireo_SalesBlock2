@@ -46,7 +46,7 @@ class MatchersCommand extends Command
     /**
      * Configure this command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $description = 'Show all matchers available for creating rules with SalesBlock';
         $this->setName('yireo_salesblock2:matchers')->setDescription($description);
@@ -56,20 +56,22 @@ class MatchersCommand extends Command
      * @param Input $input
      * @param Output $output
      *
-     * @return void
+     * @return int
      */
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): int
     {
         $matchers = $this->matcherList->getMatchers();
 
         if (empty($matchers)) {
             $suggestion = 'Enable additional SalesBlock matcher extensions first.';
             $output->writeln('No matchers found. '.$suggestion);
-            return;
+            return Command::SUCCESS;
         }
 
         foreach ($matchers as $matcher) {
             $output->writeln($matcher->getName() . ': ' . $matcher->getDescription());
         }
+
+        return Command::SUCCESS;
     }
 }

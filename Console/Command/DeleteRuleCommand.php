@@ -49,7 +49,7 @@ class DeleteRuleCommand extends Command
     /**
      * Configure this command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('yireo_salesblock2:rule:delete');
         $this->setDescription('Delete an existing SalesBlock2 rule');
@@ -66,9 +66,9 @@ class DeleteRuleCommand extends Command
      * @param Input $input
      * @param Output $output
      *
-     * @return void
+     * @return int
      */
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): int
     {
         try {
             $ruleId = (int)$input->getOption('id');
@@ -82,6 +82,8 @@ class DeleteRuleCommand extends Command
 
         $this->deleteRule($ruleId);
         $output->writeln('<info>Rule has been deleted</info>');
+
+        return Command::SUCCESS;
     }
 
     /**

@@ -51,7 +51,7 @@ class NewRuleCommand extends Command
     /**
      * Configure this command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('yireo_salesblock2:rule:new');
         $this->setDescription('Create a new SalesBlock2 rule');
@@ -76,9 +76,9 @@ class NewRuleCommand extends Command
      * @param Input $input
      * @param Output $output
      *
-     * @return void
+     * @return int
      */
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): int
     {
         try {
             $label = trim($input->getOption('label'));
@@ -97,6 +97,8 @@ class NewRuleCommand extends Command
 
         $this->createRule($label, $conditions);
         $output->writeln('<info>Rule has been created</info>');
+
+        return Command::SUCCESS;
     }
 
     /**

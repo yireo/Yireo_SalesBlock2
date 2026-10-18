@@ -56,7 +56,7 @@ class RulesCommand extends Command
     /**
      * Configure this command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('yireo_salesblock2:rules')->setDescription('Show all rules configured in SalesBlock');
     }
@@ -65,20 +65,22 @@ class RulesCommand extends Command
      * @param Input $input
      * @param Output $output
      *
-     * @return void
+     * @return int
      */
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): int
     {
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $rules = $this->ruleRepository->getList($searchCriteria);
 
         if (empty($rules)) {
             $output->writeln('No rules found');
-            return;
+            return Command::SUCCESS;
         }
 
         foreach ($rules as $rule) {
             $output->writeln($rule->getId() . ': ' . $rule->getLabel());
         }
+
+        return Command::SUCCESS;
     }
 }

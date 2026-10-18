@@ -47,7 +47,7 @@ class TestRulesCommand extends Command
     /**
      * Configure this command
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('yireo_salesblock2:test')->setDescription('Test all rules for specific matches');
         $this->setDefinition([
@@ -64,15 +64,17 @@ class TestRulesCommand extends Command
      * @param Input $input
      * @param Output $output
      *
-     * @return void
+     * @return int
      */
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): int
     {
         $rules = $this->ruleHelper->getRules();
         if (empty($rules)) {
             $output->writeln('<error>No rules found</error>');
+            return Command::FAILURE;
         }
 
         // @todo: Implement rules for this
+        return Command::SUCCESS;
     }
 }

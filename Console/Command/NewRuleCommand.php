@@ -45,7 +45,7 @@ class NewRuleCommand extends Command
     ) {
         $this->ruleRepository = $ruleRepository;
 
-        return parent::__construct($name);
+        parent::__construct($name);
     }
 
     /**

@@ -50,7 +50,7 @@ class RulesCommand extends Command
         $this->ruleRepository = $ruleRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
 
-        return parent::__construct($name);
+        parent::__construct($name);
     }
 
     /**

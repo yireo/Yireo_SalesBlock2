@@ -41,7 +41,7 @@ class TestRulesCommand extends Command
     ) {
         $this->ruleHelper = $ruleHelper;
 
-        return parent::__construct($name);
+        parent::__construct($name);
     }
 
     /**

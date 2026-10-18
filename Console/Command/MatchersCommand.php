@@ -40,7 +40,7 @@ class MatchersCommand extends Command
         $name = null
     ) {
         $this->matcherList = $matcherList;
-        return parent::__construct($name);
+        parent::__construct($name);
     }
 
     /**

@@ -9,7 +9,6 @@ use Magento\Framework\Exception\NotFoundException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
-use Yireo\SalesBlock2\Exception\NoMatchException;
 use Yireo\SalesBlock2\Helper\Rule;
 use Yireo\SalesBlock2\Test\Integration\RuleProvider;
 
@@ -87,8 +86,8 @@ class RuleHelperTest extends TestCase
         $rules = $ruleHelper->getRules();
         $this->assertNotEmpty($rules);
         
-        $this->expectException(NoMatchException::class);
-        $this->expectExceptionMessage('No match found');
+        $this->expectException(NotFoundException::class);
+        $this->expectExceptionMessage('No rule is applicable');
         $ruleHelper->findMatch();
     }
     

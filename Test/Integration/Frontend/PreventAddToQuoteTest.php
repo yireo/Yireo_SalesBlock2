@@ -10,8 +10,10 @@ use Magento\Quote\Api\Data\CartInterface;
 use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use Yireo\SalesBlock2\Exception\RuleMatchedException;
+use Yireo\SalesBlock2\Matcher\MatcherList;
 use Yireo\SalesBlock2\Plugin\PreventAddToQuote;
 use Yireo\SalesBlock2\Test\Integration\RuleProvider;
+use Yireo\SalesBlock2\Test\Integration\Stub\AlwaysMatchMatcher;
 
 /**
  * Class PreventAddToQuoteTest
@@ -28,7 +30,17 @@ class PreventAddToQuoteTest extends TestCase
      */
     public function testPlugin()
     {
-        $this->getRuleProvider()->createRule('ip', '*', true);
+        ObjectManager::getInstance()->configure([
+            MatcherList::class => [
+                'arguments' => [
+                    'matchers' => [
+                        'test_always' => ['instance' => AlwaysMatchMatcher::class],
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->getRuleProvider()->createRule(AlwaysMatchMatcher::CODE, '*', true);
 
         /** @var PreventAddToQuote $plugin */
         $plugin = ObjectManager::getInstance()->get(PreventAddToQuote::class);

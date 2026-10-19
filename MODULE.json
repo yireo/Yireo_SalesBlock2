@@ -11,5 +11,61 @@
         "Magento_Sales",
         "Magento_Store",
         "Magento_Ui"
-    ]
+    ],
+    "php_versions": [
+        "8.1",
+        "8.2",
+        "8.3",
+        "8.4"
+    ],
+    "skip_magento_versions": [],
+    "skip_css_utils": false,
+    "modules": [
+        "Magento_AdminNotification",
+        "Magento_Backend",
+        "Magento_Catalog",
+        "Magento_CatalogInventory",
+        "Magento_Checkout",
+        "Magento_Cms",
+        "Magento_Config",
+        "Magento_Csp",
+        "Magento_Customer",
+        "Magento_Directory",
+        "Magento_Eav",
+        "Magento_Indexer",
+        "Magento_Payment",
+        "Magento_Quote",
+        "Magento_Rule",
+        "Magento_Sales",
+        "Magento_SalesSequence",
+        "Magento_Store",
+        "Magento_Theme",
+        "Magento_Ui",
+        "Magento_Variable"
+    ],
+    "components": [],
+    "config": [
+        {
+            "path": "salesblock/settings/enabled",
+            "label": "Settings > Enabled",
+            "description": ""
+        },
+        {
+            "path": "salesblock/settings/logging",
+            "label": "Settings > Logging",
+            "description": ""
+        },
+        {
+            "path": "salesblock/settings/destroy_cart",
+            "label": "Settings > Destroy cart",
+            "description": ""
+        }
+    ],
+    "tests": {
+        "unit": 5,
+        "integration": 16,
+        "functional": 0
+    },
+    "phpcs_severity": 10,
+    "phpstan_level": 1
 }

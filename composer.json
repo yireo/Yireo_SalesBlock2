@@ -34,7 +34,7 @@
         "symfony/console": "^7.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
+        "phpunit/phpunit": "^10.0",
         "yireo/magento2-integration-test-helper": "~0.0"
     },
     "suggest": {

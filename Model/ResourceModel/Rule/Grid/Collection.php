@@ -90,6 +90,7 @@ class Collection extends RegularCollection implements RuleSearchResultInterface
     public function setAggregations($aggregations)
     {
         $this->aggregations = $aggregations;
+        return $this;
     }
 
     /**

@@ -38,7 +38,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function setLabel(string $label)
     {
-        return $this->setData('label', trim(strip_tags($label)));
+        return $this->setData('label', trim(strip_tags($label), " \f\n\r\t\v\x00"));
     }
 
     /**
@@ -97,7 +97,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function setFrontendLabel(string $frontendLabel)
     {
-        return $this->setData('frontend_label', trim(strip_tags($frontendLabel)));
+        return $this->setData('frontend_label', trim(strip_tags($frontendLabel), " \f\n\r\t\v\x00"));
     }
 
     /**
@@ -115,7 +115,7 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function setFrontendText(string $frontendText)
     {
-        return $this->setData('frontend_text', trim($frontendText));
+        return $this->setData('frontend_text', trim($frontendText, " \f\n\r\t\v\x00"));
     }
 
     /**

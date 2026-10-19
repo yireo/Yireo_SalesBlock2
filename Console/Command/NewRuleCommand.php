@@ -81,8 +81,8 @@ class NewRuleCommand extends Command
     protected function execute(Input $input, Output $output): int
     {
         try {
-            $label = trim($input->getOption('label'));
-            $conditions = trim($input->getOption('conditions'));
+            $label = trim($input->getOption('label'), " \f\n\r\t\v\x00");
+            $conditions = trim($input->getOption('conditions'), " \f\n\r\t\v\x00");
         } catch (Error $e) {
             throw new InvalidArgumentException('Unable to initialize options');
         }

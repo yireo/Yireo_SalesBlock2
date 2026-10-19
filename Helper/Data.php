@@ -93,7 +93,7 @@ class Data extends AbstractHelper
         $newData = [];
 
         foreach ($data as $value) {
-            $value = trim($value);
+            $value = trim($value, " \f\n\r\t\v\x00");
             if (!empty($value)) {
                 $newData[] = $value;
             }

@@ -9,7 +9,7 @@ use Magento\TestFramework\Request;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Backend\App\Router;
 use Magento\Backend\App\Action\Context as ActionContext;
-use Magento\Framework\View\Result\Page\Interceptor as ResultPage;
+use Magento\Framework\View\Result\Page as ResultPage;
 use Magento\Framework\App\Route\ConfigInterface as RouteConfigInterface;
 use Magento\Framework\App\Route\Config as RouteConfig;
 use PHPUnit\Framework\TestCase;

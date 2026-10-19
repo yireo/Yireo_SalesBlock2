@@ -25,10 +25,7 @@ class ArrayUtil
      */
     public function stringToArray(string $string): array
     {
-        $values = explode(',', $string);
-        if (empty($values)) {
-            $values = explode("\n", $string);
-        }
+        $values = preg_split('/[,\n]/', $string);
 
         $newValues = [];
         foreach ($values as $value) {

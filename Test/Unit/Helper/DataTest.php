@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Test\Unit\Helper;
 
+use Magento\Cms\Helper\Page as CmsPageHelper;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Request\Http;
@@ -62,22 +63,15 @@ class DataTest extends TestCase
     }
 
     /**
-     * @return \Magento\Cms\Helper\Page
+     * @return CmsPageHelper
      */
     protected function getCmsPageHelperMock()
     {
-        $cmsPageHelper = $this->createMock(
-            'Magento\Cms\Helper\Page',
-            [],
-            [],
-            '',
-            false,
-            false
-        );
+        $cmsPageHelper = $this->createMock(CmsPageHelper::class);
 
         $cmsPageHelper->expects($this->any())
             ->method('getPageUrl')
-            ->will($this->returnValue($this->cmsPageUrl));
+            ->willReturn($this->cmsPageUrl);
 
         return $cmsPageHelper;
     }
@@ -87,24 +81,17 @@ class DataTest extends TestCase
      */
     protected function getContextMock()
     {
-        $context = $this->createMock(
-            'Magento\Framework\App\Helper\Context',
-            [],
-            [],
-            '',
-            false,
-            false
-        );
+        $context = $this->createMock(Context::class);
 
         $scopeConfig = $this->getScopeConfigMock();
         $context->expects($this->any())
             ->method('getScopeConfig')
-            ->will($this->returnValue($scopeConfig));
+            ->willReturn($scopeConfig);
 
         $request = $this->getRequestMock();
         $context->expects($this->any())
             ->method('getRequest')
-            ->will($this->returnValue($request));
+            ->willReturn($request);
 
         return $context;
     }
@@ -114,11 +101,11 @@ class DataTest extends TestCase
      */
     protected function getScopeConfigMock()
     {
-        $scopeConfig = $this->createMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->createMock(ScopeConfigInterface::class);
 
         $scopeConfig->expects($this->any())
             ->method('getValue')
-            ->will($this->returnValueMap($this->scopeConfigValues));
+            ->willReturnMap($this->scopeConfigValues);
 
         return $scopeConfig;
     }
@@ -128,26 +115,21 @@ class DataTest extends TestCase
      */
     protected function getRequestMock()
     {
-        $request = $this->createMock(
-            'Magento\Framework\App\Request\Http',
-            [],
-            [],
-            '',
-            false,
-            false
-        );
+        $request = $this->createMock(Http::class);
 
         $request->expects($this->any())
             ->method('isAjax')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         return $request;
     }
 
     /**
-     * @return array
+     * @param string $name
+     * @param mixed $value
+     * @return void
      */
-    protected function setScopeConfigValue($name, $value)
+    protected function setScopeConfigValue(string $name, $value): void
     {
         $this->scopeConfigValues[$name] = [$name, 'default', null, $value];
     }

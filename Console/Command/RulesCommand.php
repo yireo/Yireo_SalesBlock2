@@ -70,7 +70,7 @@ class RulesCommand extends Command
     protected function execute(Input $input, Output $output): int
     {
         $searchCriteria = $this->searchCriteriaBuilder->create();
-        $rules = $this->ruleRepository->getList($searchCriteria);
+        $rules = $this->ruleRepository->getList($searchCriteria)->getItems();
 
         if (empty($rules)) {
             $output->writeln('No rules found');

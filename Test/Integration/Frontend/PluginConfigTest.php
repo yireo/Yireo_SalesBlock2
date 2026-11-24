@@ -16,7 +16,7 @@ class PluginConfigTest extends TestCase
      */
     public function testPreventAddToQuoteTargetsQuoteModel(): void
     {
-        $pluginList = Bootstrap::getObjectManager()->create(PluginList::class);
+        $pluginList = Bootstrap::getObjectManager()->get(PluginList::class);
         $plugins = $pluginList->get(Quote::class, []);
         $this->assertArrayHasKey('salesblock_prevent_add_quote', $plugins);
         $this->assertSame(PreventAddToQuote::class, $plugins['salesblock_prevent_add_quote']['instance']);

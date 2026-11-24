@@ -30,6 +30,8 @@ class DestroyQuote
      */
     private $configuration;
 
+    private bool $running = false;
+
     /**
      * DestroyQuote constructor.
      * @param CheckoutSession $checkoutSession
@@ -59,19 +61,34 @@ class DestroyQuote
             return false;
         }
 
+        if ($this->running) {
+            return false;
+        }
+
+        $this->running = true;
         $this->debugger->debug('Destroying quote');
 
-        $quote = $this->checkoutSession->getQuote();
-        $quote->setItemsCount(0);
-        if ($quote->getAllVisibleItems()) {
-            foreach ($quote->getAllVisibleItems() as $item) {
-                $itemId = $item->getItemId();
-                $this->cart->removeItem($itemId)->save();
+        try {
+            $quote = $this->checkoutSession->getQuote();
+            $quote->setItemsCount(0);
+            $items = $quote->getAllVisibleItems();
+            if ($items) {
+                foreach ($items as $item) {
+                    $this->cart->removeItem($item->getItemId());
+                }
+                $this->cart->save();
+                $this->checkoutSession->clearStorage();
+                $this->checkoutSession->resetCheckout();
             }
-            $this->checkoutSession->clearStorage();
-            $this->checkoutSession->resetCheckout();
+        } finally {
+            $this->running = false;
         }
 
         return true;
+    }
+
+    public function isRunning(): bool
+    {
+        return $this->running;
     }
 }

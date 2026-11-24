@@ -59,7 +59,7 @@ class RemoveQuote implements ObserverInterface
     public function execute(Observer $observer)
     {
         $quote =$observer->getEvent()->getQuote();
-        if (!$quote) {
+        if (!$quote || $this->destroyQuote->isRunning()) {
             return;
         }
 

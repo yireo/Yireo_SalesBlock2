@@ -12,46 +12,18 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
-use Magento\Backend\Model\View\Result\Page;
 use Magento\Framework\Controller\ResultInterface;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 
-/**
- * Class Delete
- *
- * @package Yireo\SalesBlock2\Controller\Adminhtml\Rules
- */
 class Delete extends Massaction
 {
     /**
      * @return ResultInterface
      */
-    public function execute() : ResultInterface
+    public function execute(): ResultInterface
     {
-        $ruleIds = $this->getRuleIds();
-        foreach ($ruleIds as $ruleId) {
-            $this->disableByRuleId($ruleId);
-        }
-
-        $this->messageManager->addSuccessMessage(__('%1 rules deleted', count($ruleIds)));
-
-        /** @var Page $resultPage */
-        $redirect = $this->resultRedirectFactory->create();
-        $redirect->setPath('*/*/index');
-
-        return $redirect;
-    }
-
-    /**
-     * @param int $ruleId
-     *
-     * @return bool
-     */
-    private function disableByRuleId(int $ruleId) : bool
-    {
-        $rule = $this->ruleRepository->getById($ruleId);
-        $this->ruleRepository->delete($rule);
-
-        return true;
+        return $this->processRules(function (RuleInterface $rule) {
+            $this->ruleRepository->delete($rule);
+        }, fn (int $count) => __('%1 rules deleted', $count));
     }
 }

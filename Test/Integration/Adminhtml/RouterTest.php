@@ -37,6 +37,16 @@ class RouterTest extends TestCase
     }
 
     /**
+     * @magentoAppArea frontend
+     */
+    public function testNoFrontendRouteIsConfigured()
+    {
+        /** @var RouteConfig $routeConfig */
+        $routeConfig = Bootstrap::getObjectManager()->create(RouteConfigInterface::class);
+        $this->assertNotContains('Yireo_SalesBlock2', $routeConfig->getModulesByFrontName('salesblock', 'frontend'));
+    }
+
+    /**
      * @magentoAppArea adminhtml
      */
     public function testActionControllerIsFound()

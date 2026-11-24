@@ -15,6 +15,14 @@ use Yireo\SalesBlock2\Test\Integration\RuleProvider;
  */
 class MassactionTest extends AbstractBackendController
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->resource = 'Yireo_SalesBlock2::rules';
+        $this->uri = 'backend/salesblock/rule/enable';
+        $this->httpMethod = HttpRequest::METHOD_POST;
+    }
+
     public function testSelectAllEnablesEveryRule(): void
     {
         $ruleProvider = $this->_objectManager->get(RuleProvider::class);

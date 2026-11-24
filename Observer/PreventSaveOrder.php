@@ -61,7 +61,7 @@ class PreventSaveOrder implements ObserverInterface
     {
         /** @var OrderInterface $order */
         $order = $observer->getEvent()->getOrder();
-        if (!$order) {
+        if (!$order || $order->getId()) {
             return;
         }
 

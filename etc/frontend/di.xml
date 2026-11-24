@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\Quote\Api\Data\CartInterface">
+    <type name="Magento\Quote\Model\Quote">
         <plugin name="salesblock_prevent_add_quote" type="Yireo\SalesBlock2\Plugin\PreventAddToQuote" />
     </type>
 

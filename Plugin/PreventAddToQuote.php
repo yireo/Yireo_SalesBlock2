@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type\AbstractType;
 use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Message\ManagerInterface;
-use Magento\Quote\Api\Data\CartInterface;
+use Magento\Quote\Model\Quote;
 use Yireo\SalesBlock2\Exception\RuleMatchedException;
 use Yireo\SalesBlock2\Exception\RuleMatchedExceptionFactory;
 use Yireo\SalesBlock2\Helper\Rule as RuleHelper;
@@ -58,7 +58,7 @@ class PreventAddToQuote
     }
 
     /**
-     * @param CartInterface $subject
+     * @param Quote $subject
      * @param Product $product
      * @param null $request
      * @param string $processMode
@@ -66,7 +66,7 @@ class PreventAddToQuote
      * @throws RuleMatchedException
      */
     public function beforeAddProduct(
-        CartInterface $subject,
+        Quote $subject,
         Product $product,
         $request = null,
         $processMode = AbstractType::PROCESS_MODE_FULL

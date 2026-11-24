@@ -46,7 +46,7 @@ class RuleMatchedExceptionFactory
      */
     public function create(string $message)
     {
-        $data['phrase'] = new Phrase($message);
+        $data['phrase'] = new Phrase('%1', [$message]);
 
         return $this->objectManager->create(RuleMatchedException::class, $data);
     }

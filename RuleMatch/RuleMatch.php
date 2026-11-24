@@ -58,7 +58,8 @@ class RuleMatch
         }
 
         foreach ($this->variables as $variableName => $variableValue) {
-            $message = str_replace('%'.$variableName.'%', $variableValue, $message);
+            $variableValue = (string)preg_replace('/[\x00-\x1F\x7F]+/', ' ', (string)$variableValue);
+            $message = str_replace('%' . $variableName . '%', $variableValue, $message);
         }
 
         return $message;

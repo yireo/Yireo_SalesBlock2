@@ -77,6 +77,6 @@ class PreventSaveOrder implements ObserverInterface
         $this->debugger->debug('Observer "' . $observer->getEvent()->getName() . '": Match found');
 
         $this->destroyQuote->destroy();
-        throw new LocalizedException(__($match->getMessage()));
+        throw new LocalizedException(__('%1', $match->getMessage()));
     }
 }

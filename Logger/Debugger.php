@@ -47,7 +47,17 @@ class Debugger
             $msg .= ': ' . var_export($data, true);
         }
 
-        $this->logger->notice($msg);
+        $this->logger->notice($this->sanitize($msg));
         return true;
+    }
+
+    /**
+     * @param string $msg
+     * @return string
+     */
+    public function sanitize(string $msg): string
+    {
+        $msg = (string)preg_replace('/[\x00-\x1F\x7F]+/', ' ', $msg);
+        return (string)preg_replace('/([^\s@<>"\'])[^\s@<>"\']*@/', '$1***@', $msg);
     }
 }

@@ -14,7 +14,7 @@ class AclTest extends TestCase
     public function testConfigResourceExists(): void
     {
         $acl = Bootstrap::getObjectManager()->get(Builder::class)->getAcl();
-        $this->assertTrue($acl->has('Yireo_SalesBlock2::config'));
-        $this->assertTrue($acl->has('Yireo_SalesBlock2::rules'));
+        $this->assertTrue($acl->hasResource('Yireo_SalesBlock2::config'));
+        $this->assertTrue($acl->hasResource('Yireo_SalesBlock2::rules'));
     }
 }

@@ -23,7 +23,7 @@ class RemoveQuoteTest extends TestCase
      * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Checkout/_files/quote_with_simple_product_saved.php
      * @magentoConfigFixture current_store salesblock/settings/enabled 1
-     * @magentoConfigFixture current_store salesblock/settings/destroy_cart 1
+     * @magentoConfigFixture default/salesblock/settings/destroy_cart 1
      */
     public function testQuoteIsDestroyedOnceWithoutRecursion(): void
     {

@@ -76,4 +76,25 @@
             <argument name="ruleHelper" xsi:type="object">Yireo\SalesBlock2\Helper\Rule\Proxy</argument>
         </arguments>
     </type>
+
+    <type name="Yireo\SalesBlock2\Logger\Debugger">
+        <arguments>
+            <argument name="logger" xsi:type="object">Yireo\SalesBlock2\Logger\VirtualCustom</argument>
+        </arguments>
+    </type>
+
+    <virtualType type="Monolog\Logger" name="Yireo\SalesBlock2\Logger\VirtualCustom">
+        <arguments>
+            <argument name="name" xsi:type="string">yireo_salesblock</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="salesblock" xsi:type="object">Yireo\SalesBlock2\Logger\VirtualCustomLogHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType type="Magento\Framework\Logger\Handler\Base" name="Yireo\SalesBlock2\Logger\VirtualCustomLogHandler">
+        <arguments>
+            <argument name="fileName" xsi:type="string">var/log/yireo_salesblock.log</argument>
+        </arguments>
+    </virtualType>
 </config>

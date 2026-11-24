@@ -39,9 +39,16 @@ class DeleteButton implements ButtonProviderInterface
      */
     public function getButtonData()
     {
+        $escaper = $this->context->getEscaper();
+        $confirmMessage = $escaper->escapeJs($escaper->escapeHtml(__('Are you sure you want to delete this rule?')));
+
         return [
             'label' => __('Delete'),
-            'on_click' => sprintf("location.href = '%s';", $this->getButtonUrl()),
+            'on_click' => sprintf(
+                "deleteConfirm('%s', '%s', {\"data\": {}})",
+                $confirmMessage,
+                $escaper->escapeJs($this->getButtonUrl())
+            ),
             'class' => 'delete',
             'sort_order' => 1
         ];
@@ -54,6 +61,7 @@ class DeleteButton implements ButtonProviderInterface
      */
     public function getButtonUrl(): string
     {
-        return $this->context->getUrlBuilder()->getUrl('*/*/delete', ['id' => $this->context->getRequest()->getParam('id')]);
+        $ruleId = (int)$this->context->getRequest()->getParam('id');
+        return $this->context->getUrlBuilder()->getUrl('*/*/delete', ['id' => $ruleId]);
     }
 }

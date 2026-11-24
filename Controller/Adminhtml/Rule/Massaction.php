@@ -14,6 +14,7 @@ namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
 
@@ -22,7 +23,7 @@ use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
  *
  * @package Yireo\SalesBlock2\Controller\Adminhtml\Rules
  */
-abstract class Massaction extends Action
+abstract class Massaction extends Action implements HttpPostActionInterface
 {
     /**
      * ACL resource

@@ -62,6 +62,21 @@ class CurrentEmailTest extends TestCase
         $this->assertSame('order@example.com', $currentEmail->getValue());
     }
 
+    /**
+     * @magentoAppArea frontend
+     * @magentoAppIsolation enabled
+     */
+    public function testResolvedEmailIsNotCached(): void
+    {
+        $quote = $this->createQuote();
+        $quote->setCustomerEmail('first@example.com');
+        $currentEmail = $this->getCurrentEmail($quote);
+        $this->assertSame('first@example.com', $currentEmail->getValue());
+
+        $quote->setCustomerEmail('second@example.com');
+        $this->assertSame('second@example.com', $currentEmail->getValue());
+    }
+
     private function createQuote(): Quote
     {
         return Bootstrap::getObjectManager()->create(Quote::class);

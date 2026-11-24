@@ -64,7 +64,6 @@ class CurrentEmail
 
         $customerEmail = $this->resolveEmail();
         $this->debugger->debug('Current email: ' . $customerEmail);
-        $this->customerEmail = $customerEmail;
 
         return $customerEmail;
     }

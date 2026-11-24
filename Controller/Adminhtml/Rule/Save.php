@@ -13,18 +13,20 @@ declare(strict_types=1);
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
 use Magento\Backend\App\Action;
-use Magento\Backend\Model\View\Result\Page;
 use Magento\Backend\Model\View\Result\RedirectFactory;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Yireo\SalesBlock2\Api\Data\RuleInterface;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
+use Yireo\SalesBlock2\Model\Rule\ConditionsValidator;
 
 /**
  * Class Save
  *
  * @package Yireo\SalesBlock2\Controller\Adminhtml\Rules
  */
-class Save extends Action
+class Save extends Action implements HttpPostActionInterface
 {
     /**
      * ACL resource
@@ -42,20 +44,28 @@ class Save extends Action
     private $redirectFactory;
 
     /**
+     * @var ConditionsValidator
+     */
+    private $conditionsValidator;
+
+    /**
      * Save constructor.
      *
      * @param Action\Context $context
      * @param RedirectFactory $redirectFactory
      * @param RuleRepositoryInterface $ruleRepository
+     * @param ConditionsValidator $conditionsValidator
      */
     public function __construct(
         Action\Context $context,
         RedirectFactory $redirectFactory,
-        RuleRepositoryInterface $ruleRepository
+        RuleRepositoryInterface $ruleRepository,
+        ConditionsValidator $conditionsValidator
     ) {
         parent::__construct($context);
         $this->ruleRepository = $ruleRepository;
         $this->redirectFactory = $redirectFactory;
+        $this->conditionsValidator = $conditionsValidator;
     }
 
     /**
@@ -65,12 +75,17 @@ class Save extends Action
     {
         $ruleId = (int)$this->_request->getParam('rule_id');
         $rule = $this->getRuleFromRepository($ruleId);
-
-        $this->save($rule);
-        $this->messageManager->addSuccessMessage(__('Rule has been saved'));
-
-        /** @var Page $resultPage */
         $redirect = $this->resultRedirectFactory->create();
+
+        try {
+            $this->save($rule);
+        } catch (LocalizedException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
+            $redirect->setPath('*/*/form', $ruleId > 0 ? ['id' => $ruleId] : []);
+            return $redirect;
+        }
+
+        $this->messageManager->addSuccessMessage(__('Rule has been saved'));
         $redirect->setPath('*/*/index');
 
         return $redirect;
@@ -80,13 +95,14 @@ class Save extends Action
      * @param RuleInterface $rule
      *
      * @return bool
+     * @throws LocalizedException
      */
     private function save(RuleInterface $rule): bool
     {
         $label = (string) $this->_request->getParam('label');
         $rule->setLabel($label);
 
-        $conditions = $this->_request->getParam('conditions');
+        $conditions = $this->conditionsValidator->validate($this->_request->getParam('conditions'));
         $rule->setConditions($conditions);
 
         $status = (int) $this->_request->getParam('status');

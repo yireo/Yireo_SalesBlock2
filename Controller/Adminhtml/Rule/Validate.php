@@ -13,16 +13,19 @@ declare(strict_types=1);
 namespace Yireo\SalesBlock2\Controller\Adminhtml\Rule;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
+use Yireo\SalesBlock2\Model\Rule\ConditionsValidator;
 
 /**
  * Class Validate
  *
  * @package Yireo\SalesBlock2\Controller\Adminhtml\Rules
  */
-class Validate extends Action
+class Validate extends Action implements HttpPostActionInterface
 {
     /**
      * ACL resource
@@ -35,16 +38,24 @@ class Validate extends Action
     private $resultJsonFactory;
 
     /**
+     * @var ConditionsValidator
+     */
+    private $conditionsValidator;
+
+    /**
      * Validate constructor.
      * @param Action\Context $context
      * @param JsonFactory $resultJsonFactory
+     * @param ConditionsValidator $conditionsValidator
      */
     public function __construct(
         Action\Context $context,
-        JsonFactory $resultJsonFactory
+        JsonFactory $resultJsonFactory,
+        ConditionsValidator $conditionsValidator
     ) {
         parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;
+        $this->conditionsValidator = $conditionsValidator;
     }
 
     /**
@@ -80,6 +91,12 @@ class Validate extends Action
         $label = $this->_request->getParam('label');
         if (empty($label)) {
             $messages[] = __('Label can not be empty');
+        }
+
+        try {
+            $this->conditionsValidator->validate($this->_request->getParam('conditions'));
+        } catch (LocalizedException $exception) {
+            $messages[] = $exception->getMessage();
         }
 
         $response->setMessages($messages);

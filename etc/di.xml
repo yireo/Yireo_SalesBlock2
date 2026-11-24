@@ -54,6 +54,7 @@
     <type name="Yireo\SalesBlock2\Console\Command\NewRuleCommand">
         <arguments>
             <argument name="ruleRepository" xsi:type="object">Yireo\SalesBlock2\Api\RuleRepositoryInterface\Proxy</argument>
+            <argument name="conditionsValidator" xsi:type="object">Yireo\SalesBlock2\Model\Rule\ConditionsValidator\Proxy</argument>
         </arguments>
     </type>
 

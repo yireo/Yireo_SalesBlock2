@@ -64,7 +64,12 @@ class Rule extends AbstractModel implements RuleInterface
      */
     public function getConditions(): array
     {
-        return json_decode((string)$this->getData('conditions'), true);
+        $conditions = json_decode((string)$this->getData('conditions'), true);
+        if (!is_array($conditions)) {
+            return [];
+        }
+
+        return array_values(array_filter($conditions, 'is_array'));
     }
 
     public function addCondition()

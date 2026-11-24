@@ -132,7 +132,9 @@ class Rule
      */
     private function findMatchFromCondition(array $condition)
     {
-        if (!isset($condition['name'])) {
+        if (!isset($condition['name'], $condition['value'])
+            || !is_string($condition['name'])
+            || !is_scalar($condition['value'])) {
             return false;
         }
 
@@ -142,7 +144,7 @@ class Rule
             return false;
         }
     
-        if (!$match = $matcher->match($condition['value'])) {
+        if (!$match = $matcher->match((string)$condition['value'])) {
             return false;
         }
     

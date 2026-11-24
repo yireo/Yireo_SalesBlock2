@@ -14,7 +14,9 @@ namespace Yireo\SalesBlock2\Console\Command;
 
 use Error;
 use InvalidArgumentException;
+use Magento\Framework\Exception\LocalizedException;
 use Yireo\SalesBlock2\Api\RuleRepositoryInterface;
+use Yireo\SalesBlock2\Model\Rule\ConditionsValidator;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface as Input;
@@ -34,16 +36,24 @@ class NewRuleCommand extends Command
     private $ruleRepository;
 
     /**
+     * @var ConditionsValidator
+     */
+    private $conditionsValidator;
+
+    /**
      * NewRuleCommand constructor.
      *
      * @param RuleRepositoryInterface $ruleRepository
+     * @param ConditionsValidator $conditionsValidator
      * @param string $name
      */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,
+        ConditionsValidator $conditionsValidator,
         $name = null
     ) {
         $this->ruleRepository = $ruleRepository;
+        $this->conditionsValidator = $conditionsValidator;
 
         parent::__construct($name);
     }
@@ -93,6 +103,12 @@ class NewRuleCommand extends Command
 
         if (empty($conditions)) {
             throw new InvalidArgumentException('Conditions are required');
+        }
+
+        try {
+            $conditions = $this->conditionsValidator->validate($conditions);
+        } catch (LocalizedException $exception) {
+            throw new InvalidArgumentException($exception->getMessage());
         }
 
         $this->createRule($label, $conditions);

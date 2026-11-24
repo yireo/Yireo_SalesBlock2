@@ -17,6 +17,13 @@
                     <resource id="Yireo_SalesBlock2::overview" title="Sales Block Overview" translate="title" sortOrder="10" />
                     <resource id="Yireo_SalesBlock2::rules" title="Sales Block Rules" translate="title" sortOrder="10" />
                 </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Yireo_SalesBlock2::config" title="Sales Block Settings" translate="title" sortOrder="100" />
+                        </resource>
+                    </resource>
+                </resource>
             </resource>
         </resources>
     </acl>

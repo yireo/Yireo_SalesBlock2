@@ -87,7 +87,7 @@ class CheckoutControllerQuoteReset
             $this->messageManager->addWarningMessage($match->getMessage());
             $this->destroyQuote->destroy();
             $resultRedirect = $this->resultRedirectFactory->create();
-            $resultRedirect->setUrl('/checkout/cart');
+            $resultRedirect->setPath('checkout/cart');
             return $resultRedirect;
         } catch (NotFoundException $exception) {
             $this->debugger->debug('Plugin for Magento\Checkout\Controller\Onepage: No match found');

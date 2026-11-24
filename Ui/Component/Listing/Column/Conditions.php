@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Yireo\SalesBlock2\Ui\Component\Listing\Column;
 
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
@@ -28,9 +29,15 @@ class Conditions extends Column
     private $matcherList;
 
     /**
+     * @var Escaper
+     */
+    private $escaper;
+
+    /**
      * Constructor
      *
      * @param MatcherList $matcherList
+     * @param Escaper $escaper
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
      * @param array $components
@@ -38,12 +45,14 @@ class Conditions extends Column
      */
     public function __construct(
         MatcherList $matcherList,
+        Escaper $escaper,
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
         array $components = [],
         array $data = []
     ) {
         $this->matcherList = $matcherList;
+        $this->escaper = $escaper;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
@@ -75,23 +84,20 @@ class Conditions extends Column
     private function renderConditions(string $conditions): string
     {
         $conditionsData = json_decode($conditions, true);
-        if (empty($conditionsData)) {
-            return $conditions;
+        if (empty($conditionsData) || !is_array($conditionsData)) {
+            return (string)$this->escaper->escapeHtml($conditions);
         }
 
         $output = '';
         foreach ($conditionsData as $condition) {
-            if (!isset($condition['name'])) {
-                continue;
-            }
-
-            if (empty($condition['name'])) {
+            if (!is_array($condition) || empty($condition['name']) || !is_string($condition['name'])) {
                 continue;
             }
 
             $name = $this->getMatcherNameByCode($condition['name']);
+            $value = is_scalar($condition['value'] ?? null) ? (string)$condition['value'] : '';
 
-            $output .=  $name . ' = ' . $condition['value'].'<br/>';
+            $output .= $this->escaper->escapeHtml($name) . ' = ' . $this->escaper->escapeHtml($value) . '<br/>';
         }
 
         return $output;

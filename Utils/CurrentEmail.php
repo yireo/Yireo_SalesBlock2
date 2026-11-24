@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
 /**
- * Yireo SalesBlock2By for Magento
+ * Yireo SalesBlock2 for Magento
  *
- * @package     Yireo_SalesBlock2By
+ * @package     Yireo_SalesBlock2
  * @author      Yireo (https://www.yireo.com/)
  * @copyright   Copyright 2018 Yireo (https://www.yireo.com/)
  * @license     Open Source License (OSL v3)
@@ -11,14 +11,11 @@
 
 namespace Yireo\SalesBlock2\Utils;
 
+use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Customer\Model\Session as CustomerSession;
-use Magento\Quote\Api\Data\CartInterface;
+use Magento\Quote\Model\Quote;
 use Yireo\SalesBlock2\Logger\Debugger;
 
-/**
- * Class CurrentEmail
- * @package Yireo\SalesBlock2By\Utils
- */
 class CurrentEmail
 {
     /**
@@ -27,9 +24,9 @@ class CurrentEmail
     private $customerEmail = '';
 
     /**
-     * @var CartInterface
+     * @var CheckoutSession
      */
-    private $cart;
+    private $checkoutSession;
 
     /**
      * @var CustomerSession
@@ -42,17 +39,16 @@ class CurrentEmail
     private $debugger;
 
     /**
-     * CurrentEmail constructor.
-     * @param CartInterface $cart
+     * @param CheckoutSession $checkoutSession
      * @param CustomerSession $customerSession
      * @param Debugger $debugger
      */
     public function __construct(
-        CartInterface $cart,
+        CheckoutSession $checkoutSession,
         CustomerSession $customerSession,
         Debugger $debugger
     ) {
-        $this->cart = $cart;
+        $this->checkoutSession = $checkoutSession;
         $this->customerSession = $customerSession;
         $this->debugger = $debugger;
     }
@@ -62,42 +58,15 @@ class CurrentEmail
      */
     public function getValue(): string
     {
-        $this->debugger->debug('Current email: ' . $this->customerEmail);
         if (!empty($this->customerEmail)) {
-            return (string)$this->customerEmail;
+            return $this->customerEmail;
         }
 
-        // Load the customer-record
-        $customer = $this->customerSession->getCustomer();
-        if ($customer && $customer->getId() > 0) {
-            $customerEmail = $customer->getEmail();
-            if (!empty($customerEmail)) {
-                $this->customerEmail = (string)$customerEmail;
-                return $this->customerEmail;
-            }
-        }
+        $customerEmail = $this->resolveEmail();
+        $this->debugger->debug('Current email: ' . $customerEmail);
+        $this->customerEmail = $customerEmail;
 
-        // Check the quote billing address
-        $billingAddress = $this->cart->getBillingAddress();
-        if ($billingAddress) {
-            $customerEmail = $billingAddress->getEmail();
-            if (!empty($customerEmail)) {
-                $this->customerEmail = (string)$customerEmail;
-                return $this->customerEmail;
-            }
-        }
-
-        // Check the quote shipping address
-        $shippingAddress = $this->cart->getShippingAddress();
-        if ($shippingAddress) {
-            $customerEmail = $shippingAddress->getEmail();
-            if (!empty($customerEmail)) {
-                $this->customerEmail = (string)$customerEmail;
-                return $this->customerEmail;
-            }
-        }
-
-        return '';
+        return $customerEmail;
     }
 
     /**
@@ -105,6 +74,42 @@ class CurrentEmail
      */
     public function setValue(string $customerEmail)
     {
-        $this->customerEmail = $customerEmail;
+        $this->customerEmail = trim($customerEmail, " \f\n\r\t\v\x00");
+    }
+
+    private function resolveEmail(): string
+    {
+        $customer = $this->customerSession->getCustomer();
+        if ($customer && $customer->getId() > 0 && !empty($customer->getEmail())) {
+            return trim((string)$customer->getEmail(), " \f\n\r\t\v\x00");
+        }
+
+        $quote = $this->getQuote();
+        if (!$quote) {
+            return '';
+        }
+
+        $candidates = [
+            $quote->getCustomerEmail(),
+            $quote->getBillingAddress() ? $quote->getBillingAddress()->getEmail() : null,
+            $quote->getShippingAddress() ? $quote->getShippingAddress()->getEmail() : null,
+        ];
+
+        foreach ($candidates as $candidate) {
+            if (!empty($candidate)) {
+                return trim((string)$candidate, " \f\n\r\t\v\x00");
+            }
+        }
+
+        return '';
+    }
+
+    private function getQuote(): ?Quote
+    {
+        try {
+            return $this->checkoutSession->getQuote();
+        } catch (\Exception $exception) {
+            return null;
+        }
     }
 }

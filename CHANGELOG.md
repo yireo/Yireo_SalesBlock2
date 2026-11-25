@@ -6,6 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 25 November 2026
+### Added
+- Rule conditions are now validated on save and in the CLI command (structure, known matchers, control characters)
+
+### Changed
+- Requires `monolog/monolog` for the dedicated logger
+- Admin actions that change rules (save, validate, delete, enable, disable) now only accept POST requests
+
+### Fixed
+- Stored XSS through unescaped condition values in the rule grid
+- Guest email addresses were never detected, so guest checkouts were not blocked
+- A cached customer email could leak into later checks in the same process
+- Debug output also ended up in `system.log` and `debug.log`, and logging only worked in the frontend area
+- Log lines are sanitised and email addresses are masked in the debug log
+- A rule with malformed stored conditions caused a TypeError on every add-to-cart, cart, checkout and order save
+- The rule form save button sent a GET request without form data
+- Existing orders of a blocked customer could no longer be invoiced, refunded or edited
+- The configuration settings could not be granted to restricted admin roles
+- The add-to-cart plugin also applied to other cart implementations than the quote
+- Destroying a blocked quote looped recursively and showed duplicate warnings
+- Rule mass actions ignored "Select All" and grid filters, and threw an uncaught exception for unknown rules
+- The redirect for blocked checkouts ignored the store base URL and store codes in URLs
+
 ## [2.2.9] - 19 October 2026
 ### Fixed
 - Loosen up constraint for `symfony/console`

@@ -34,6 +34,7 @@
         "Magento_Directory",
         "Magento_Eav",
         "Magento_Indexer",
+        "Magento_MediaGalleryUiApi",
         "Magento_Payment",
         "Magento_Quote",
         "Magento_Rule",
@@ -63,8 +64,8 @@
         }
     ],
     "tests": {
-        "unit": 5,
-        "integration": 16,
+        "unit": 16,
+        "integration": 40,
         "functional": 0
     },
     "phpcs_severity": "8",
